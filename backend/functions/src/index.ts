@@ -1,12 +1,15 @@
 import * as functions from 'firebase-functions';
 import * as express from 'express';
-import axios from 'axios';
+
+import * as voterRollRouter from "./routes/voterRollRoutes"
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
 
 const app = express()
+
+app.use("/voterRoll", voterRollRouter.router)
 
 // fetch("https://voter.svrs.nj.gov/api/voters", {
 //   "headers": {
@@ -22,23 +25,4 @@ const app = express()
 //   "mode": "cors"
 // });
 
-app.get("/testing", async (req, res) => {
-
-    await axios({
-        url: "https://voter.svrs.nj.gov/api/voters",
-        method: "post",
-        headers: { 
-            "content-type": "application/json",
-            "accept": "application/json, text/plain, */*" 
-        },
-        data: {
-            firstName: "Tevin",
-            lastName: "Jeffrey",
-            dob: "09/1994"
-        }
-    })
-        .then((body) => { res.send(body.data) })
-        .catch ((err) => { res.send(err) });
-});
-
-export const helloWorld = functions.https.onRequest(app);
+export const expressApp = functions.https.onRequest(app);
