@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "9c182052-d83a-4aae-8a27-f94a92650520",
+		"name": "Politic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "voterRoll",
+			"item": [
+				{
+					"name": "Check",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"voterInformation\": {\n        \"state\": \"NJ\",\n        \"firstName\": \"Tevin\", \n        \"lastName\": \"Jeffrey\", \n        \"middleInitial\": \"W\", \n        \"month\": \"09\", \n        \"year\": 1994\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/voterRoll/checkRegistration",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"voterRoll",
+								"checkRegistration"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

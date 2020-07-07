@@ -4,4 +4,4 @@ import * as voterRollController from "../controllers/voterRollController"
 
 export const router = express.Router();
 
-router.get("/check", voterRollController.testing)
+router.get("/checkRegistration", voterRollController.checkRegistration)

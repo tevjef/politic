@@ -7,7 +7,7 @@
 
 ## APIs
 
-**GET** **`/api/v1/electoralRegister/states`**
+**GET** **`/api/v1/voterRoll/states`**
 
 Static data stored in Firestore and cached for 1 day. Data will be modified when more voter registration are added to functions.
 
@@ -29,7 +29,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 ```
 
 
-**POST** **`/api/v1/electoralRegister/check`**
+**POST** **`/api/v1/voterRoll/checkRegistration`**
 
 
 ```json
@@ -93,7 +93,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 
 
 
-**POST** **`/api/v1/electoralRegister/save`**
+**POST** **`/api/v1/voterRoll/save`**
 **Authorization:** `Token from Firebase Auth`
 
 Saving voter registration data, 
@@ -121,7 +121,7 @@ Saving voter registration data,
 // No response
 ```
 
-**POST** **`/api/v1/electoralRegister/manual`**
+**POST** **`/api/v1/voterRoll/manual`**
 **Authorization:** `Token from Firebase Auth`
 
 
