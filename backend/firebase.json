@@ -14,7 +14,7 @@
     "rewrites": [
         {
             "source": "**",
-            "function": "helloWorld"
+            "function": "expressApp"
         }
     ],
     "ignore": [
