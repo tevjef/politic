@@ -22,12 +22,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
                 "lastName",
                 "dobMY",
                 "zipCode"
-            ],
-            "disabledReason": {
-                "reason": "markdown", // nullable
-                "phone": "213-123-123",
-                "website": "https://..."
-            }
+            ]
         }
     ]
 }
@@ -42,12 +37,18 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 
 {
     "voterInformation": {
-        "state": "NJ", // Using the abbreviation for the state and the key/id, non-null
-        "firstName": "First", // nullable
-        "lastName": "Second", // nullable
-        "middleInitial": "I", // nullable
-        "month": "MM", // 01 or 12, nullable
-        "year": 2012 // nullable
+        // Using the abbreviation for the state and the key/id, non-null
+        "state": "NJ", 
+        // nullable
+        "firstName": "First", 
+        // nullable
+        "lastName": "Second", 
+        // nullable
+        "middleInitial": "I", 
+        // 01 or 12, nullable
+        "month": "MM", 
+        // nullable
+        "year": 2012 
     }
 }
 
@@ -56,7 +57,8 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
     "voterStatus": {
         "result" : {
             "type": "multipleEnrolled|singleEnrolled|notEnrolled|none",
-            "value": { // singleEnrolled
+            // singleEnrolled
+            "value": { 
                 "voterData": [
                     {
                         "title": "",
@@ -64,7 +66,8 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
                     }
                 ]
             },
-            "value": [{ // multipleEnrolled
+            // multipleEnrolled
+            "value": [{ 
                 "voterData": [
                     {
                         "title": "",
@@ -72,7 +75,8 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
                     }
                 ]
             }],
-            "value": [{ // none
+            // none
+            "value": [{ 
                 "voterData": [
                     {
                         "title": "",
@@ -80,9 +84,11 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
                     }
                 ]
             }],
-            "value": { // notEnrolled 
+            // notEnrolled 
+            "value": { 
                 "requirements": "markdown",
-                "registrationUrl": "https://" // URL for user to register at. 
+                // URL for user to register at. 
+                "registrationUrl": "https://" 
             }
         }
     }
@@ -101,14 +107,17 @@ Saving voter registration data,
 {
     "enrollment": {
         "voterInformation": {
-            "state": "NJ", // Using the abbreviation for the state and the key/id
+            
+            "state": "NJ", 
             "firstName": "First",
             "lastName": "Second",
             "middleInitial": "I",
-            "month": "MM", // 01 or 12
+            // 01 or 12
+            "month": "MM", 
             "year": 2012
         },
-        "notificationToken": "token" // Token from Firebase Notifications
+        // Token from Firebase Notifications
+        "notificationToken": "token" 
     }
    
 }
@@ -125,7 +134,8 @@ Saving voter registration data,
 {
     "manualEnrollment": {
         "enrolled": false,
-        "notificationToken": "token" // Token from Firebase Notifications
+        // Token from Firebase Notifications
+        "notificationToken": "token" 
     }
    
 }
@@ -156,7 +166,8 @@ Saving voter registration data,
 [
     {
         "user-auth-token": {
-            "token": "token" // token send from device
+            // token send from device
+            "token": "token" 
         }
     }
 ]
@@ -171,15 +182,18 @@ Contains a list of all the users that have chosen to save their data.
     {
         "user-auth-token": {
             "voterInformation": {
-                "state": "NJ", // Using the abbreviation for the state and the key/id
+                // Using the abbreviation for the state and the key/id
+                "state": "NJ", 
                 "firstName": "First",
                 "lastName": "Second",
                 "middleInitial": "I",
-                "month": "MM", // 01 or 12
+                // 01 or 12
+                "month": "MM",
                 "year": 2012
             },
             "manualMarkedEnrolled": "zonedDateTime",
-            "lastCheck": "zonedDateTime", // The last time a cron job was run on the users voter status or the last time the user manually checked.
+            // The last time a cron job was run on the users voter status or the last time the user manually checked.
+            "lastCheck": "zonedDateTime", 
             "lastStatus": "enrolled|unenrolled|unknown" 
         }
     }
