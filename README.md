@@ -7,11 +7,11 @@
 
 ## APIs
 
-**GET** **`/api/v1/voterRoll/states`**
+:white_check_mark: **GET** **`/api/v1/voterRoll/states`**
 
 Static data stored in Firestore and cached for 1 day. Data will be modified when more voter registration are added to functions.
 
-```json
+```js
 {
     "states": [
         {
@@ -29,10 +29,10 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 ```
 
 
-**POST** **`/api/v1/voterRoll/checkRegistration`**
+:white_check_mark: **POST** **`/api/v1/voterRoll/checkRegistration`**
 
 
-```json
+```js
 // Request
 
 {
@@ -55,37 +55,35 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 // Response
 {
     "voterStatus": {
-        "result" : {
-            "type": "multipleEnrolled|singleEnrolled|notEnrolled|none",
-            // singleEnrolled
-            "value": { 
-                "voterData": [
-                    {
-                        "title": "",
-                        "message": ""
-                    }
-                ]
-            },
-            // multipleEnrolled
-            "value": [{ 
-                "voterData": [
-                    {
-                        "title": "",
-                        "message": ""
-                    }
-                ]
-            }],
-            // none
-            "value": {
-                "phone": "212-555-5555",
-                "web": "https://..."
-            },
-            // notEnrolled 
-            "value": { 
-                "requirements": "markdown",
-                // URL for user to register at. 
-                "registrationUrl": "https://" 
-            }
+        "type": "multipleEnrolled|singleEnrolled|notEnrolled|notFound",
+        // singleEnrolled
+        "value": { 
+            "voterData": [
+                {
+                    "title": "",
+                    "message": ""
+                }
+            ]
+        },
+        // multipleEnrolled
+        "value": [{ 
+            "voterData": [
+                {
+                    "title": "",
+                    "message": ""
+                }
+            ]
+        }],
+        // notFound
+        "value": {
+            "phone": "212-555-5555",
+            "web": "https://..."
+        },
+        // notEnrolled 
+        "value": { 
+            "requirements": "markdown",
+            // URL for user to register at. 
+            "registrationUrl": "https://" 
         }
     }
 }
@@ -93,12 +91,12 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 
 
 
-**POST** **`/api/v1/voterRoll/save`**
+:x: **POST** **`/api/v1/voterRoll/save`**
 **Authorization:** `Token from Firebase Auth`
 
 Saving voter registration data, 
 
-```json
+```js
 // Request
 {
     "enrollment": {
@@ -121,11 +119,11 @@ Saving voter registration data,
 // No response
 ```
 
-**POST** **`/api/v1/voterRoll/manual`**
+:x: **POST** **`/api/v1/voterRoll/manual`**
 **Authorization:** `Token from Firebase Auth`
 
 
-```json
+```js
 // Request
 {
     "manualEnrollment": {
@@ -139,11 +137,11 @@ Saving voter registration data,
 // No response
 ```
 
-**POST** **`/api/v1/updateToken`**
+:x: **POST** **`/api/v1/updateToken`**
 **Authorization:** `Token from Firebase Auth`
 
 
-```json
+```js
 // Request
 {
     "tokenUpdate": {
@@ -156,9 +154,9 @@ Saving voter registration data,
 ### Firebase Firestore Tables
 
 
-**notification_auth_tokens**
+:x: **notification_auth_tokens**
 
-```json
+```js
 [
     {
         "user-auth-token": {
@@ -169,11 +167,11 @@ Saving voter registration data,
 ]
 ```
 
-**electoral_register**  
+:x: **electoral_register**  
 
 Contains a list of all the users that have chosen to save their data.
 
-```json
+```js
 [
     {
         "user-auth-token": {
