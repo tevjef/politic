@@ -2,22 +2,8 @@ import { VoterInformation, CheckRegistrationResponse } from '../model/VoterRegis
 import axios from 'axios';
 import * as moment from 'moment';
 
-
-/* 
->  [
->    {
->      firstName: 'TEVIN',
->      middleInitial: 'W',
->      lastName: 'JEFFREY',
->      county: 'Essex',
->      city: 'Newark City',
->      dob: '09/16/1994',
->      votingPrivilegeDate: '06/04/2013'
->    }
->  ]
- */
-
- interface NJVotersApiResponse {
+// Response format from  https://voter.svrs.nj.gov/api/voters
+interface NJVotersApiResponse {
     firstName: string;
     lastName: string;
     middleInitial: string;
@@ -39,34 +25,17 @@ export class NewJerseyRegistrationService {
       }
 
     async checkStatus(voterInformation: VoterInformation): Promise<CheckRegistrationResponse> {
-        const response = await axios({
-            url: "https://voter.svrs.nj.gov/api/voters",
-            method: "post",
-            headers: { 
-                "content-type": "application/json",
-                "accept": "application/json, text/plain, */*" 
-            },
-            data: {
-                firstName: `${voterInformation.firstName}`,
-                lastName: `${voterInformation.lastName}`,
-                dob: `${voterInformation.month}/${voterInformation.year}`
-            }
-        })
+        const response = await this.getStatusFromNJGov(voterInformation)
 
         const apiResponse: NJVotersApiResponse[]  = response.data
+
         if (apiResponse.length === 0) {
             return { voterStatus: { type: "notEnrolled", value: { title: "test", message: `dfs`}}}
+        } else if (apiResponse.length > 1) {
+            console.log("Multiple responses found!")
         }
 
-        const firstResult: NJVotersApiResponse = apiResponse[0] 
-
-        const name = `${firstResult.firstName} ${firstResult.middleInitial} ${firstResult.lastName}`
-        
-        const district = `${firstResult.city}, ${firstResult.county}, ${voterInformation.state}`
-        
-        const dob = moment(firstResult.dob, "MM-DD-YYYY").format("LL")
-        
-        const privilegeDate = moment(firstResult.votingPrivilegeDate, "MM-DD-YYYY").format("LL")
+        const firstResult: NJVotersApiResponse = apiResponse[0]
 
         return { 
             voterStatus: { 
@@ -74,22 +43,38 @@ export class NewJerseyRegistrationService {
                 value: [
                      {
                         title: "Full Name", 
-                        message: `${name}`
+                        message: `${firstResult.firstName} ${firstResult.middleInitial} ${firstResult.lastName}`
                     },
                     {
                         title: "Registered District", 
-                        message: `${district}`
+                        message: `${firstResult.city}, ${firstResult.county}, ${voterInformation.state}`
                     },
                     {
                         title: "Date of Birth", 
-                        message: `${dob}`
+                        message: moment(firstResult.dob, "MM-DD-YYYY").format("LL")
                     },
                     {
                         title: "Voting Privilege Date", 
-                        message: `${privilegeDate}`
+                        message: moment(firstResult.votingPrivilegeDate, "MM-DD-YYYY").format("LL")
                     }
                 ]
             }
         }
+    }
+
+    private async getStatusFromNJGov(voterInformation: VoterInformation) {
+        return await axios({
+            url: "https://voter.svrs.nj.gov/api/voters",
+            method: "post",
+            headers: {
+                "content-type": "application/json",
+                "accept": "application/json, text/plain, */*"
+            },
+            data: {
+                firstName: `${voterInformation.firstName}`,
+                lastName: `${voterInformation.lastName}`,
+                dob: `${voterInformation.month}/${voterInformation.year}`
+            }
+        });
     }
 }
