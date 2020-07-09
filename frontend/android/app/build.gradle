@@ -55,7 +55,7 @@ android {
 
   defaultConfig {
     // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-    applicationId "in.tev.politic"
+    applicationId "com.byteflip.politic"
     multiDexEnabled true
 
     minSdkVersion 16

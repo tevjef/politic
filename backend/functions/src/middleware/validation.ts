@@ -16,7 +16,7 @@ export function validationMiddleware<T>(type: any): express.RequestHandler {
       } else {
         next();
       }
-    });
+    }).catch((e) => res.status(400).send({ code: -1, message: `Unexpected exception ${e}` }));
   };
 }
 

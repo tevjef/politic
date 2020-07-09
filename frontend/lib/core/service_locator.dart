@@ -1,5 +1,4 @@
 import 'package:flutter_simple_dependency_injection/injector.dart';
-import 'package:liebeslied/data/client.dart';
 
 import '../data/lib.dart';
 
@@ -7,7 +6,7 @@ class Locator {
   static void init() {
     final injector = Injector.getInjector();
 
-    injector.map<String>((i) => "https://api.coursetrakr.io/v2",key: "apiUrl");
+    injector.map<String>((i) => "https://byteflip-politic.web.app",key: "apiUrl");
     injector.map<AnalyticsLogger>((i) => new AnalyticsLogger(),
         isSingleton: true);
 

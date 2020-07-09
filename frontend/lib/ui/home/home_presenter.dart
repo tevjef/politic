@@ -26,8 +26,13 @@ class HomePresenter extends BasePresenter<HomeView> {
   }
 
   void loadData() async {
+    view.showLoading(true);
+
     List<Item> adapterItems = List();
 
+    var data = await repo.getData();
+    
+    adapterItems.addAll(data.map((e) => TextItem(e.name)));
     // Update the UI with the
     view.setListData(adapterItems);
     view.showLoading(false);
