@@ -73,7 +73,7 @@ export class NewJerseyRegistrationService {
             data: {
                 firstName: `${voterInformation.firstName}`,
                 lastName: `${voterInformation.lastName}`,
-                dob: `${voterInformation.month}/${voterInformation.year}`
+                dob: `${voterInformation.month.padStart(2, '0')}/${voterInformation.year}`
             }
         });
     }

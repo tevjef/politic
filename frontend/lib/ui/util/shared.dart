@@ -59,14 +59,11 @@ abstract class LDEViewMixin<T extends StatefulWidget> extends State<T>
 
   bool isList = true;
 
-  BasePresenter get presenter;
-
   Adapter adapter = Adapter();
 
   @override
   void initState() {
     super.initState();
-    presenter.onInitState();
   }
 
   @override

@@ -6,7 +6,7 @@ class Locator {
   static void init() {
     final injector = Injector.getInjector();
 
-    injector.map<String>((i) => "https://byteflip-politic.web.app",key: "apiUrl");
+    injector.map<String>((i) => "http://localhost:5000",key: "apiUrl");
     injector.map<AnalyticsLogger>((i) => new AnalyticsLogger(),
         isSingleton: true);
 

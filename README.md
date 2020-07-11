@@ -57,14 +57,12 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
     "voterStatus": {
         "type": "multipleEnrolled|singleEnrolled|notEnrolled|notFound",
         // singleEnrolled
-        "value": { 
-            "voterData": [
-                {
-                    "title": "",
-                    "message": ""
-                }
-            ]
-        },
+        "value":  [
+            {
+                "title": "",
+                "message": ""
+            }
+        ],
         // multipleEnrolled
         "value": [{ 
             "voterData": [

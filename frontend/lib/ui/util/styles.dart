@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 
 class Styles {
+
+  static TextStyle headline5(ThemeData themeData) {
+    return new TextStyle(
+      color: themeData.colorScheme.onSurface, fontSize: 20.0, fontWeight: FontWeight.w700, fontFamily: "Poppins");
+  }
+
+  static TextStyle headline6(ThemeData themeData) {
+    return new TextStyle(
+      color: themeData.colorScheme.onSurface, fontSize: 14.0, fontWeight: FontWeight.w700, fontFamily: "Poppins");
+  }
+
+  static TextStyle subtitle2(ThemeData themeData) {
+    return new TextStyle(
+      height: 1.7,
+      color: themeData.colorScheme.onSurface, fontSize: 14.0, fontWeight: FontWeight.w400, fontFamily: "Poppins");
+  }
+
   static TextStyle body1Primary = new TextStyle(
       color: Colors.black, fontSize: 12.0, fontFamily: "ProductSans");
 

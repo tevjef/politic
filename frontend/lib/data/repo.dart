@@ -1,5 +1,5 @@
 import 'client.dart';
-import 'models/states_response.dart';
+import 'models/voter_roll.dart';
 
 class Repo {
   final ApiClient apiClient;
@@ -8,7 +8,11 @@ class Repo {
 
   }
 
-  Future<List<State>> getData() {
+  Future<List<USState>> getData() {
     return apiClient.getStates();
+  }
+
+  Future<VoterStatus> checkRegistration(CheckRegistrationRequest request) {
+    return apiClient.checkRegistration(request);
   }
 }

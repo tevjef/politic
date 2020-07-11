@@ -21,8 +21,6 @@ export class VoterInformation {
     @validator.IsString()
     lastName!: string;
 
-    @validator.Length(1, 1)
-    @validator.IsString()
     middleInitial!: string;
 
     @validator.IsString()
