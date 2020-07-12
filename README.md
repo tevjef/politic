@@ -74,17 +74,21 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
         }],
         // notFound
         "value": { 
-            "phone": "212-555-5555",
+            "phone": { 
+                "label": "212-555-5555",
+                "uri": "",
             "requirements": "markdown",
             // URL for user to register at. 
-            "registrationUrl": "https://" 
+            "registrationUrl": { "label": "https://", "uri": "" }
         },
         // notEnrolled 
         "value": { 
-            "phone": "212-555-5555",
+            "phone": { 
+                "label": "212-555-5555",
+                "uri": "",
             "requirements": "markdown",
             // URL for user to register at. 
-            "registrationUrl": "https://" 
+            "registrationUrl": { "label": "https://", "uri": "" }
         }
     }
 }
@@ -163,6 +167,24 @@ Saving voter registration data,
         "user-auth-token": {
             // token send from device
             "token": "token" 
+        }
+    }
+]
+```
+
+:x: **voter_roll_states**
+
+```js
+[
+    {
+        "state-name": {
+                        "phone": { 
+                "label": "212-555-5555",
+                "uri": "",
+                        },
+            "requirements": "markdown",
+            // URL for user to register at. 
+            "registrationUrl": { "label": "https://", "uri": "" }
         }
     }
 ]
