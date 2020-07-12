@@ -80,12 +80,12 @@ VoterStatus _$VoterStatusFromJson(Map<String, dynamic> json) {
       break;
     case 'notEnrolled':
       {
-        return VoterStatus(type: type, value: NotEntrolled.fromJson(json));
+        return VoterStatus(type: type, value: NotEnrolled.fromJson(json['value']));
       }
       break;
     case 'notFound':
       {
-        return VoterStatus(type: type, value: NotFound.fromJson(json));
+        return VoterStatus(type: type, value: NotFound.fromJson(json['value']));
       }
       break;
     default:
@@ -123,12 +123,12 @@ class VoterData extends VoterStatusType {
 }
 
 @JsonSerializable(nullable: false)
-class NotEntrolled extends VoterStatusType {
+class NotEnrolled extends VoterStatusType {
   final String requirements;
   final String registrationUrl;
 
-  NotEntrolled({this.requirements, this.registrationUrl});
-  factory NotEntrolled.fromJson(Map<String, dynamic> json) => _$NotEntrolledFromJson(json);
+  NotEnrolled({this.requirements, this.registrationUrl});
+  factory NotEnrolled.fromJson(Map<String, dynamic> json) => _$NotEntrolledFromJson(json);
   Map<String, dynamic> toJson() => _$NotEntrolledToJson(this);
 }
 

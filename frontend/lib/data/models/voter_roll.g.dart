@@ -93,14 +93,14 @@ Map<String, dynamic> _$VoterDataToJson(VoterData instance) => <String, dynamic>{
       'message': instance.message,
     };
 
-NotEntrolled _$NotEntrolledFromJson(Map<String, dynamic> json) {
-  return NotEntrolled(
+NotEnrolled _$NotEntrolledFromJson(Map<String, dynamic> json) {
+  return NotEnrolled(
     requirements: json['requirements'] as String,
     registrationUrl: json['registrationUrl'] as String,
   );
 }
 
-Map<String, dynamic> _$NotEntrolledToJson(NotEntrolled instance) =>
+Map<String, dynamic> _$NotEntrolledToJson(NotEnrolled instance) =>
     <String, dynamic>{
       'requirements': instance.requirements,
       'registrationUrl': instance.registrationUrl,

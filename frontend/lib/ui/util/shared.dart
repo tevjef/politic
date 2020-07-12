@@ -245,7 +245,7 @@ class Widgets {
       case SnackBarType.error:
         style = Styles.body2PrimaryInverse;
         color = Colors.red;
-        duration = Duration(seconds: 30);
+        duration = Duration(seconds: 5);
         break;
       case SnackBarType.neutral:
         style = Styles.body2PrimaryInverse;

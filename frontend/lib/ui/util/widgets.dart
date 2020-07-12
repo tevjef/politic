@@ -65,7 +65,7 @@ class Headline extends StatelessWidget {
   final String title;
   final String message;
 
-  const Headline({Key key, this.title = "", this.message = ""}) : super(key: key);
+  const Headline(this.title, this.message, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +94,117 @@ class Headline extends StatelessWidget {
             style: Styles.headline5(Theme.of(context)),
           ),
           messageWidget,
+        ],
+      ),
+    );
+  }
+}
+
+class ListCell extends StatelessWidget {
+  final String title;
+  final String message;
+
+  const ListCell(this.title, this.message, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 16.0,
+        horizontal: 32.0,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: Styles.headline6(Theme.of(context)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Text(
+              message,
+              style: Styles.body2(Theme.of(context)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ListButtonCell extends StatelessWidget {
+  final String title;
+  final String message;
+  final String buttonText;
+  final Function callback;
+
+  const ListButtonCell(this.title, this.message, this.buttonText, this.callback, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 16.0,
+        horizontal: 32.0,
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: Styles.headline6(Theme.of(context)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Text(
+                    message,
+                    style: Styles.body2(Theme.of(context)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          RaisedButton(
+            elevation: 0,
+            textTheme: ButtonTextTheme.primary,
+            onPressed: callback,
+            child: Text(buttonText.toUpperCase()),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ImageHeadline extends StatelessWidget {
+  final String title;
+  final AssetImage assetImage;
+
+  const ImageHeadline(this.title, this.assetImage, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 32.0,
+        horizontal: 32.0,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(bottom: 24.0),
+            child: Image(image: assetImage),
+          ),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: Styles.headline5(Theme.of(context)),
+          ),
         ],
       ),
     );

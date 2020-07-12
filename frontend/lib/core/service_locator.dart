@@ -1,4 +1,5 @@
 import 'package:flutter_simple_dependency_injection/injector.dart';
+import 'dart:io' show Platform;
 
 import '../data/lib.dart';
 
@@ -6,7 +7,12 @@ class Locator {
   static void init() {
     final injector = Injector.getInjector();
 
-    injector.map<String>((i) => "http://localhost:5000",key: "apiUrl");
+    if (Platform.isAndroid) {
+      injector.map<String>((i) => "http://10.0.2.2:5000",key: "apiUrl");
+    } else {
+      injector.map<String>((i) => "http://localhost:5000",key: "apiUrl");
+    }
+    
     injector.map<AnalyticsLogger>((i) => new AnalyticsLogger(),
         isSingleton: true);
 

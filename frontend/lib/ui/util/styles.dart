@@ -12,6 +12,12 @@ class Styles {
       color: themeData.colorScheme.onSurface, fontSize: 14.0, fontWeight: FontWeight.w700, fontFamily: "Poppins");
   }
 
+  static TextStyle body2(ThemeData themeData) {
+    return new TextStyle(
+      height: 1.6,
+      color: themeData.colorScheme.onSurface, fontSize: 14.0, fontWeight: FontWeight.w400, fontFamily: "Poppins");
+  }
+
   static TextStyle subtitle2(ThemeData themeData) {
     return new TextStyle(
       height: 1.7,

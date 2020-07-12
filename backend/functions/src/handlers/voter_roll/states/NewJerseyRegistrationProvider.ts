@@ -16,13 +16,14 @@ export class NewJerseyRegistrationProvider implements StatusProvider, FieldsProv
     enrollmentData(): StatusResultNotEnrolledValue {
         return {
             requirements: `
-            *To register in New Jersey, you must be:*
-    
-            * A United States citizen
-            * At least 17 years old, though you may not vote until you have reached the age of 18
-            * A resident of the county for 30 days before the election
-            * A person not serving a sentence of incarceration as  the result of a conviction of any indictable offense under the laws of this or another state or of the United States
-            `,
+**To register in New Jersey, you must be:**
+
+
+- A United States citizen
+- At least 17 years old, though you may not vote until you have reached the age of 18
+- A resident of the county for 30 days before the election
+- A person not serving a sentence of incarceration as  the result of a conviction of any indictable offense under the laws of this or another state or of the United States
+`,
             registrationUrl: "https://nj.gov/state/elections/voter-registration.shtml"
         }
     }
@@ -36,6 +37,19 @@ export class NewJerseyRegistrationProvider implements StatusProvider, FieldsProv
     }
     
     async checkStatus(info: VoterInformation): Promise<CheckRegistrationResponse> {
-        return newJerseyRegistrationService.checkStatus(info)
+        const response = await newJerseyRegistrationService.checkStatus(info);
+        if (response.voterStatus.type == "notEnrolled") {
+            return {
+                voterStatus: {
+                    type: "notEnrolled",
+                    value: {
+                        registrationUrl: this.enrollmentData().registrationUrl,
+                        requirements: this.enrollmentData().requirements
+                    }
+                }
+            }
+        }
+
+        return response
     }
 }

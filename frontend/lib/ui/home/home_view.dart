@@ -27,6 +27,7 @@ class HomeListState extends State<HomePage> with LDEViewMixin implements HomeVie
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     return WillPopScope(
         onWillPop: () {
           return Future<bool>.value(true);
@@ -35,31 +36,52 @@ class HomeListState extends State<HomePage> with LDEViewMixin implements HomeVie
           providers: [
             ChangeNotifierProvider(create: (_) => HomePresenter(this)),
           ],
-          child: Scaffold(
-              key: scaffoldKey,
-              // resizeToAvoidBottomInset: false,
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              appBar: AppBar(
+          child: Consumer<HomePresenter>(builder: (context, presenter, child) {
+            Widget buttonContainer = Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: ButtonGroup(
+                    "Check Voter Registration",
+                    () => {
+                          if (_formKey.currentState.validate()) {presenter.onSubmit(context)}
+                        },
+                    secondaryCtaText: "I’m already registered",
+                    secodaryListener: () => {presenter.onSubmit(context)}));
+
+            Widget buttonContainerList = Container();
+            Widget buttonContainerStack = Container();
+
+            if (presenter.selectedState != null && presenter.selectedState.fields.length > 0) {
+              buttonContainerStack = Container();
+              buttonContainerList = buttonContainer;
+            } else {
+              buttonContainerList = Container();
+              buttonContainerStack = buttonContainer;
+            }
+
+            return Scaffold(
+                key: scaffoldKey,
                 backgroundColor: Theme.of(context).colorScheme.surface,
-                elevation: 0,
-              ),
-              body: ListView(
-                children: <Widget>[
-                  Headline(
-                      title: "Are you registered to vote?",
-                      message: "Check if you’re registered to vote in your electoral district."),
-                  StateSelectDropDown(),
-                  RegistrationForm(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 64.0),
-                    child: Consumer<HomePresenter>(builder: (context, presenter, child) {
-                      return ButtonGroup("Check Voter Registration", () => {presenter.onSubmit(context)},
-                          secondaryCtaText: "I’m already registered",
-                          secodaryListener: () => {presenter.onSubmit(context)});
-                    }),
-                  )
-                ],
-              )),
+                appBar: AppBar(
+                  brightness: Brightness.light,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
+                  elevation: 0,
+                ),
+                body: Stack(
+                  children: <Widget>[
+                    ListView(
+                      children: <Widget>[
+                        Headline(
+                            "Are you registered to vote?",
+                            "Check if you’re registered to vote in your electoral district."),
+                        StateSelectDropDown(),
+                        RegistrationForm(formKey: _formKey),
+                        buttonContainerList
+                      ],
+                    ),
+                    buttonContainerStack
+                  ],
+                ));
+          }),
         ));
   }
 
@@ -74,44 +96,72 @@ class RegistrationForm extends StatelessWidget {
   final FocusNode lastNameNode = FocusNode();
   final FocusNode monthNode = FocusNode();
   final FocusNode yearNode = FocusNode();
+  GlobalKey<FormState> formKey;
 
-  RegistrationForm({
-    Key key,
-  }) : super(key: key);
+  RegistrationForm({Key key, this.formKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomePresenter>(builder: (context, presenter, child) {
-      var lastName = PoliticTextInputField(
-          hint: "Last Name",
-          focusNode: lastNameNode,
-          onSubmit: (e) => {_fieldFocusChange(context, lastNameNode, monthNode)},
-          onValueChanged: (value) => {presenter.updateLastName(value)});
-      var firstName = PoliticTextInputField(
-          hint: "First Name",
-          focusNode: firstNameNode,
-          onSubmit: (e) => {_fieldFocusChange(context, firstNameNode, lastNameNode)},
-          onValueChanged: (value) => {presenter.updateFirstName(value)});
+    return Form(
+      key: formKey,
+      child: Consumer<HomePresenter>(builder: (context, presenter, child) {
+        List<Widget> inputCells = List();
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
-            child: firstName,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
-            child: lastName,
-          ),
-          Padding(
+        if (presenter.selectedState == null) return Container();
+        if (presenter.selectedState.fields.contains("firstName")) {
+          var firstName = Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+              child: PoliticTextInputField(
+                  hint: "First Name",
+                  focusNode: firstNameNode,
+                  onSubmit: (e) => {_fieldFocusChange(context, firstNameNode, lastNameNode)},
+                  onValueChanged: (value) => {presenter.updateFirstName(value)}));
+
+          inputCells.add(firstName);
+        }
+
+        if (presenter.selectedState.fields.contains("lastName")) {
+          var lastName = Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+              child: PoliticTextInputField(
+                  hint: "Last Name",
+                  focusNode: lastNameNode,
+                  onSubmit: (e) => {_fieldFocusChange(context, lastNameNode, monthNode)},
+                  onValueChanged: (value) => {presenter.updateLastName(value)}));
+
+          inputCells.add(lastName);
+        }
+
+        if (presenter.selectedState.fields.contains("zipCode")) {
+          var zipCode = Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: TextFormField(
+                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(5)],
+                keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                onFieldSubmitted: (e) => {_fieldFocusChange(context, monthNode, yearNode)},
+                focusNode: monthNode,
+                textInputAction: TextInputAction.next,
+                onChanged: (e) => {presenter.updateZipCode(int.parse(e))},
+                decoration: InputDecoration(
+                  labelText: "Zip Code",
+                  border: new OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      borderSide: new BorderSide(color: Theme.of(context).primaryColor)),
+                ),
+              ));
+          inputCells.add(zipCode);
+        }
+
+        if (presenter.selectedState.fields.contains("dobMY")) {
+          var header = Padding(
             padding: const EdgeInsets.only(top: 24, bottom: 12, left: 32, right: 32),
             child: Text(
               "Date of Birth",
               style: Styles.headline6(Theme.of(context)),
             ),
-          ),
-          Padding(
+          );
+
+          var dobCells = Padding(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -129,6 +179,12 @@ class RegistrationForm extends StatelessWidget {
                           focusNode: monthNode,
                           textInputAction: TextInputAction.next,
                           onChanged: (e) => {presenter.updateMonth(int.parse(e))},
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return '';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             labelText: "MM",
                             border: new OutlineInputBorder(
@@ -145,6 +201,12 @@ class RegistrationForm extends StatelessWidget {
                       keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                       textInputAction: TextInputAction.done,
                       onChanged: (e) => {presenter.updateYear(int.parse(e))},
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter your birth year.';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: "YYYY",
                         border: new OutlineInputBorder(
@@ -154,10 +216,18 @@ class RegistrationForm extends StatelessWidget {
                     ))
               ],
             ),
-          )
-        ],
-      );
-    });
+          );
+
+          inputCells.add(header);
+          inputCells.add(dobCells);
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: inputCells,
+        );
+      }),
+    );
   }
 
   _fieldFocusChange(BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
@@ -181,6 +251,12 @@ class PoliticTextInputField extends StatelessWidget {
       focusNode: focusNode,
       textInputAction: TextInputAction.next,
       onChanged: onValueChanged,
+      validator: (value) {
+        if (value.isEmpty) {
+          return "Please enter your ${hint.toLowerCase()}.";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: hint,
         border: new OutlineInputBorder(
@@ -204,7 +280,7 @@ class StateSelectDropDown extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            border: Border.all(color: Theme.of(context).hintColor, width: 1.0),
+            border: Border.all(color: Theme.of(context).disabledColor, width: 1.0),
             borderRadius: BorderRadius.all(Radius.circular(8))),
         child: new SizedBox(
           width: double.infinity,
