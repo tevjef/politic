@@ -33,11 +33,16 @@ class NotFoundScreen extends StatelessWidget {
                   children: <Widget>[
                     Headline("We could not verify your registration.",
                         "You can manually check your registration status using the options below. "),
-                    ListButtonCell("Phone", voterStatus.phone, "Call", () => { launch(voterStatus.phone) }),
-                    ListButtonCell("Website", voterStatus.web, "Visit", () => { launch(voterStatus.web)})
+                    Markdown(
+                      data: voterStatus.requirements,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+                    ),
+                    ListButtonCell("Phone", voterStatus.phone.label, "Call", () => {launch(voterStatus.phone.uri)}),
+                    ListButtonCell(
+                        "Website", voterStatus.registrationUrl.label, "Visit", () => {launch(voterStatus.registrationUrl.uri)})
                   ],
-                ),
-                ButtonGroup("Continue", () => {}, secondaryCtaText: "Exit App", secodaryListener: () => {})
+                )
               ],
             )));
   }

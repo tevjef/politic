@@ -73,12 +73,15 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
             ]
         }],
         // notFound
-        "value": {
+        "value": { 
             "phone": "212-555-5555",
-            "web": "https://..."
+            "requirements": "markdown",
+            // URL for user to register at. 
+            "registrationUrl": "https://" 
         },
         // notEnrolled 
         "value": { 
+            "phone": "212-555-5555",
             "requirements": "markdown",
             // URL for user to register at. 
             "registrationUrl": "https://" 

@@ -8,14 +8,19 @@ export class NewJerseyRegistrationProvider implements StatusProvider, FieldsProv
 
     statusUnavailableData(): StatusResultNotFoundValue {
         return {
-            phone: "1-877-NJVOTER (1-877-658-6837)",
-            website: "https://www.njelections.org/"
-        }
+          phone: this.enrollmentData().phone,
+          requirements: this.enrollmentData().requirements,
+          registrationUrl: this.enrollmentData().registrationUrl,
+        };
     }
     
     enrollmentData(): StatusResultNotEnrolledValue {
         return {
-            requirements: `
+          phone: {
+            label: "1-877-NJVOTER (1-877-658-6837)",
+            uri: "tel:18776586837",
+          },
+          requirements: `
 **To register in New Jersey, you must be:**
 
 
@@ -24,8 +29,11 @@ export class NewJerseyRegistrationProvider implements StatusProvider, FieldsProv
 - A resident of the county for 30 days before the election
 - A person not serving a sentence of incarceration as  the result of a conviction of any indictable offense under the laws of this or another state or of the United States
 `,
-            registrationUrl: "https://nj.gov/state/elections/voter-registration.shtml"
-        }
+          registrationUrl: { 
+            label: "NJ Division of Elections",
+            uri: "https://nj.gov/state/elections/voter-registration.shtml"
+          }
+        };
     }
     
     fields(): string[] {
@@ -38,11 +46,12 @@ export class NewJerseyRegistrationProvider implements StatusProvider, FieldsProv
     
     async checkStatus(info: VoterInformation): Promise<CheckRegistrationResponse> {
         const response = await newJerseyRegistrationService.checkStatus(info);
-        if (response.voterStatus.type == "notEnrolled") {
+        if (response.voterStatus.type === "notEnrolled") {
             return {
                 voterStatus: {
                     type: "notEnrolled",
                     value: {
+                        phone: this.enrollmentData().phone,
                         registrationUrl: this.enrollmentData().registrationUrl,
                         requirements: this.enrollmentData().requirements
                     }

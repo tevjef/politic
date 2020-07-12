@@ -29,6 +29,7 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
   int _zipCode = 0;
   int _month = 0;
   int _year = 0;
+  bool isLoading = false;
 
   HomePresenter(HomeView view) : super(view) {
     final injector = Injector.getInjector();
@@ -69,7 +70,13 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
     _zipCode = zipcode;
   }
 
+  void updateLoading(bool isLoading) {
+    this.isLoading = isLoading;
+    notifyListeners();
+  }
+  
   void onSubmit(BuildContext context) async {
+    updateLoading(true);
     var response = await repo
         .checkRegistration(CheckRegistrationRequest(
             voterInformation: VoterInformation(
@@ -80,6 +87,7 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
                 year: _year)))
         .catchError((error) => {view.showErrorMessage(error, null)});
 
+    updateLoading(false);
     pushResultScreen(context, response);
   }
 
@@ -89,7 +97,9 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
   }
 
   void loadData() async {
+    updateLoading(true);
     updateStates(await repo.getData());
+    updateLoading(false);
   }
 
   @override
@@ -131,7 +141,7 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
         break;
     }
 
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => targetScreen,

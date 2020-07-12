@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../../core/lib.dart';
 import '../../data/lib.dart';
@@ -43,11 +44,9 @@ abstract class ListOps {
   void swapItems(List<Item> items);
 }
 
-abstract class LDEViewMixin<T extends StatefulWidget> extends State<T>
-    implements BaseView, ListOps {
+abstract class LDEViewMixin<T extends StatefulWidget> extends State<T> implements BaseView, ListOps {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 
   final ScrollController _scrollController = ScrollController();
@@ -69,8 +68,7 @@ abstract class LDEViewMixin<T extends StatefulWidget> extends State<T>
   @override
   void showLoading(bool isLoading) {
     setState(() {
-      this.isFullLoading =
-          isLoading && (!isList || adapter.getItemCount() == 0);
+      this.isFullLoading = isLoading && (!isList || adapter.getItemCount() == 0);
       this.isRefreshing = isLoading;
 
       if (isRefreshing) {
@@ -94,16 +92,14 @@ abstract class LDEViewMixin<T extends StatefulWidget> extends State<T>
   void showMessage(String message, [SnackBarAction action]) {
     scaffoldKey.currentState?.hideCurrentSnackBar();
 
-    scaffoldKey.currentState?.showSnackBar(
-        Widgets.makeSnackBar(message, SnackBarType.neutral, action));
+    scaffoldKey.currentState?.showSnackBar(Widgets.makeSnackBar(message, SnackBarType.neutral, action));
   }
 
   @override
   void showErrorMessage(Exception error, [Function retry]) {
     scaffoldKey.currentState?.hideCurrentSnackBar();
 
-    scaffoldKey.currentState
-        ?.showSnackBar(Widgets.makeErrorSnackBar(error, retry));
+    scaffoldKey.currentState?.showSnackBar(Widgets.makeErrorSnackBar(error, retry));
   }
 
   Future<Null> handleRefresh() {
@@ -194,17 +190,12 @@ abstract class LDEViewMixin<T extends StatefulWidget> extends State<T>
 
   Widget makeRefreshingList() {
     return RefreshIndicator(
-        key: refreshIndicatorKey,
-        onRefresh: handleRefresh,
-        child: makeLDEWidget(makeAnimatedListView()));
+        key: refreshIndicatorKey, onRefresh: handleRefresh, child: makeLDEWidget(makeAnimatedListView()));
   }
 
   Widget makeRefreshingWidget(Widget widget) {
     this.isList = false;
-    return RefreshIndicator(
-        key: refreshIndicatorKey,
-        onRefresh: handleRefresh,
-        child: makeLDEWidget(widget));
+    return RefreshIndicator(key: refreshIndicatorKey, onRefresh: handleRefresh, child: makeLDEWidget(widget));
   }
 
   BuildContext getContext() {
@@ -227,8 +218,7 @@ enum SnackBarType { error, neutral, success }
 class Widgets {
   static SnackBar makeErrorSnackBar(Exception error, Function action) {
     if (error is Retryable && action != null) {
-      return makeSnackBar(error.toString(), SnackBarType.error,
-          SnackBarAction(label: "Retry", onPressed: action));
+      return makeSnackBar(error.toString(), SnackBarType.error, SnackBarAction(label: "Retry", onPressed: action));
     } else {
       return makeSnackBar(error.toString(), SnackBarType.error);
     }
@@ -267,8 +257,7 @@ class Widgets {
   static Widget makeLoading() {
     return Center(
         child: Padding(
-            padding: const EdgeInsets.only(
-                left: Dimens.spacingStandard, right: Dimens.spacingStandard),
+            padding: const EdgeInsets.only(left: Dimens.spacingStandard, right: Dimens.spacingStandard),
             child: CircularProgressIndicator(backgroundColor: Colors.black)));
   }
 
@@ -291,9 +280,7 @@ class Widgets {
                 ),
                 child: new Container(
                   padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-                  decoration: new BoxDecoration(
-                      borderRadius: new BorderRadius.circular(99.0),
-                      color: Colors.red),
+                  decoration: new BoxDecoration(borderRadius: new BorderRadius.circular(99.0), color: Colors.red),
                   child: Center(
                     child: new Text(
                       badgeText,

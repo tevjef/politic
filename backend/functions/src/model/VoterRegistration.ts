@@ -1,72 +1,83 @@
-import * as validator from 'class-validator';
+import * as validator from "class-validator";
 // tslint:disable-next-line:no-import-side-effect
-import 'reflect-metadata';
-import { Type } from 'class-transformer';
+import "reflect-metadata";
+import { Type } from "class-transformer";
 
 export class CheckRegistrationRequest {
-
-    @validator.ValidateNested({ always: true})
-    @validator.IsNotEmptyObject()
-    @Type(() => VoterInformation)
-    public voterInformation!: VoterInformation;
+  @validator.ValidateNested({ always: true })
+  @validator.IsNotEmptyObject()
+  @Type(() => VoterInformation)
+  public voterInformation!: VoterInformation;
 }
 
 export class VoterInformation {
-    @validator.IsString()
-    state!: string;
+  @validator.IsString()
+  state!: string;
 
-    @validator.IsString()
-    firstName!: string;
+  @validator.IsString()
+  firstName!: string;
 
-    @validator.IsString()
-    lastName!: string;
+  @validator.IsString()
+  lastName!: string;
 
-    middleInitial!: string;
+  middleInitial!: string;
 
-    @validator.IsString()
-    month!: string;
+  @validator.IsString()
+  month!: string;
 
-    @validator.IsNumber()
-    year!: number;
+  @validator.IsNumber()
+  year!: number;
 }
 
 export interface CheckRegistrationResponse {
-    voterStatus: VoterStatus
+  voterStatus: VoterStatus;
 }
 
-export type StatusResultType = 'multipleEnrolled' | 'singleEnrolled' | 'notEnrolled' | 'notFound'
+export type StatusResultType =
+  | "multipleEnrolled"
+  | "singleEnrolled"
+  | "notEnrolled"
+  | "notFound";
 
 export interface StatusResultSingleValue {
-    title: string;
-    message: string;
+  title: string;
+  message: string;
 }
 
 export interface StatusResultNotEnrolledValue {
-    requirements: string;
-    registrationUrl: string;
+  phone: Deeplink;
+  requirements: string;
+  registrationUrl: Deeplink;
+}
+
+export interface Deeplink {
+  label: String;
+  uri: String;
 }
 
 export interface StatusResultNotFoundValue {
-    phone: string;
-    website: string;
+  phone: Deeplink;
+  requirements: string;
+  registrationUrl: Deeplink;
 }
 
-export type StatusResultValue = StatusResultSingleValue | 
-StatusResultSingleValue[] | 
-StatusResultNotEnrolledValue |
-StatusResultNotFoundValue
+export type StatusResultValue =
+  | StatusResultSingleValue
+  | StatusResultSingleValue[]
+  | StatusResultNotEnrolledValue
+  | StatusResultNotFoundValue;
 
 export interface VoterStatus {
-    type: StatusResultType;
-    value: StatusResultValue;
+  type: StatusResultType;
+  value: StatusResultValue;
 }
 
 export interface StatesResponse {
-    states: VoterState[];
+  states: VoterState[];
 }
 
 export interface VoterState {
-    name: string;
-    abbreviation: string;
-    fields: string[];
+  name: string;
+  abbreviation: string;
+  fields: string[];
 }

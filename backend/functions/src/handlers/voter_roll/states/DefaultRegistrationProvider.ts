@@ -9,16 +9,18 @@ export class DefaultRegistrationProvider implements
     
     enrollmentData(): StatusResultNotEnrolledValue {
         return {
+            phone:  { label: "555-555-5555", uri: "tel:555-555-5555" },
             requirements: "Not yet implemented",
-            registrationUrl: "https://vote.org"
+            registrationUrl: { label: "https://vote.org", uri: "https://vote.org" }
         }
     }
 
     statusUnavailableData(): StatusResultNotFoundValue {
         return {
-            phone: "212-555-5555",
-            website: "https://vote.org"
-        }
+          phone: this.enrollmentData().phone,
+          requirements: this.enrollmentData().requirements,
+          registrationUrl: this.enrollmentData().registrationUrl,
+        };
     }
     
     fields(): string[] {

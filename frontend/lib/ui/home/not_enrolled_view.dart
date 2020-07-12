@@ -25,11 +25,9 @@ class NotEnrolledScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ScrollController();
-    print(voterStatus.requirements.trim());
     return WillPopScope(
         onWillPop: () {
-          return Future<bool>.value(true);
+          return Future<bool>.value(false);
         },
         child: Scaffold(
             backgroundColor: Theme.of(context).colorScheme.surface,
@@ -43,10 +41,18 @@ class NotEnrolledScreen extends StatelessWidget {
                 ListView(
                   children: <Widget>[
                     ImageHeadline("You’re not registered to vote.", AssetImage('res/images/notenrolled.png')),
-                    Markdown(controller: controller, data: voterStatus.requirements, shrinkWrap: true, styleSheet: )
+                    Markdown(
+                      data: voterStatus.requirements,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+                    ),
+                    ListButtonCell("Phone", voterStatus.phone.label, "Call", () => {launch(voterStatus.phone.uri)}),
+                    ListButtonCell(
+                        "Website", voterStatus.registrationUrl.label, "Visit", () => {launch(voterStatus.registrationUrl.uri)})
                   ],
                 ),
-                ButtonGroup("Register to vote", () => {launch(voterStatus.registrationUrl)})
+                ButtonGroup("Register to vote", () => {launch(voterStatus.registrationUrl.uri)})
               ],
             )));
   }

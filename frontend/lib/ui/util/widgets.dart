@@ -19,18 +19,34 @@ class ButtonGroup extends StatelessWidget {
   Function primaryListener;
   String secondaryCtaText;
   Function secodaryListener;
-
-  ButtonGroup(this.primaryCtaText, this.primaryListener, {this.secondaryCtaText, this.secodaryListener});
+  bool isLoading;
+  ButtonGroup(this.primaryCtaText, this.primaryListener, {this.secondaryCtaText, this.secodaryListener, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
+    Widget buttonWidget;
+    if (isLoading) {
+      buttonWidget = SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          ));
+    } else {
+      buttonWidget = Text(primaryCtaText.toUpperCase());
+    }
     var primaryButton = SizedBox(
         width: double.infinity,
         child: RaisedButton(
           elevation: 0,
           textTheme: ButtonTextTheme.primary,
           onPressed: primaryListener,
-          child: Text(primaryCtaText.toUpperCase()),
+          child: Column(
+            children: <Widget>[
+              buttonWidget,
+            ],
+          ),
         ));
 
     Widget secondaryCta = Container();

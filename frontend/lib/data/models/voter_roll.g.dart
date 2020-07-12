@@ -44,7 +44,7 @@ CheckRegistrationRequest _$CheckRegistrationRequestFromJson(
 Map<String, dynamic> _$CheckRegistrationRequestToJson(
         CheckRegistrationRequest instance) =>
     <String, dynamic>{
-      'voterInformation': instance.voterInformation.toJson(),
+      'voterInformation': instance.voterInformation,
     };
 
 VoterInformation _$VoterInformationFromJson(Map<String, dynamic> json) {
@@ -93,27 +93,45 @@ Map<String, dynamic> _$VoterDataToJson(VoterData instance) => <String, dynamic>{
       'message': instance.message,
     };
 
-NotEnrolled _$NotEntrolledFromJson(Map<String, dynamic> json) {
+NotEnrolled _$NotEnrolledFromJson(Map<String, dynamic> json) {
   return NotEnrolled(
+    phone: Deeplink.fromJson(json['phone'] as Map<String, dynamic>),
     requirements: json['requirements'] as String,
-    registrationUrl: json['registrationUrl'] as String,
+    registrationUrl:
+        Deeplink.fromJson(json['registrationUrl'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$NotEntrolledToJson(NotEnrolled instance) =>
+Map<String, dynamic> _$NotEnrolledToJson(NotEnrolled instance) =>
     <String, dynamic>{
+      'phone': instance.phone,
       'requirements': instance.requirements,
       'registrationUrl': instance.registrationUrl,
     };
 
 NotFound _$NotFoundFromJson(Map<String, dynamic> json) {
   return NotFound(
-    phone: json['phone'] as String,
-    web: json['web'] as String,
+    phone: Deeplink.fromJson(json['phone'] as Map<String, dynamic>),
+    requirements: json['requirements'] as String,
+    registrationUrl:
+        Deeplink.fromJson(json['registrationUrl'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$NotFoundToJson(NotFound instance) => <String, dynamic>{
       'phone': instance.phone,
-      'web': instance.web,
+      'requirements': instance.requirements,
+      'registrationUrl': instance.registrationUrl,
+    };
+
+Deeplink _$DeeplinkFromJson(Map<String, dynamic> json) {
+  return Deeplink(
+    label: json['label'] as String,
+    uri: json['uri'] as String,
+  );
+}
+
+Map<String, dynamic> _$DeeplinkToJson(Deeplink instance) => <String, dynamic>{
+      'label': instance.label,
+      'uri': instance.uri,
     };

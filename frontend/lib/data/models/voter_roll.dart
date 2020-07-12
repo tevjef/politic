@@ -124,20 +124,32 @@ class VoterData extends VoterStatusType {
 
 @JsonSerializable(nullable: false)
 class NotEnrolled extends VoterStatusType {
+  final Deeplink phone;
   final String requirements;
-  final String registrationUrl;
+  final Deeplink registrationUrl;
 
-  NotEnrolled({this.requirements, this.registrationUrl});
-  factory NotEnrolled.fromJson(Map<String, dynamic> json) => _$NotEntrolledFromJson(json);
-  Map<String, dynamic> toJson() => _$NotEntrolledToJson(this);
+  NotEnrolled({this.phone, this.requirements, this.registrationUrl});
+  factory NotEnrolled.fromJson(Map<String, dynamic> json) => _$NotEnrolledFromJson(json);
+  Map<String, dynamic> toJson() => _$NotEnrolledToJson(this);
 }
 
 @JsonSerializable(nullable: false)
 class NotFound extends VoterStatusType {
-  final String phone;
-  final String web;
+  final Deeplink phone;
+  final String requirements;
+  final Deeplink registrationUrl;
 
-  NotFound({this.phone, this.web});
+  NotFound({this.phone, this.requirements, this.registrationUrl});
   factory NotFound.fromJson(Map<String, dynamic> json) => _$NotFoundFromJson(json);
   Map<String, dynamic> toJson() => _$NotFoundToJson(this);
+}
+
+@JsonSerializable(nullable: false)
+class Deeplink extends VoterStatusType {
+  final String label;
+  final String uri;
+
+  Deeplink({this.label, this.uri});
+  factory Deeplink.fromJson(Map<String, dynamic> json) => _$DeeplinkFromJson(json);
+  Map<String, dynamic> toJson() => _$DeeplinkToJson(this);
 }

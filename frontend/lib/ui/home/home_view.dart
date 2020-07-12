@@ -38,14 +38,16 @@ class HomeListState extends State<HomePage> with LDEViewMixin implements HomeVie
           ],
           child: Consumer<HomePresenter>(builder: (context, presenter, child) {
             Widget buttonContainer = Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ButtonGroup(
-                    "Check Voter Registration",
-                    () => {
-                          if (_formKey.currentState.validate()) {presenter.onSubmit(context)}
-                        },
-                    secondaryCtaText: "I’m already registered",
-                    secodaryListener: () => {presenter.onSubmit(context)}));
+              padding: const EdgeInsets.only(top: 8.0),
+              child: ButtonGroup(
+                  "Check Voter Registration",
+                  () => {
+                        if (_formKey.currentState.validate()) {presenter.onSubmit(context)}
+                      },
+                  secondaryCtaText: "I’m already registered",
+                  secodaryListener: () => {presenter.onSubmit(context)},
+                  isLoading: presenter.isLoading,),
+            );
 
             Widget buttonContainerList = Container();
             Widget buttonContainerStack = Container();
@@ -66,29 +68,30 @@ class HomeListState extends State<HomePage> with LDEViewMixin implements HomeVie
                   backgroundColor: Theme.of(context).colorScheme.surface,
                   elevation: 0,
                 ),
-                body: Stack(
-                  children: <Widget>[
-                    ListView(
-                      children: <Widget>[
-                        Headline(
-                            "Are you registered to vote?",
-                            "Check if you’re registered to vote in your electoral district."),
-                        StateSelectDropDown(),
-                        RegistrationForm(formKey: _formKey),
-                        buttonContainerList
-                      ],
-                    ),
-                    buttonContainerStack
-                  ],
+                body: RefreshIndicator(
+                  key: refreshIndicatorKey,
+                  onRefresh: handleRefresh,
+                  child: Stack(
+                    children: <Widget>[
+                      ListView(
+                        children: <Widget>[
+                          Headline("Are you registered to vote?",
+                              "Check if you’re registered to vote in your electoral district."),
+                          StateSelectDropDown(),
+                          RegistrationForm(formKey: _formKey),
+                          buttonContainerList
+                        ],
+                      ),
+                      buttonContainerStack
+                    ],
+                  ),
                 ));
           }),
         ));
   }
 
   @override
-  void onRefreshData() {
-    // TODO: implement onRefreshData
-  }
+  void onRefreshData() {}
 }
 
 class RegistrationForm extends StatelessWidget {
