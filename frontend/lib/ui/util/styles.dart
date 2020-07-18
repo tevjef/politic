@@ -1,55 +1,63 @@
 import 'package:flutter/material.dart';
 
 class Styles {
-
   static TextStyle headline5(ThemeData themeData) {
     return new TextStyle(
-      color: themeData.colorScheme.onSurface, fontSize: 20.0, fontWeight: FontWeight.w700, fontFamily: "Poppins");
+        height: 1.6,
+        color: themeData.colorScheme.onSurface,
+        fontSize: 20.0,
+        fontWeight: FontWeight.w700,
+        fontFamily: "Poppins");
   }
 
   static TextStyle headline6(ThemeData themeData) {
     return new TextStyle(
-      color: themeData.colorScheme.onSurface, fontSize: 14.0, fontWeight: FontWeight.w700, fontFamily: "Poppins");
+        color: themeData.colorScheme.onSurface, fontSize: 14.0, fontWeight: FontWeight.w700, fontFamily: "Poppins");
+  }
+
+  static TextStyle body1(ThemeData themeData) {
+    return new TextStyle(
+        height: 2,
+        letterSpacing: 0.5,
+        color: themeData.colorScheme.onSurface,
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400,
+        fontFamily: "Poppins");
   }
 
   static TextStyle body2(ThemeData themeData) {
     return new TextStyle(
-      height: 1.6,
-      color: themeData.colorScheme.onSurface, fontSize: 14.0, fontWeight: FontWeight.w400, fontFamily: "Poppins");
+        height: 1.6,
+        color: themeData.colorScheme.onSurface,
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400,
+        fontFamily: "Poppins");
   }
 
   static TextStyle subtitle2(ThemeData themeData) {
     return new TextStyle(
-      height: 1.7,
-      color: themeData.colorScheme.onSurface, fontSize: 14.0, fontWeight: FontWeight.w400, fontFamily: "Poppins");
+        height: 1.7,
+        color: themeData.colorScheme.onSurface,
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400,
+        fontFamily: "Poppins");
   }
 
-  static TextStyle body1Primary = new TextStyle(
-      color: Colors.black, fontSize: 12.0, fontFamily: "ProductSans");
+  static TextStyle body1Primary = new TextStyle(color: Colors.black, fontSize: 12.0, fontFamily: "ProductSans");
 
-  static TextStyle body1PrimaryInverse = new TextStyle(
-      color: Colors.white, fontSize: 12.0, fontFamily: "ProductSans");
+  static TextStyle body1PrimaryInverse = new TextStyle(color: Colors.white, fontSize: 12.0, fontFamily: "ProductSans");
 
-  static TextStyle body2Primary = new TextStyle(
-      color: Colors.black, fontSize: 14.0, fontFamily: "ProductSans");
+  static TextStyle body2Primary = new TextStyle(color: Colors.black, fontSize: 14.0, fontFamily: "ProductSans");
 
-  static TextStyle body2PrimaryInverse = new TextStyle(
-      color: Colors.white, fontSize: 14.0, fontFamily: "ProductSans");
+  static TextStyle body2PrimaryInverse = new TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: "ProductSans");
 
-  static TextStyle body1Secondary = new TextStyle(
-      color: Colors.black54,
-      fontSize: 10.0,
-      fontStyle: FontStyle.italic,
-      fontFamily: "ProductSans");
+  static TextStyle body1Secondary =
+      new TextStyle(color: Colors.black54, fontSize: 10.0, fontStyle: FontStyle.italic, fontFamily: "ProductSans");
 
-  static TextStyle body1SecondaryInverse = new TextStyle(
-      color: Colors.white,
-      fontSize: 10.0,
-      fontStyle: FontStyle.italic,
-      fontFamily: "ProductSans");
+  static TextStyle body1SecondaryInverse =
+      new TextStyle(color: Colors.white, fontSize: 10.0, fontStyle: FontStyle.italic, fontFamily: "ProductSans");
 
-  static TextStyle caption =
-      new TextStyle(fontFamily: "ProductSans", fontWeight: FontWeight.bold);
+  static TextStyle caption = new TextStyle(fontFamily: "ProductSans", fontWeight: FontWeight.bold);
 
   static TextStyle sectionHeader = new TextStyle(
       color: Colors.black,
@@ -82,8 +90,7 @@ class AppColors {
     100: const Color(0xFFF5F5F5),
     200: const Color(0xFFEEEEEE),
     300: const Color(0xFFE0E0E0),
-    350: const Color(
-        0xFFD6D6D6), // only for raised button while pressed in light theme
+    350: const Color(0xFFD6D6D6), // only for raised button while pressed in light theme
     400: const Color(0xFFBDBDBD),
     500: const Color(0xFFFFFFFF),
     600: const Color(0xFF757575),

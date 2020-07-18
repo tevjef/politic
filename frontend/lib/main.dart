@@ -5,6 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logging/logging.dart';
+import 'package:politic/ui/home/save_information.dart';
 
 import 'core/lib.dart';
 import 'ui/screens.dart';
@@ -48,9 +49,9 @@ void main() async {
     // S.delegate.resolution(fallback: new Locale("en", "")),
     // supportedLocales: S.delegate.supportedLocales,
     routes: <String, WidgetBuilder>{
-      Routes.home: (BuildContext context) => HomePage(),
+      Routes.home: (BuildContext context) => SaveInformationPage(),
     },
-    home: HomePage(),
+    home: SaveInformationPage(),
   );
 
   var error = new Logger('error');

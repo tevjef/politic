@@ -5,7 +5,13 @@ import {
     StatusResultNotEnrolledValue
 } from '../../model/VoterRegistration'
 
-export type ProviderMap = Record<string, StatusProvider & FieldsProvider>
+export type ProviderMap = Record<
+  string,
+  StatusProvider &
+    FieldsProvider &
+    NotEnrolledProvider &
+    StatusUnavailableProvider
+>;
 
 export interface StatusProvider {
     checkStatus(info: VoterInformation): Promise<CheckRegistrationResponse>

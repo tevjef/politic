@@ -26,6 +26,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Politic will only use you location to find your representatives and district lines</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Politic will only use you location to find your representatives and district lines</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
