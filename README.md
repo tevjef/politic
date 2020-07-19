@@ -18,10 +18,26 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
             "name": "New Jersey",
             "abbreviation": "NJ",
             "fields": [
-                "firstName",
-                "lastName",
-                "dobMY",
-                "zipCode"
+                {
+                    "inputType": "text"
+                    "key": "firstName|lastName|middleInitial"
+                },
+                {
+                    "inputType": "number"
+                    "key": "zipCode"
+                },
+                {
+                    "inputType": "dobMY|dobDMY"
+                    "key": "month|year|day"
+                },
+                ,
+                {
+                    "inputType": "selection"
+                    "key": "county"
+                    "selections": [
+                        "Kings (Brooklyn)"
+                    ]
+                }
             ]
         }
     ]
@@ -39,6 +55,8 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
     "voterInformation": {
         // Using the abbreviation for the state and the key/id, non-null
         "state": "NJ", 
+        // nullable
+        "county": "Kings",
         // nullable
         "firstName": "First", 
         // nullable
@@ -120,7 +138,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 ```
 
 
-:x: **POST** **`/voterRoll/save`**
+:white_check_mark: **POST** **`/voterRoll/save`**
 **Authorization:** `Token from Firebase Auth`
 
 Saving voter registration data, 
@@ -166,7 +184,7 @@ Saving voter registration data,
 // No response
 ```
 
-:x: **POST** **`/user/updateToken`**
+:x: **POST** **`/user/notificationToken`**
 **Authorization:** `Token from Firebase Auth`
 
 
@@ -182,7 +200,7 @@ Saving voter registration data,
 ```
 
 
-:x: **POST** **`/user/updateLocation`**
+:x: **POST** **`/user/location`**
 **Authorization:** `Token from Firebase Auth`
 
 Saves the state and district of the user on the backend into a table
@@ -197,7 +215,15 @@ Saves the state and district of the user on the backend into a table
     }
 }
 
-// No response
+// Response
+{
+    "location": {
+        "state": "NJ",
+        "zipcode" "12345",
+        "legislativeDistrict": "6",
+        "congressionalDistrict": "40"
+    }
+}
 ```
 
 
@@ -228,7 +254,7 @@ Saves the state and district of the user on the backend into a table
 ### Firebase Firestore Tables
 
 
-:x: **notification_auth_tokens**
+:white_check_mark: **notification_auth_tokens**
 
 ```js
 [
@@ -259,7 +285,7 @@ Saves the state and district of the user on the backend into a table
 ]
 ```
 
-:x: **electoral_register**  
+:white_check_mark: **electoral_register**  
 
 Contains a list of all the users that have chosen to save their data.
 
@@ -281,6 +307,23 @@ Contains a list of all the users that have chosen to save their data.
             // The last time a cron job was run on the users voter status or the last time the user manually checked.
             "lastCheck": "zonedDateTime", 
             "lastStatus": "enrolled|unenrolled|unknown" 
+        }
+    }
+]
+```
+
+:x: **users**  
+
+Contains a list of all the users that have chosen to save their data.
+
+```js
+[
+    {
+        "user-auth-token": {
+            "state": "NJ",
+            "zipcode" "12345",
+            "legislativeDistrict": "6",
+            "congressionalDistrict": "40"
         }
     }
 ]

@@ -69,7 +69,7 @@ class ManualLocationState extends State<ManualLocationPage> with LDEViewMixin im
                     "Turn on location services",
                     () => {presenter.onRequestionManualLocationClick()},
                     secondaryCtaText: "Enter address manually",
-                    secodaryListener: () => {presenter.onManualEntryClick(context)},
+                    secodaryListener: () => {presenter.onManualEntryClick()},
                     isLoading: presenter.isLoading,
                   ),
                 ],

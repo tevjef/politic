@@ -5,17 +5,28 @@ import {
   VoterInformation,
   StatusResultNotFoundValue,
   StatusResultNotEnrolledValue,
-} from "../../model/VoterRegistration";
-import { DefaultRegistrationProvider } from "./states/DefaultRegistrationProvider";
-import { NewJerseyRegistrationProvider } from "./states/NewJerseyRegistrationProvider";
+  EnrollmentRequest,
+} from "../model/VoterRegistration";
+import { DefaultRegistrationProvider } from "./voter_roll/states/DefaultRegistrationProvider";
+import { NewJerseyRegistrationProvider } from "./voter_roll/states/NewJerseyRegistrationProvider";
+import { FirebaseAdminService } from "../services/FirebaseAdminService";
 
 const defaultProvider = new DefaultRegistrationProvider();
+const firebaseAdminService = new FirebaseAdminService();
 
 const statusProviders: ProviderMap = {
   NJ: new NewJerseyRegistrationProvider(),
 };
 
 export class VoterRollHandler {
+  async saveVoterInformation(userUUID: string, request: EnrollmentRequest): Promise<null> {
+    await firebaseAdminService.addVoterInformation(userUUID, request.enrollment.voterInformation)
+    return firebaseAdminService.addNotificationToken(
+      userUUID,
+      request.enrollment.notificationToken
+    ).then(value => null);
+  }
+
   async checkRegistration(
     request: CheckRegistrationRequest
   ): Promise<CheckRegistrationResponse> {

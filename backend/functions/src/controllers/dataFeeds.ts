@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { DataFeedsHandler } from "../handlers/voter_roll/DateFeedsHandler";
+import { DataFeedsHandler } from "../handlers/DateFeedsHandler";
 
 const handler = new DataFeedsHandler()
 

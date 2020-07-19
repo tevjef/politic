@@ -10,9 +10,32 @@ export class CheckRegistrationRequest {
   public voterInformation!: VoterInformation;
 }
 
+export class EnrollmentRequest {
+  @validator.ValidateNested({ always: true })
+  @validator.IsNotEmptyObject()
+  @Type(() => Enrollment)
+  public enrollment!: Enrollment;
+}
+
+export class Enrollment {
+  @validator.ValidateNested({ always: true })
+  @validator.IsNotEmptyObject()
+  @Type(() => VoterInformation)
+  public voterInformation!: VoterInformation;
+
+  @validator.IsString()
+  public notificationToken!: string;
+}
+
 export class VoterInformation {
   @validator.IsString()
   state!: string;
+
+  @validator.IsString()
+  county!: string;
+
+  @validator.IsString()
+  zipcode!: string;
 
   @validator.IsString()
   firstName!: string;
@@ -21,6 +44,9 @@ export class VoterInformation {
   lastName!: string;
 
   middleInitial!: string;
+
+  @validator.IsString()
+  day!: string;
 
   @validator.IsString()
   month!: string;

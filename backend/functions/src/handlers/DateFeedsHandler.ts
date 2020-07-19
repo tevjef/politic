@@ -1,6 +1,6 @@
-import { KeyVoteService } from "../../services/KeyVoteService";
-import { StateFeedResponse } from "../../model/Feed";
-import { RepresentativeService } from "../../services/RepresentativeService";
+import { KeyVoteService } from "../services/KeyVoteService";
+import { StateFeedResponse } from "../model/Feed";
+import { RepresentativeService } from "../services/RepresentativeService";
 
 const keyVoteService = new KeyVoteService();
 const representativeService = new RepresentativeService();
