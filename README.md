@@ -166,7 +166,7 @@ Saving voter registration data,
 // No response
 ```
 
-:x: **POST** **`/updateToken`**
+:x: **POST** **`/user/updateToken`**
 **Authorization:** `Token from Firebase Auth`
 
 
@@ -179,6 +179,51 @@ Saving voter registration data,
 }
 
 // No response
+```
+
+
+:x: **POST** **`/user/updateLocation`**
+**Authorization:** `Token from Firebase Auth`
+
+Saves the state and district of the user on the backend into a table
+```js
+// Request
+{
+    "locationUpdate": {
+        "location": {
+            "lat": 0,
+            "lng": 0
+        }
+    }
+}
+
+// No response
+```
+
+
+:white_check_mark: **GET** **`/feed/states/{state}`**
+
+```js
+// Request
+// - Path parameter with the state abbreviation
+
+// Response 
+{
+  "feed": [
+    {
+      "itemType": "keyVote",
+      "title": "Amends Teacher Health Benefits (S 2273) - Passage Passed - Executive",
+      "link": "http://votesmart.org/bill/28233/73218"
+    }
+  ],
+  "representatives": [
+    {
+      "displayName": "Robert Menendez",
+      "image": "https://theunitedstates.io/images/congress/225x275/M000639.jpg",
+      "bioguide": "M000639"
+    }
+  ]
+}
 ```
 ### Firebase Firestore Tables
 

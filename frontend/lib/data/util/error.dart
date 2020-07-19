@@ -35,6 +35,16 @@ class NetworkError implements Exception, Retryable {
   bool canRetry() => isRetryable;
 }
 
+class AuthException implements Exception {
+  final String message;
+  final Object cause;
+
+  const AuthException(this.message, this.cause);
+
+  @override
+  String toString() => message;
+}
+
 class GenericError implements Exception, Retryable {
   final String message;
   final Object cause;

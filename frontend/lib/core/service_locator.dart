@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_simple_dependency_injection/injector.dart';
+import 'package:politic/data/auth.dart';
+import 'package:politic/data/notifications.dart';
 import 'dart:io' show Platform;
 
 import '../data/lib.dart';
@@ -22,13 +24,16 @@ class Locator {
 
     if (Platform.isAndroid) {
     } else {
-      injector.map<String>((i) => "AIzaSyA0aTNzw5Zr1I4MiLuT3_LyewDqAHl9q2k", key: "placesApiKey");
+      injector.map<String>((i) => "", key: "placesApiKey");
     }
 
     injector.map<AnalyticsLogger>((i) => new AnalyticsLogger(), isSingleton: true);
 
     injector.map<AdInitializer>((i) => new AdInitializer(), isSingleton: true);
-    injector.map<ApiClient>((i) => new ApiClient(injector.get<String>(key: "apiUrl")), isSingleton: true);
-    injector.map<Repo>((i) => new Repo(injector.get()), isSingleton: true);
+    injector.map<NotificationRepo>((i) => new NotificationRepo(), isSingleton: true);
+    injector.map<Auth>((i) => new Auth(), isSingleton: true);
+    injector.map<ApiClient>((i) => new ApiClient(injector.get<String>(key: "apiUrl"), injector.get()),
+        isSingleton: true);
+    injector.map<Repo>((i) => new Repo(injector.get(), injector.get(), injector.get()), isSingleton: true);
   }
 }

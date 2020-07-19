@@ -87,7 +87,6 @@ class PoliticHomeState extends State<PoliticHomePage> with LDEViewMixin implemen
               index: _selectedIndex,
               children: <Widget>[
               FeedStatePage(),
-              SaveInformationPage(),
               LocationServicesPage(),
             ]),
           );

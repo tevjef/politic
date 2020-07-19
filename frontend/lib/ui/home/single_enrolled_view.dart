@@ -2,14 +2,16 @@ import 'dart:ui';
 
 import 'package:flutter/services.dart';
 import 'package:politic/data/models/voter_roll.dart';
+import 'package:politic/ui/home/save_information.dart';
 
 import '../../core/lib.dart';
 import '../util/lib.dart';
 
 class SingleEnrolledScreen extends StatelessWidget {
   final SingleEnrolled voterStatus;
+  final VoterInformation voterInformation;
 
-  SingleEnrolledScreen(this.voterStatus);
+  SingleEnrolledScreen(this.voterStatus, this.voterInformation);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,16 @@ class SingleEnrolledScreen extends StatelessWidget {
                 ...cells
               ],
             ),
-            // ButtonGroup("Continue", () => {}, secondaryCtaText: "Exit App", secodaryListener: () => {})
+            ButtonGroup(
+                "Continue",
+                () => {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SaveInformationPage(voterInformation: voterInformation),
+                        ),
+                      )
+                    })
           ],
         ),
       ),

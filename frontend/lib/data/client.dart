@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
+import 'auth.dart';
 import 'models/feed.dart';
 import 'models/voter_roll.dart';
 import 'util/metriced_http_client.dart';
@@ -11,11 +12,14 @@ import 'dart:convert';
 abstract class Api {
   Future<List<USState>> getStates();
   Future<VoterStatus> checkRegistration(CheckRegistrationRequest request);
+  Future<Null> saveVoterEnrollment(EnrollmentRequest request);
 }
 
 class ApiClient implements Api {
   String baseUrl;
-  ApiClient(this.baseUrl);
+  Auth auth;
+
+  ApiClient(this.baseUrl, this.auth);
   final Logger log = new Logger('ApiClient');
   final MetricHttpClient httpClient = MetricHttpClient(http.Client());
 
@@ -45,6 +49,30 @@ class ApiClient implements Api {
       }
 
       return CheckRegistrationResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>).voterStatus;
+    }));
+  }
+
+  @override
+  Future<Null> saveVoterEnrollment(EnrollmentRequest request) async {
+    String requestBody = jsonEncode(request);
+    log.info(requestBody);
+
+    var authToken = await auth.getAuthToken();
+    if (authToken == null) {
+      return Future.error(AuthException("User is not signed in", authToken));
+    }
+
+    return ErrorTransformer.transform(httpClient
+        .post("$baseUrl" + "/voterRoll/save",
+            headers: {'Content-Type': 'application/json', 'Authorization': authToken}, body: requestBody)
+        .then((http.Response response) {
+      logHttp(response);
+      final statusCode = response.statusCode;
+      if (statusCode < 200 || statusCode >= 300) {
+        throw new Exception("Error while getting response [StatusCode:$statusCode, Error:${response.reasonPhrase}]");
+      }
+
+      return Future<Null>.value(null);
     }));
   }
 

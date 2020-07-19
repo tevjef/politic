@@ -10,6 +10,7 @@ import '../../data/lib.dart';
 import '../util/lib.dart';
 
 class ManualLocationPage extends StatefulWidget {
+  
   ManualLocationPage({Key key}) : super(key: key);
 
   @override

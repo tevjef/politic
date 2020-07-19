@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:politic/data/models/voter_roll.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:politic/ui/home/location_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/lib.dart';
@@ -39,10 +40,21 @@ class NotFoundScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
                     ),
                     ListButtonCell("Phone", voterStatus.phone.label, "Call", () => {launch(voterStatus.phone.uri)}),
-                    ListButtonCell(
-                        "Website", voterStatus.registrationUrl.label, "Visit", () => {launch(voterStatus.registrationUrl.uri)})
+                    ListButtonCell("Website", voterStatus.registrationUrl.label, "Visit",
+                        () => {launch(voterStatus.registrationUrl.uri)})
                   ],
-                )
+                ),
+                ButtonGroup(
+                  "Continue",
+                  () => {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LocationServicesPage(),
+                      ),
+                    )
+                  },
+                ),
               ],
             )));
   }

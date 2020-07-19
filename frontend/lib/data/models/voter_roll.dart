@@ -22,6 +22,15 @@ class USState {
 }
 
 @JsonSerializable(nullable: false)
+class EnrollmentRequest {
+  final VoterInformation voterInformation;
+  final String notificationToken;
+  EnrollmentRequest({this.voterInformation, this.notificationToken});
+  factory EnrollmentRequest.fromJson(Map<String, dynamic> json) => _$EnrollmentRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$EnrollmentRequestToJson(this);
+}
+
+@JsonSerializable(nullable: false)
 class CheckRegistrationRequest {
   final VoterInformation voterInformation;
   CheckRegistrationRequest({this.voterInformation});

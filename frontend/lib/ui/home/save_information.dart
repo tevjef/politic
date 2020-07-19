@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:politic/data/models/voter_roll.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -10,14 +11,18 @@ import '../util/lib.dart';
 import 'location_services.dart';
 
 class SaveInformationPage extends StatefulWidget {
-  const SaveInformationPage({Key key}) : super(key: key);
+  final VoterInformation voterInformation;
+
+  const SaveInformationPage({Key key, this.voterInformation}) : super(key: key);
 
   @override
-  SaveInformationState createState() => new SaveInformationState();
+  SaveInformationState createState() => new SaveInformationState(voterInformation);
 }
 
 class SaveInformationState extends State<SaveInformationPage> with LDEViewMixin implements SaveInformationView {
-  SaveInformationState() {}
+  final VoterInformation voterInformation;
+
+  SaveInformationState(this.voterInformation);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +69,7 @@ class SaveInformationState extends State<SaveInformationPage> with LDEViewMixin 
                       ],
                     ),
                   ),
-                  ButtonGroup("Save and Continue", () => {presenter.onSaveAndContinue()},
+                  ButtonGroup("Save and Continue", () => {presenter.onSaveAndContinue(voterInformation)},
                       secondaryCtaText: "I don't want notification",
                       secodaryListener: () => {presenter.onContinue(context)}),
                 ],
@@ -92,8 +97,15 @@ class SaveInformationPresenter extends BasePresenter<SaveInformationView> with C
     repo = injector.get();
   }
 
-  onSaveAndContinue() {
-        Navigator.pushReplacement(
+  onSaveAndContinue(VoterInformation voterInformation) async {
+    var userUid = await repo.signIn().catchError((error) => {view.showErrorMessage(error, null)});
+    if (userUid == null) {
+      return;
+    }
+
+    await repo.saveVoterInformation(voterInformation).catchError((error) => {view.showErrorMessage(error, null)});
+
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => LocationServicesPage(),
@@ -102,7 +114,7 @@ class SaveInformationPresenter extends BasePresenter<SaveInformationView> with C
   }
 
   onContinue(BuildContext context) {
-        Navigator.pushReplacement(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => LocationServicesPage(),

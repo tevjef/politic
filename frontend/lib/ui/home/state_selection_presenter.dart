@@ -74,21 +74,22 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
     this.isLoading = isLoading;
     notifyListeners();
   }
-  
+
   void onSubmit(BuildContext context) async {
     updateLoading(true);
-    var response = await repo
-        .checkRegistration(CheckRegistrationRequest(
-            voterInformation: VoterInformation(
-                state: selectedState.abbreviation,
-                firstName: _firstName,
-                lastName: _lastName,
-                month: _month.toString(),
-                year: _year)))
-        .catchError((error) => {view.showErrorMessage(error, null)});
+    var checkRegistrationRequest = CheckRegistrationRequest(
+      voterInformation: VoterInformation(
+          state: selectedState.abbreviation,
+          firstName: _firstName,
+          lastName: _lastName,
+          month: _month.toString(),
+          year: _year),
+    );
+    var response =
+        await repo.checkRegistration(checkRegistrationRequest).catchError((error) => {view.showErrorMessage(error, null)});
 
     updateLoading(false);
-    pushResultScreen(context, response);
+    pushResultScreen(context, checkRegistrationRequest.voterInformation, response);
   }
 
   void onInitState() {
@@ -111,7 +112,7 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
     properties.add(IntProperty('_year', _year));
   }
 
-  void pushResultScreen(BuildContext context, VoterStatus voterStatus) {
+  void pushResultScreen(BuildContext context, VoterInformation voterInformation, VoterStatus voterStatus) {
     StatelessWidget targetScreen;
     switch (voterStatus.type) {
       case 'multipleEnrolled':
@@ -121,12 +122,12 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
         break;
       case 'singleEnrolled':
         {
-          targetScreen = SingleEnrolledScreen(voterStatus.value as SingleEnrolled);
+          targetScreen = SingleEnrolledScreen(voterStatus.value as SingleEnrolled, voterInformation);
         }
         break;
       case 'notEnrolled':
         {
-          targetScreen = NotEnrolledScreen(voterStatus.value as NotEnrolled);
+          targetScreen = NotEnrolledScreen(voterStatus.value as NotEnrolled, voterInformation);
         }
         break;
       case 'notFound':

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
@@ -105,14 +106,19 @@ class LocationServicesPresenter extends BasePresenter<LocationServicesView>
     repo = injector.get();
   }
 
-  onRequestionLocationServicesClick() async {
-    isLoading = true;
+  void updateLoading(bool isLoading) {
+    this.isLoading = isLoading;
+    notifyListeners();
+  }
+
+  void onRequestionLocationServicesClick() async {
+    updateLoading(true);
 
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
-        isLoading = false;
+        updateLoading(false);
         return;
       }
     }
@@ -121,7 +127,7 @@ class LocationServicesPresenter extends BasePresenter<LocationServicesView>
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        isLoading = false;
+        updateLoading(false);
         return;
       }
     } else if (_permissionGranted == PermissionStatus.deniedForever) {
@@ -130,8 +136,12 @@ class LocationServicesPresenter extends BasePresenter<LocationServicesView>
 
     _locationData = await location.getLocation();
 
-    isLoading = false;
-    view.showMessage("Location result ${_locationData.latitude} ${_locationData.longitude}");
+    updateLoading(false);
+
+    final coordinates = new Coordinates(_locationData.latitude, _locationData.longitude);
+    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+
+    view.showMessage("Location result ${addresses.first.toMap()}");
   }
 
   onManualEntryClick() {}

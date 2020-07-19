@@ -5,9 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logging/logging.dart';
-import 'package:politic/ui/home/feed_state_view.dart';
-import 'package:politic/ui/home/save_information.dart';
-import 'package:politic/ui/home/home_view.dart';
+import 'package:politic/ui/home/state_selection_view.dart';
 
 import 'core/lib.dart';
 import 'ui/util/lib.dart';
@@ -50,18 +48,20 @@ void main() async {
     // S.delegate.resolution(fallback: new Locale("en", "")),
     // supportedLocales: S.delegate.supportedLocales,
     routes: <String, WidgetBuilder>{
-      Routes.home: (BuildContext context) => PoliticHomePage(),
+      Routes.home: (BuildContext context) => HomePage(),
     },
-    home: PoliticHomePage(),
+    home: HomePage(),
   );
 
   var error = new Logger('error');
 
   runZonedGuarded(() {
     runApp(app);
-  }, (e, s) => {
-    error.info("crash", e, s), 
-    error.info(e.toString()), 
-    error.info(s.toString()), 
-    Crashlytics.instance.recordError(e, s)});
+  },
+      (e, s) => {
+            error.info("crash", e, s),
+            error.info(e.toString()),
+            error.info(s.toString()),
+            Crashlytics.instance.recordError(e, s)
+          });
 }

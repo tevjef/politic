@@ -33,6 +33,20 @@ Map<String, dynamic> _$USStateToJson(USState instance) => <String, dynamic>{
       'fields': instance.fields,
     };
 
+EnrollmentRequest _$EnrollmentRequestFromJson(Map<String, dynamic> json) {
+  return EnrollmentRequest(
+    voterInformation: VoterInformation.fromJson(
+        json['voterInformation'] as Map<String, dynamic>),
+    notificationToken: json['notificationToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$EnrollmentRequestToJson(EnrollmentRequest instance) =>
+    <String, dynamic>{
+      'voterInformation': instance.voterInformation,
+      'notificationToken': instance.notificationToken,
+    };
+
 CheckRegistrationRequest _$CheckRegistrationRequestFromJson(
     Map<String, dynamic> json) {
   return CheckRegistrationRequest(
