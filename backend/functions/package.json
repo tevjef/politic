@@ -16,6 +16,7 @@
   "dependencies": {
     "@types/axios": "^0.14.0",
     "@types/request-promise": "^4.1.46",
+    "@types/xml2js": "^0.4.5",
     "axios": "^0.19.2",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",

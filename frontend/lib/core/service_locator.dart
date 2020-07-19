@@ -14,9 +14,9 @@ class Locator {
       if (Platform.isAndroid) {
         injector.map<String>((i) => "http://10.0.2.2:5000", key: "apiUrl");
       } else {
-        injector.map<String>((i) => "https://byteflip-politic.web.app", key: "apiUrl");
+        // injector.map<String>((i) => "https://byteflip-politic.web.app", key: "apiUrl");
 
-        // injector.map<String>((i) => "http://localhost:5000", key: "apiUrl");
+        injector.map<String>((i) => "http://localhost:5000", key: "apiUrl");
       }
     }
 

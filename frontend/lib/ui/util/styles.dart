@@ -43,6 +43,16 @@ class Styles {
         fontFamily: "Poppins");
   }
 
+
+  static TextStyle overline(ThemeData themeData) {
+    return new TextStyle(
+        height: 1.6,
+        letterSpacing: 1.5,
+        fontSize: 10.0,
+        fontWeight: FontWeight.w600,
+        fontFamily: "Poppins");
+  }
+
   static TextStyle body1Primary = new TextStyle(color: Colors.black, fontSize: 12.0, fontFamily: "ProductSans");
 
   static TextStyle body1PrimaryInverse = new TextStyle(color: Colors.white, fontSize: 12.0, fontFamily: "ProductSans");

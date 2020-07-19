@@ -1,6 +1,6 @@
 import { VoterInformation, CheckRegistrationResponse } from '../model/VoterRegistration';
 import axios from 'axios';
-import * as moment from 'moment';
+import moment from 'moment';
 
 // Response format from  https://voter.svrs.nj.gov/api/voters
 interface NJVotersApiResponse {

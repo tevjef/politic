@@ -4,6 +4,7 @@
     "experimentalDecorators": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "esModuleInterop": true,
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,

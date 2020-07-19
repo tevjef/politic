@@ -7,11 +7,10 @@ import 'package:flutter/services.dart';
 import '../../core/lib.dart';
 import '../../data/lib.dart';
 import '../util/lib.dart';
-import 'home_presenter.dart';
 import 'location_services.dart';
 
 class SaveInformationPage extends StatefulWidget {
-  SaveInformationPage({Key key}) : super(key: key);
+  const SaveInformationPage({Key key}) : super(key: key);
 
   @override
   SaveInformationState createState() => new SaveInformationState();

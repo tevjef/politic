@@ -5,10 +5,11 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logging/logging.dart';
+import 'package:politic/ui/home/feed_state_view.dart';
 import 'package:politic/ui/home/save_information.dart';
+import 'package:politic/ui/home/home_view.dart';
 
 import 'core/lib.dart';
-import 'ui/screens.dart';
 import 'ui/util/lib.dart';
 
 void main() async {
@@ -49,9 +50,9 @@ void main() async {
     // S.delegate.resolution(fallback: new Locale("en", "")),
     // supportedLocales: S.delegate.supportedLocales,
     routes: <String, WidgetBuilder>{
-      Routes.home: (BuildContext context) => SaveInformationPage(),
+      Routes.home: (BuildContext context) => PoliticHomePage(),
     },
-    home: SaveInformationPage(),
+    home: PoliticHomePage(),
   );
 
   var error = new Logger('error');

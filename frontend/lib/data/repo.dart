@@ -1,4 +1,5 @@
 import 'client.dart';
+import 'models/feed.dart';
 import 'models/voter_roll.dart';
 
 class Repo {
@@ -10,6 +11,10 @@ class Repo {
 
   Future<List<USState>> getData() {
     return apiClient.getStates();
+  }
+
+  Future<StateFeedResponse> getStatesFeed(String state) {
+    return apiClient.getStatesFeed(state);
   }
 
   Future<VoterStatus> checkRegistration(CheckRegistrationRequest request) {

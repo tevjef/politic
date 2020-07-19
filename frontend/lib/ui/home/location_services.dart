@@ -8,10 +8,9 @@ import 'package:flutter/services.dart';
 import '../../core/lib.dart';
 import '../../data/lib.dart';
 import '../util/lib.dart';
-import 'home_presenter.dart';
 
 class LocationServicesPage extends StatefulWidget {
-  LocationServicesPage({Key key}) : super(key: key);
+  const LocationServicesPage({Key key}) : super(key: key);
 
   @override
   LocationServicesState createState() => new LocationServicesState();
@@ -69,7 +68,7 @@ class LocationServicesState extends State<LocationServicesPage> with LDEViewMixi
                     "Turn on location services",
                     () => {presenter.onRequestionLocationServicesClick()},
                     secondaryCtaText: "Enter address manually",
-                    secodaryListener: () => {presenter.onManualEntryClick(context)},
+                    secodaryListener: () => {presenter.onManualEntryClick()},
                     isLoading: presenter.isLoading,
                   ),
                 ],

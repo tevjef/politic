@@ -2,12 +2,12 @@
 
 
 - [ ] Privacy policy about data usage
-
+- [ ] Geocoding
 
 
 ## APIs
 
-:white_check_mark: **GET** **`/api/v1/voterRoll/states`**
+:white_check_mark: **GET** **`/voterRoll/states`**
 
 Static data stored in Firestore and cached for 1 day. Data will be modified when more voter registration are added to functions.
 
@@ -29,7 +29,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 ```
 
 
-:white_check_mark: **POST** **`/api/v1/voterRoll/checkRegistration`**
+:white_check_mark: **POST** **`/voterRoll/checkRegistration`**
 
 
 ```js
@@ -94,9 +94,33 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 }
 ```
 
+:white_check_mark: **GET** **`/feed/states/{state}`**
+
+```js
+// Request
+// - Path parameter with the state abbreviation
+
+// Response 
+{
+  "feed": [
+    {
+      "itemType": "keyVote",
+      "title": "Amends Teacher Health Benefits (S 2273) - Passage Passed - Executive",
+      "link": "http://votesmart.org/bill/28233/73218"
+    }
+  ],
+  "representatives": [
+    {
+      "displayName": "Robert Menendez",
+      "image": "https://theunitedstates.io/images/congress/225x275/M000639.jpg",
+      "bioguide": "M000639"
+    }
+  ]
+}
+```
 
 
-:x: **POST** **`/api/v1/voterRoll/save`**
+:x: **POST** **`/voterRoll/save`**
 **Authorization:** `Token from Firebase Auth`
 
 Saving voter registration data, 
@@ -124,7 +148,7 @@ Saving voter registration data,
 // No response
 ```
 
-:x: **POST** **`/api/v1/voterRoll/manual`**
+:x: **POST** **`/voterRoll/manual`**
 **Authorization:** `Token from Firebase Auth`
 
 
@@ -142,7 +166,7 @@ Saving voter registration data,
 // No response
 ```
 
-:x: **POST** **`/api/v1/updateToken`**
+:x: **POST** **`/updateToken`**
 **Authorization:** `Token from Firebase Auth`
 
 

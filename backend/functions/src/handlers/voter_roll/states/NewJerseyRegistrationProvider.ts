@@ -1,5 +1,5 @@
 import { VoterInformation, CheckRegistrationResponse, StatusResultNotFoundValue, StatusResultNotEnrolledValue } from '../../../model/VoterRegistration';
-import { StatusProvider, FieldsProvider, NotEnrolledProvider, StatusUnavailableProvider } from '../StatusProvider';
+import { StatusProvider, FieldsProvider, NotEnrolledProvider, StatusUnavailableProvider } from '../VoterRollHandler';
 import { NewJerseyRegistrationService } from '../../../services/NewJerseyRegistrationService';
 
 const newJerseyRegistrationService = new NewJerseyRegistrationService()

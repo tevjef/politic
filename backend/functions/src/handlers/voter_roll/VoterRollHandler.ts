@@ -2,10 +2,12 @@ import {
   CheckRegistrationRequest,
   CheckRegistrationResponse,
   StatesResponse,
+  VoterInformation,
+  StatusResultNotFoundValue,
+  StatusResultNotEnrolledValue,
 } from "../../model/VoterRegistration";
 import { DefaultRegistrationProvider } from "./states/DefaultRegistrationProvider";
 import { NewJerseyRegistrationProvider } from "./states/NewJerseyRegistrationProvider";
-import { ProviderMap } from "./StatusProvider";
 
 const defaultProvider = new DefaultRegistrationProvider();
 
@@ -18,11 +20,10 @@ export class VoterRollHandler {
     request: CheckRegistrationRequest
   ): Promise<CheckRegistrationResponse> {
     if (request.voterInformation.firstName.toLowerCase() === "apptester") {
-        const result = await this.handleTestUser(request)
-        if (result !== null) {
-            return result;
-        }
-
+      const result = await this.handleTestUser(request);
+      if (result !== null) {
+        return result;
+      }
     }
     const provider =
       statusProviders[request.voterInformation.state] ?? defaultProvider;
@@ -75,7 +76,7 @@ export class VoterRollHandler {
         },
       };
     }
-    return null
+    return null;
   }
 }
 
@@ -138,3 +139,27 @@ const states = {
   AP: "U.S. Armed Forces – Pacific",
   VI: "U.S. Virgin Islands",
 };
+
+export type ProviderMap = Record<
+  string,
+  StatusProvider &
+    FieldsProvider &
+    NotEnrolledProvider &
+    StatusUnavailableProvider
+>;
+
+export interface StatusProvider {
+  checkStatus(info: VoterInformation): Promise<CheckRegistrationResponse>;
+}
+
+export interface StatusUnavailableProvider {
+  statusUnavailableData(): StatusResultNotFoundValue;
+}
+
+export interface NotEnrolledProvider {
+  enrollmentData(): StatusResultNotEnrolledValue;
+}
+
+export interface FieldsProvider {
+  fields(): string[];
+}

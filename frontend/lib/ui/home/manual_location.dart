@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import '../../core/lib.dart';
 import '../../data/lib.dart';
 import '../util/lib.dart';
-import 'home_presenter.dart';
 
 class ManualLocationPage extends StatefulWidget {
   ManualLocationPage({Key key}) : super(key: key);

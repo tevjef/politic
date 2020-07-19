@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
+import 'models/feed.dart';
 import 'models/voter_roll.dart';
 import 'util/metriced_http_client.dart';
 import 'util/error.dart';
@@ -21,6 +22,11 @@ class ApiClient implements Api {
   @override
   Future<List<USState>> getStates() async {
     return StatesResponse.fromJson(await getResponse("/voterRoll/states")).states;
+  }
+
+  @override
+  Future<StateFeedResponse> getStatesFeed(String state) async {
+    return StateFeedResponse.fromJson(await getResponse("/feeds/states/$state"));
   }
 
   @override
