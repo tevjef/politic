@@ -22,13 +22,20 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
 
   List<USState> _states = List();
   List<USState> get states => _states;
-  USState selectedState;
 
-  String _firstName = "";
-  String _lastName = "";
-  int _zipCode = 0;
-  int _month = 0;
-  int _year = 0;
+  List<String> _countyOptions = List();
+  List<String> get countyOptions => _countyOptions;
+
+  USState selectedState;
+  String selectedCountyOption;
+
+  String _firstName = null;
+  String _lastName = null;
+  int _zipcode = null;
+  int _month = null;
+  int _day = null;
+  int _year = null;
+  String _county = null;
   bool isLoading = false;
 
   HomePresenter(HomeView view) : super(view) {
@@ -47,6 +54,25 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
 
   void updateSelectedState(USState state) {
     selectedState = state;
+    _firstName = null;
+    _lastName = null;
+    _zipcode = null;
+    _month = null;
+    _day = null;
+    _year = null;
+    _county = null;
+    selectedCountyOption = null;
+    countyOptions.clear();
+
+    if (selectedState.fields.isNotEmpty) {
+      var countyField =
+          selectedState.fields.firstWhere((element) => element.inputType == "selection" && element.key == "county", orElse: () => null);
+      if (countyField != null) {
+        countyOptions.addAll(countyField.options);
+        selectedCountyOption = countyOptions[0];
+      }
+    }
+
     notifyListeners();
   }
 
@@ -58,6 +84,10 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
     _lastName = text;
   }
 
+  void updateDay(int day) {
+    _day = day;
+  }
+
   void updateMonth(int month) {
     _month = month;
   }
@@ -67,7 +97,13 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
   }
 
   void updateZipCode(int zipcode) {
-    _zipCode = zipcode;
+    _zipcode = zipcode;
+  }
+
+  void updateCounty(String county) {
+    _county = county;
+    selectedCountyOption = county;
+    notifyListeners();
   }
 
   void updateLoading(bool isLoading) {
@@ -83,10 +119,12 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
           firstName: _firstName,
           lastName: _lastName,
           month: _month.toString(),
+          county: _county,
           year: _year),
     );
-    var response =
-        await repo.checkRegistration(checkRegistrationRequest).catchError((error) => {view.showErrorMessage(error, null)});
+    var response = await repo.checkRegistration(checkRegistrationRequest).catchError(
+          (error) => {updateLoading(false), view.showErrorMessage(error, null)},
+        );
 
     updateLoading(false);
     pushResultScreen(context, checkRegistrationRequest.voterInformation, response);

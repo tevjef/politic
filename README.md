@@ -34,7 +34,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
                 {
                     "inputType": "selection"
                     "key": "county"
-                    "selections": [
+                    "options": [
                         "Kings (Brooklyn)"
                     ]
                 }

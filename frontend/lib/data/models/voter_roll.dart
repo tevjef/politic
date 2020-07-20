@@ -14,11 +14,22 @@ class StatesResponse {
 class USState {
   final String name;
   final String abbreviation;
-  final List<String> fields;
+  final List<FieldInputDescriptor> fields;
   USState({this.name, this.abbreviation, this.fields});
 
   factory USState.fromJson(Map<String, dynamic> json) => _$USStateFromJson(json);
   Map<String, dynamic> toJson() => _$USStateToJson(this);
+}
+
+@JsonSerializable(nullable: true)
+class FieldInputDescriptor {
+  final String inputType;
+  final String key;
+  final List<String> options;
+  FieldInputDescriptor({this.inputType, this.key, this.options});
+
+  factory FieldInputDescriptor.fromJson(Map<String, dynamic> json) => _$FieldInputDescriptorFromJson(json);
+  Map<String, dynamic> toJson() => _$FieldInputDescriptorToJson(this);
 }
 
 @JsonSerializable(nullable: false)
@@ -45,9 +56,10 @@ class VoterInformation {
   final String lastName;
   final String middleInitial;
   final String month;
+  final String county;
   final int year;
 
-  VoterInformation({this.state, this.firstName, this.lastName, this.middleInitial, this.month, this.year});
+  VoterInformation({this.state, this.firstName, this.lastName, this.middleInitial, this.month, this.county, this.year});
   factory VoterInformation.fromJson(Map<String, dynamic> json) => _$VoterInformationFromJson(json);
   Map<String, dynamic> toJson() => _$VoterInformationToJson(this);
 }

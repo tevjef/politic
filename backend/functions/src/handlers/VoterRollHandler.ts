@@ -6,6 +6,7 @@ import {
   StatusResultNotFoundValue,
   StatusResultNotEnrolledValue,
   EnrollmentRequest,
+  FieldInputDescriptor,
 } from "../model/VoterRegistration";
 import { DefaultRegistrationProvider } from "./voter_roll/states/DefaultRegistrationProvider";
 import { NewJerseyRegistrationProvider } from "./voter_roll/states/NewJerseyRegistrationProvider";
@@ -30,15 +31,17 @@ export class VoterRollHandler {
   async checkRegistration(
     request: CheckRegistrationRequest
   ): Promise<CheckRegistrationResponse> {
-    if (request.voterInformation.firstName.toLowerCase() === "apptester") {
+    if (request.voterInformation.firstName?.toLowerCase() === "apptester") {
       const result = await this.handleTestUser(request);
       if (result !== null) {
         return result;
       }
     }
+
     const provider =
       statusProviders[request.voterInformation.state] ?? defaultProvider;
-    return provider.checkStatus(request.voterInformation);
+      console.log((await provider.checkStatus(request.voterInformation)).voterStatus);
+      return provider.checkStatus(request.voterInformation);
   }
 
   async getStates(): Promise<StatesResponse> {
@@ -172,5 +175,5 @@ export interface NotEnrolledProvider {
 }
 
 export interface FieldsProvider {
-  fields(): string[];
+  fields(): FieldInputDescriptor[];
 }

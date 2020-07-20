@@ -23,7 +23,9 @@ USState _$USStateFromJson(Map<String, dynamic> json) {
   return USState(
     name: json['name'] as String,
     abbreviation: json['abbreviation'] as String,
-    fields: (json['fields'] as List).map((e) => e as String).toList(),
+    fields: (json['fields'] as List)
+        .map((e) => FieldInputDescriptor.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -31,6 +33,22 @@ Map<String, dynamic> _$USStateToJson(USState instance) => <String, dynamic>{
       'name': instance.name,
       'abbreviation': instance.abbreviation,
       'fields': instance.fields,
+    };
+
+FieldInputDescriptor _$FieldInputDescriptorFromJson(Map<String, dynamic> json) {
+  return FieldInputDescriptor(
+    inputType: json['inputType'] as String,
+    key: json['key'] as String,
+    options: (json['options'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Map<String, dynamic> _$FieldInputDescriptorToJson(
+        FieldInputDescriptor instance) =>
+    <String, dynamic>{
+      'inputType': instance.inputType,
+      'key': instance.key,
+      'options': instance.options,
     };
 
 EnrollmentRequest _$EnrollmentRequestFromJson(Map<String, dynamic> json) {
@@ -68,6 +86,7 @@ VoterInformation _$VoterInformationFromJson(Map<String, dynamic> json) {
     lastName: json['lastName'] as String,
     middleInitial: json['middleInitial'] as String,
     month: json['month'] as String,
+    county: json['county'] as String,
     year: json['year'] as int,
   );
 }
@@ -79,6 +98,7 @@ Map<String, dynamic> _$VoterInformationToJson(VoterInformation instance) =>
       'lastName': instance.lastName,
       'middleInitial': instance.middleInitial,
       'month': instance.month,
+      'county': instance.county,
       'year': instance.year,
     };
 

@@ -4,7 +4,6 @@ import "reflect-metadata";
 import { Type } from "class-transformer";
 
 export class CheckRegistrationRequest {
-  @validator.ValidateNested({ always: true })
   @validator.IsNotEmptyObject()
   @Type(() => VoterInformation)
   public voterInformation!: VoterInformation;
@@ -18,7 +17,6 @@ export class EnrollmentRequest {
 }
 
 export class Enrollment {
-  @validator.ValidateNested({ always: true })
   @validator.IsNotEmptyObject()
   @Type(() => VoterInformation)
   public voterInformation!: VoterInformation;
@@ -28,30 +26,22 @@ export class Enrollment {
 }
 
 export class VoterInformation {
-  @validator.IsString()
   state!: string;
 
-  @validator.IsString()
   county!: string;
 
-  @validator.IsString()
   zipcode!: string;
 
-  @validator.IsString()
   firstName!: string;
 
-  @validator.IsString()
   lastName!: string;
 
   middleInitial!: string;
 
-  @validator.IsString()
   day!: string;
 
-  @validator.IsString()
   month!: string;
 
-  @validator.IsNumber()
   year!: number;
 }
 
@@ -60,7 +50,7 @@ export interface CheckRegistrationResponse {
 }
 
 export type StatusResultType =
-  | "multipleEnrolled"
+  "multipleEnrolled"
   | "singleEnrolled"
   | "notEnrolled"
   | "notFound";
@@ -105,5 +95,15 @@ export interface StatesResponse {
 export interface VoterState {
   name: string;
   abbreviation: string;
-  fields: string[];
+  fields: FieldInputDescriptor[];
+}
+
+export type FieldType = "text" | "number" | "dobMY" | "dobDMY" | "selection"
+
+export type FieldKey = "firstName" | "lastName" | "middleInitial" | "zipcode" | "composite" | "county"
+
+export interface FieldInputDescriptor {
+    inputType: FieldType;
+    key: FieldKey;
+    options?: string[];
 }

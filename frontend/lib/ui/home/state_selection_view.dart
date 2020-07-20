@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:logging/logging.dart';
 import 'package:politic/data/models/voter_roll.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
@@ -40,13 +41,14 @@ class HomeListState extends State<HomePage> with LDEViewMixin implements HomeVie
             Widget buttonContainer = Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: ButtonGroup(
-                  "Check Voter Registration",
-                  () => {
-                        if (_formKey.currentState.validate()) {presenter.onSubmit(context)}
-                      },
-                  secondaryCtaText: "I’m already registered",
-                  secodaryListener: () => {presenter.onSubmit(context)},
-                  isLoading: presenter.isLoading,),
+                "Check Voter Registration",
+                () => {
+                  if (_formKey.currentState.validate()) {presenter.onSubmit(context)}
+                },
+                secondaryCtaText: "I’m already registered",
+                secodaryListener: () => {presenter.onSubmit(context)},
+                isLoading: presenter.isLoading,
+              ),
             );
 
             Widget buttonContainerList = Container();
@@ -111,7 +113,9 @@ class RegistrationForm extends StatelessWidget {
         List<Widget> inputCells = List();
 
         if (presenter.selectedState == null) return Container();
-        if (presenter.selectedState.fields.contains("firstName")) {
+        if (presenter.selectedState.fields.isEmpty) return Container();
+        var stateFields = presenter.selectedState.fields;
+        if (stateFields.firstWhere((element) => element.key == "firstName", orElse: () => null) != null) {
           var firstName = Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
               child: PoliticTextInputField(
@@ -123,7 +127,7 @@ class RegistrationForm extends StatelessWidget {
           inputCells.add(firstName);
         }
 
-        if (presenter.selectedState.fields.contains("lastName")) {
+        if (stateFields.firstWhere((element) => element.key == "lastName", orElse: () => null) != null) {
           var lastName = Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
               child: PoliticTextInputField(
@@ -135,7 +139,19 @@ class RegistrationForm extends StatelessWidget {
           inputCells.add(lastName);
         }
 
-        if (presenter.selectedState.fields.contains("zipCode")) {
+        if (stateFields.firstWhere((element) => element.key == "county", orElse: () => null) != null) {
+          var header = Padding(
+            padding: const EdgeInsets.only(top: 24, bottom: 12, left: 32, right: 32),
+            child: Text(
+              "County",
+              style: Styles.headline6(Theme.of(context)),
+            ),
+          );
+          inputCells.add(header);
+          inputCells.add(CountySelectDropDown());
+        }
+
+        if (stateFields.firstWhere((element) => element.key == "zipcode", orElse: () => null) != null) {
           var zipCode = Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: TextFormField(
@@ -155,7 +171,10 @@ class RegistrationForm extends StatelessWidget {
           inputCells.add(zipCode);
         }
 
-        if (presenter.selectedState.fields.contains("dobMY")) {
+        var hasDobDMY = stateFields.firstWhere((element) => element.inputType == "dobDMY", orElse: () => null) != null;
+        var hasDobMY = stateFields.firstWhere((element) => element.inputType == "dobMY", orElse: () => null) != null;
+
+        if (hasDobMY || hasDobDMY) {
           var header = Padding(
             padding: const EdgeInsets.only(top: 24, bottom: 12, left: 32, right: 32),
             child: Text(
@@ -164,60 +183,93 @@ class RegistrationForm extends StatelessWidget {
             ),
           );
 
+          List<Widget> dobWidgets = List();
+
+          if (hasDobDMY) {
+            var dayWidget = Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: TextFormField(
+                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
+                  keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                  onFieldSubmitted: (e) => {_fieldFocusChange(context, monthNode, yearNode)},
+                  focusNode: monthNode,
+                  textInputAction: TextInputAction.next,
+                  onChanged: (e) => {presenter.updateDay(int.parse(e))},
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return '';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    labelText: "DD",
+                    border: new OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderSide: new BorderSide(color: Theme.of(context).primaryColor)),
+                  ),
+                ),
+              ),
+            );
+            dobWidgets.add(dayWidget);
+          }
+          var monthWidget = Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: TextFormField(
+                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
+                keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                onFieldSubmitted: (e) => {_fieldFocusChange(context, monthNode, yearNode)},
+                focusNode: monthNode,
+                textInputAction: TextInputAction.next,
+                onChanged: (e) => {presenter.updateMonth(int.parse(e))},
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'e.g 09';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: "MM",
+                  border: new OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      borderSide: new BorderSide(color: Theme.of(context).primaryColor)),
+                ),
+              ),
+            ),
+          );
+          var yearWidget = Expanded(
+              flex: 1,
+              child: TextFormField(
+                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(4)],
+                onFieldSubmitted: (e) => {},
+                focusNode: yearNode,
+                keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                textInputAction: TextInputAction.done,
+                onChanged: (e) => {presenter.updateYear(int.parse(e))},
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'e.g 1990';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: "YYYY",
+                  border: new OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      borderSide: new BorderSide(color: Theme.of(context).primaryColor)),
+                ),
+              ));
+          dobWidgets.add(monthWidget);
+          dobWidgets.add(yearWidget);
+
           var dobCells = Padding(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(
-                    child: Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: TextFormField(
-                          inputFormatters: [
-                            WhitelistingTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(2)
-                          ],
-                          keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
-                          onFieldSubmitted: (e) => {_fieldFocusChange(context, monthNode, yearNode)},
-                          focusNode: monthNode,
-                          textInputAction: TextInputAction.next,
-                          onChanged: (e) => {presenter.updateMonth(int.parse(e))},
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return '';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            labelText: "MM",
-                            border: new OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                borderSide: new BorderSide(color: Theme.of(context).primaryColor)),
-                          ),
-                        ))),
-                Expanded(
-                    flex: 2,
-                    child: TextFormField(
-                      inputFormatters: [WhitelistingTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(4)],
-                      onFieldSubmitted: (e) => {},
-                      focusNode: yearNode,
-                      keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
-                      textInputAction: TextInputAction.done,
-                      onChanged: (e) => {presenter.updateYear(int.parse(e))},
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter your birth year.';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        labelText: "YYYY",
-                        border: new OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            borderSide: new BorderSide(color: Theme.of(context).primaryColor)),
-                      ),
-                    ))
-              ],
+              children: dobWidgets,
             ),
           );
 
@@ -252,6 +304,7 @@ class PoliticTextInputField extends StatelessWidget {
     return TextFormField(
       onFieldSubmitted: onSubmit,
       focusNode: focusNode,
+      autocorrect: false,
       textInputAction: TextInputAction.next,
       onChanged: onValueChanged,
       validator: (value) {
@@ -277,7 +330,7 @@ class StateSelectDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomePresenter>(builder: (context, stateDropDown, child) {
+    return Consumer<HomePresenter>(builder: (context, presenter, child) {
       return Container(
         margin: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -289,16 +342,55 @@ class StateSelectDropDown extends StatelessWidget {
           width: double.infinity,
           child: DropdownButtonHideUnderline(
             child: DropdownButton<USState>(
-                value: stateDropDown.selectedState,
+                value: presenter.selectedState,
                 onChanged: (USState newValue) {
-                  stateDropDown.updateSelectedState(newValue);
+                  presenter.updateSelectedState(newValue);
                 },
                 isDense: true,
-                items: stateDropDown.states.map((USState value) {
+                items: presenter.states.map((USState value) {
                   return DropdownMenuItem<USState>(
                       value: value,
                       child: Text(
                         value.name,
+                        overflow: TextOverflow.ellipsis,
+                      ));
+                }).toList()),
+          ),
+        ),
+      );
+    });
+  }
+}
+
+class CountySelectDropDown extends StatelessWidget {
+  final List<String> options;
+
+  const CountySelectDropDown({Key key, this.options}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<HomePresenter>(builder: (context, presenter, child) {
+      return Container(
+        margin: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            border: Border.all(color: Theme.of(context).disabledColor, width: 1.0),
+            borderRadius: BorderRadius.all(Radius.circular(8))),
+        child: new SizedBox(
+          width: double.infinity,
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+                value: presenter.selectedCountyOption,
+                onChanged: (String newValue) {
+                  presenter.updateCounty(newValue);
+                },
+                isDense: true,
+                items: presenter.countyOptions.map((String value) {
+                  return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
                         overflow: TextOverflow.ellipsis,
                       ));
                 }).toList()),

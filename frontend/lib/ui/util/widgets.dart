@@ -41,7 +41,7 @@ class ButtonGroup extends StatelessWidget {
         child: RaisedButton(
           elevation: 0,
           textTheme: ButtonTextTheme.primary,
-          onPressed: primaryListener,
+          onPressed: isLoading ? null : primaryListener,
           child: Column(
             children: <Widget>[
               buttonWidget,
@@ -56,7 +56,7 @@ class ButtonGroup extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: MaterialButton(
-            onPressed: secodaryListener,
+            onPressed: isLoading ? null : secodaryListener,
             child: Text(secondaryCtaText.toUpperCase()),
           ),
         ),
