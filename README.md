@@ -184,7 +184,7 @@ Saving voter registration data,
 // No response
 ```
 
-:x: **POST** **`/user/notificationToken`**
+:white_check_mark: **POST** **`/user/notificationToken`**
 **Authorization:** `Token from Firebase Auth`
 
 
@@ -200,7 +200,24 @@ Saving voter registration data,
 ```
 
 
-:x: **POST** **`/user/location`**
+:white_check_mark: **GET** **`/user/location`**
+**Authorization:** `Token from Firebase Auth`
+
+```js
+// Request
+
+// Response
+{
+    "location": {
+        "state": "NJ",
+        "zipcode" "12345",
+        "legislativeDistrict": "6",
+        "congressionalDistrict": "40"
+    }
+}
+```
+
+:white_check_mark: **POST** **`/user/location`**
 **Authorization:** `Token from Firebase Auth`
 
 Saves the state and district of the user on the backend into a table
@@ -219,6 +236,10 @@ Saves the state and district of the user on the backend into a table
 {
     "location": {
         "state": "NJ",
+        "latlng": {
+            "lat": 0,
+            "lng": 0
+        }
         "zipcode" "12345",
         "legislativeDistrict": "6",
         "congressionalDistrict": "40"
@@ -312,7 +333,7 @@ Contains a list of all the users that have chosen to save their data.
 ]
 ```
 
-:x: **users**  
+:x: **locations**  
 
 Contains a list of all the users that have chosen to save their data.
 

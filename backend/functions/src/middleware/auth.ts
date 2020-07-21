@@ -14,23 +14,23 @@ export const isUserAuthenticated = (
     return res.status(403).json({
       status: 403,
       message: "Missing Authorization header.",
-      description: new Error().stack
+      description: new Error().stack,
     });
   } else {
     const token = authHeader;
 
     if (token === "test") {
-        next();
-        res.locals.userUUID = "Test user";
+      res.locals.userFirebaseId = "Test user";
+      next();
 
-        return;
+      return;
     }
 
     if (token) {
       return firebaseAdminService
-        .getUserUUID(token)
+        .getUserId(token)
         .then((userId) => {
-          res.locals.userUUID = userId;
+          res.locals.userFirebaseId = userId;
           next();
         })
         .catch((err) => {

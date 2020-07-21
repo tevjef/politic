@@ -53,13 +53,24 @@ Map<String, dynamic> _$FieldInputDescriptorToJson(
 
 EnrollmentRequest _$EnrollmentRequestFromJson(Map<String, dynamic> json) {
   return EnrollmentRequest(
+    enrollment: Enrollment.fromJson(json['enrollment'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$EnrollmentRequestToJson(EnrollmentRequest instance) =>
+    <String, dynamic>{
+      'enrollment': instance.enrollment,
+    };
+
+Enrollment _$EnrollmentFromJson(Map<String, dynamic> json) {
+  return Enrollment(
     voterInformation: VoterInformation.fromJson(
         json['voterInformation'] as Map<String, dynamic>),
     notificationToken: json['notificationToken'] as String,
   );
 }
 
-Map<String, dynamic> _$EnrollmentRequestToJson(EnrollmentRequest instance) =>
+Map<String, dynamic> _$EnrollmentToJson(Enrollment instance) =>
     <String, dynamic>{
       'voterInformation': instance.voterInformation,
       'notificationToken': instance.notificationToken,

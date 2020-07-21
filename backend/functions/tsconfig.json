@@ -8,6 +8,7 @@
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
+    "incremental": true,
     "target": "es2017"
   },
   "compileOnSave": true,

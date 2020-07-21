@@ -40,10 +40,10 @@ const states = async (req: Request, res: Response) => {
 };
 const saveVoterInformation = async (req: Request, res: Response) => {
     const enrollmentRequest = parseBody<EnrollmentRequest>(req, res);
-    const userUUID = <string>res.locals.usrUUID;
+    const userId = <string>res.locals.userId;
 
     handler
-      .saveVoterInformation(userUUID, enrollmentRequest)
+      .saveVoterInformation(userId, enrollmentRequest)
       .then((body) => {
         res.json(body);
       })

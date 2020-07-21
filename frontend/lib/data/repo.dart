@@ -33,7 +33,7 @@ class Repo {
 
   Future<Null> saveVoterInformation(VoterInformation voterInformation) async {
     var notificationToken = await notificationRepo.getToken();
-    return apiClient.saveVoterEnrollment(
-        EnrollmentRequest(voterInformation: voterInformation, notificationToken: notificationToken));
+    return apiClient.saveVoterEnrollment(EnrollmentRequest(
+        enrollment: Enrollment(voterInformation: voterInformation, notificationToken: notificationToken)));
   }
 }

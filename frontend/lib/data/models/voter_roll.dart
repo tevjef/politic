@@ -34,11 +34,19 @@ class FieldInputDescriptor {
 
 @JsonSerializable(nullable: false)
 class EnrollmentRequest {
-  final VoterInformation voterInformation;
-  final String notificationToken;
-  EnrollmentRequest({this.voterInformation, this.notificationToken});
+  final Enrollment enrollment;
+  EnrollmentRequest({this.enrollment});
   factory EnrollmentRequest.fromJson(Map<String, dynamic> json) => _$EnrollmentRequestFromJson(json);
   Map<String, dynamic> toJson() => _$EnrollmentRequestToJson(this);
+}
+
+@JsonSerializable(nullable: false)
+class Enrollment {
+  final VoterInformation voterInformation;
+  final String notificationToken;
+  Enrollment({this.voterInformation, this.notificationToken});
+  factory Enrollment.fromJson(Map<String, dynamic> json) => _$EnrollmentFromJson(json);
+  Map<String, dynamic> toJson() => _$EnrollmentToJson(this);
 }
 
 @JsonSerializable(nullable: false)
