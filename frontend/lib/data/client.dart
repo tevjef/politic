@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
+import 'package:politic/data/models/user.dart';
 import 'auth.dart';
 import 'models/feed.dart';
 import 'models/voter_roll.dart';
@@ -13,6 +14,9 @@ abstract class Api {
   Future<List<USState>> getStates();
   Future<VoterStatus> checkRegistration(CheckRegistrationRequest request);
   Future<Null> saveVoterEnrollment(EnrollmentRequest request);
+
+  Future<DistrictLocation> saveLocation(LocationUpdateRequest request);
+  Future<DistrictLocation> getLocation();
 }
 
 class ApiClient implements Api {
@@ -35,45 +39,23 @@ class ApiClient implements Api {
 
   @override
   Future<VoterStatus> checkRegistration(CheckRegistrationRequest request) async {
-    String requestBody = jsonEncode(request);
-    log.info(requestBody);
-
-    return ErrorTransformer.transform(httpClient
-        .post("$baseUrl" + "/voterRoll/checkRegistration",
-            headers: {'Content-Type': 'application/json'}, body: requestBody)
-        .then((http.Response response) {
-      logHttp(response);
-      final statusCode = response.statusCode;
-      if (statusCode < 200 || statusCode >= 300) {
-        throw new Exception("Error while getting response [StatusCode:$statusCode, Error:${response.reasonPhrase}]");
-      }
-
-      return CheckRegistrationResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>).voterStatus;
-    }));
+    return CheckRegistrationResponse.fromJson(await makePostRequest("/voterRoll/checkRegistration", request.toJson()))
+        .voterStatus;
   }
 
   @override
   Future<Null> saveVoterEnrollment(EnrollmentRequest request) async {
-    String requestBody = jsonEncode(request);
-    log.info(requestBody);
+    return Future<Null>.value(await makePostRequest("/voterRoll/save", request.toJson()).then((value) => null));
+  }
 
-    var authToken = await auth.getAuthToken();
-    if (authToken == null) {
-      return Future.error(AuthException("User is not signed in", authToken));
-    }
+  @override
+  Future<DistrictLocation> getLocation() async {
+    return GetLocationResponse.fromJson(await getAuthenticatedResponse("/user/location")).location;
+  }
 
-    return ErrorTransformer.transform(httpClient
-        .post("$baseUrl" + "/voterRoll/save",
-            headers: {'Content-Type': 'application/json', 'Authorization': authToken}, body: requestBody)
-        .then((http.Response response) {
-      logHttp(response);
-      final statusCode = response.statusCode;
-      if (statusCode < 200 || statusCode >= 300) {
-        throw new Exception("Error while getting response [StatusCode:$statusCode, Error:${response.reasonPhrase}]");
-      }
-
-      return Future<Null>.value(null);
-    }));
+  @override
+  Future<DistrictLocation> saveLocation(LocationUpdateRequest request) async {
+    return LocationUpdateResponse.fromJson(await makePostRequest("/user/location", request.toJson())).location;
   }
 
   Future<Map<String, dynamic>> getResponse(String url) {
@@ -84,7 +66,62 @@ class ApiClient implements Api {
         throw new Exception("Error while getting response [StatusCode:$statusCode, Error:${response.reasonPhrase}]");
       }
 
+      if (response.body.isEmpty) {
+        return {};
+      }
+      
       return jsonDecode(response.body) as Map<String, dynamic>;
+    }));
+  }
+
+  Future<Map<String, dynamic>> getAuthenticatedResponse(String url) async {
+    var authToken = await auth.getAuthToken();
+    if (authToken == null) {
+      return Future.error(AuthException("User is not signed in", authToken));
+    }
+
+    return ErrorTransformer.transform(httpClient.get("$baseUrl" + "$url",
+        headers: {'Content-Type': 'application/json', 'Authorization': authToken}).then((http.Response response) {
+      logHttp(response);
+
+      final statusCode = response.statusCode;
+      if (statusCode < 200 || statusCode >= 300) {
+        throw new Exception("Error while getting response [StatusCode:$statusCode, Error:${response.reasonPhrase}]");
+      }
+
+      if (response.body.isEmpty) {
+        return {};
+      }
+
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    }));
+  }
+
+  @override
+  Future<Map<String, dynamic>> makePostRequest(String path, Map<String, dynamic> request) async {
+    String requestBody = jsonEncode(request);
+    log.info("REQUEST: " + requestBody);
+
+    var authToken = await auth.getAuthToken();
+    if (authToken == null) {
+      return Future.error(AuthException("User is not signed in", authToken));
+    }
+
+    return ErrorTransformer.transform(httpClient
+        .post("$baseUrl" + path,
+            headers: {'Content-Type': 'application/json', 'Authorization': authToken}, body: requestBody)
+        .then((http.Response response) {
+      logHttp(response);
+      final statusCode = response.statusCode;
+      if (statusCode < 200 || statusCode >= 300) {
+        throw new Exception("Error while getting response [StatusCode:$statusCode, Error:${response.reasonPhrase}]");
+      }
+
+      if (response.body.isEmpty) {
+        return {};
+      }
+
+      return jsonDecode(response.body);
     }));
   }
 

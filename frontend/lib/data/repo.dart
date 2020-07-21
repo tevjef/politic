@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:politic/data/auth.dart';
+import 'package:politic/data/models/user.dart';
 import 'package:politic/data/notifications.dart';
 import 'package:politic/ui/util/lib.dart';
 
@@ -35,5 +36,13 @@ class Repo {
     var notificationToken = await notificationRepo.getToken();
     return apiClient.saveVoterEnrollment(EnrollmentRequest(
         enrollment: Enrollment(voterInformation: voterInformation, notificationToken: notificationToken)));
+  }
+
+  Future<Null> saveLocation(LocationLatLng locationLatLng) async {
+    return apiClient.saveLocation(LocationUpdateRequest(locationUpdate: locationLatLng)).then((value) => null);
+  }
+
+  Future<DistrictLocation> getLocation() async {
+    return apiClient.getLocation();
   }
 }

@@ -20,7 +20,7 @@ export const isUserAuthenticated = (
     const token = authHeader;
 
     if (token === "test") {
-      res.locals.userFirebaseId = "Test user";
+      res.locals.userId = "Test user";
       next();
 
       return;
@@ -30,7 +30,7 @@ export const isUserAuthenticated = (
       return firebaseAdminService
         .getUserId(token)
         .then((userId) => {
-          res.locals.userFirebaseId = userId;
+          res.locals.userId = userId;
           next();
         })
         .catch((err) => {

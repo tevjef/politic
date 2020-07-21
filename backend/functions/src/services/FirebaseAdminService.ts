@@ -14,6 +14,9 @@ export class FirebaseAdminService {
   
   async getUserId(token: string): Promise<string> {
     const value = await auth.verifyIdToken(token, true);
+    console.log("TOKEN: " + token);
+    console.log("USERID: " + value.uid);
+
     return value.uid;
   }
 
@@ -33,7 +36,7 @@ export class FirebaseAdminService {
     return firestore
       .collection(COLLECTION_LOCATIONS)
       .doc(userId)
-      .set({ location: location })
+      .set(location)
       .then((value) => {
         console.log(
           `${value.writeTime.toDate()}: updating location user: ${userId}`

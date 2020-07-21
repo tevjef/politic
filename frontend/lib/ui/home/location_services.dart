@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart';
+import 'package:politic/data/models/user.dart';
+import 'package:politic/ui/home/feed_state_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -28,7 +30,7 @@ class LocationServicesState extends State<LocationServicesPage> with LDEViewMixi
       },
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => LocationServicesPresenter(this)),
+          ChangeNotifierProvider(create: (_) => LocationServicesPresenter(this, context)),
         ],
         child: Consumer<LocationServicesPresenter>(builder: (context, presenter, child) {
           return Scaffold(
@@ -101,9 +103,12 @@ class LocationServicesPresenter extends BasePresenter<LocationServicesView>
 
   bool isLoading = false;
 
-  LocationServicesPresenter(LocationServicesView view) : super(view) {
+  BuildContext context;
+
+  LocationServicesPresenter(LocationServicesView view, BuildContext context) : super(view) {
     final injector = Injector.getInjector();
     repo = injector.get();
+    this.context = context;
   }
 
   void updateLoading(bool isLoading) {
@@ -136,13 +141,34 @@ class LocationServicesPresenter extends BasePresenter<LocationServicesView>
 
     _locationData = await location.getLocation();
 
-    updateLoading(false);
-
     final coordinates = new Coordinates(_locationData.latitude, _locationData.longitude);
     var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
 
-    view.showMessage("Location result ${addresses.first.toMap()}");
+    if (addresses.length == 0) {
+      updateLoading(false);
+      view.showMessage(
+          "We could not find your location", SnackBarAction(label: "Find Manually", onPressed: onManualEntryClick));
+      return;
+    }
+
+    var firstAddress = addresses.first;
+
+    await repo
+        .saveLocation(LocationLatLng(lat: firstAddress.coordinates.latitude, lng: firstAddress.coordinates.longitude))
+        .catchError((error) =>
+            {view.showMessage(error, SnackBarAction(label: "Find Manually", onPressed: onManualEntryClick))});
+
+    updateLoading(false);
+
+    onManualEntryClick();
   }
 
-  onManualEntryClick() {}
+  onManualEntryClick() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FeedStatePage(),
+      ),
+    );
+  }
 }

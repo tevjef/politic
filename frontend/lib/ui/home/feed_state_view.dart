@@ -37,10 +37,7 @@ class FeedStateState extends State<FeedStatePage> with LDEViewMixin implements F
             itemBuilder: (BuildContext ctx) {},
             child: Padding(
               padding: const EdgeInsets.only(right: 32.0),
-              child: new Icon(
-                Icons.search,
-                color: Theme.of(context).colorScheme.onSurface
-              ),
+              child: new Icon(Icons.search, color: Theme.of(context).colorScheme.onSurface),
             ),
           );
 
@@ -256,7 +253,9 @@ class FeedStatePresenter extends BasePresenter<FeedStateView> with ChangeNotifie
   }
 
   loadData() async {
-    stateFeedResponse = await repo.getStatesFeed("NJ").catchError((error) => {view.showErrorMessage(error, null)});
+    var location = await repo.getLocation().catchError((error) => {view.showErrorMessage(error, null)});
+    stateFeedResponse =
+        await repo.getStatesFeed(location.state).catchError((error) => {view.showErrorMessage(error, null)});
     notifyListeners();
   }
 

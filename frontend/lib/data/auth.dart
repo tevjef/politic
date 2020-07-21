@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logging/logging.dart';
 
 import 'client.dart';
 import 'models/feed.dart';
@@ -24,6 +25,8 @@ class Auth {
 
   Future<String> getAuthToken() async {
     var currentUser = await _auth.currentUser();
-    return (await currentUser?.getIdToken())?.token;
+    var token = (await currentUser?.getIdToken())?.token;
+    Logger.root.fine("TOKEN: " + token);
+    return token;
   }
 }

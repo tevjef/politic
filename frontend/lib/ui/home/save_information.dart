@@ -69,9 +69,13 @@ class SaveInformationState extends State<SaveInformationPage> with LDEViewMixin 
                       ],
                     ),
                   ),
-                  ButtonGroup("Save and Continue", () => {presenter.onSaveAndContinue(voterInformation)},
-                      secondaryCtaText: "I don't want notification",
-                      secodaryListener: () => {presenter.onContinue(context)}),
+                  ButtonGroup(
+                    "Save and Continue",
+                    () => {presenter.onSaveAndContinue(voterInformation)},
+                    secondaryCtaText: "I don't want notification",
+                    secodaryListener: () => {presenter.onContinue(context)},
+                    isLoading: presenter.isLoading,
+                  ),
                 ],
               ),
             ),
@@ -92,18 +96,27 @@ abstract class SaveInformationView implements BaseView, ListOps {
 class SaveInformationPresenter extends BasePresenter<SaveInformationView> with ChangeNotifier, DiagnosticableTreeMixin {
   Repo repo;
 
+  bool isLoading = false;
+
   SaveInformationPresenter(SaveInformationView view) : super(view) {
     final injector = Injector.getInjector();
     repo = injector.get();
   }
 
+  void updateLoading(bool isLoading) {
+    this.isLoading = isLoading;
+    notifyListeners();
+  }
+
   onSaveAndContinue(VoterInformation voterInformation) async {
+    updateLoading(true);
     var userUid = await repo.signIn().catchError((error) => {view.showErrorMessage(error, null)});
     if (userUid == null) {
       return;
     }
 
     await repo.saveVoterInformation(voterInformation).catchError((error) => {view.showErrorMessage(error, null)});
+    updateLoading(false);
 
     Navigator.pushReplacement(
       context,

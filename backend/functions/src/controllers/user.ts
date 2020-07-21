@@ -15,7 +15,7 @@ const getLocation = async (req: Request, res: Response) => {
 
 const updateLocation = async (req: Request, res: Response) => {
   const request = <LocationUpdateRequest>res.locals.body;
-  const userId = <string>res.locals.userFirebaseId;
+  const userId = <string>res.locals.userId;
   await handler.updateLocation(userId, request.locationUpdate).then((body) => {
     res.json(body);
   });
@@ -23,7 +23,7 @@ const updateLocation = async (req: Request, res: Response) => {
 
 const updateNotificationToken = async (req: Request, res: Response) => {
   const request = <NotificationTokenUpdateRequest>res.locals.body;
-  const userId = <string>res.locals.userFirebaseId;
+  const userId = <string>res.locals.userId;
   await handler.updateToken(userId, request.tokenUpdate).then((body) => {
     res.json(body);
   });

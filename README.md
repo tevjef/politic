@@ -247,31 +247,6 @@ Saves the state and district of the user on the backend into a table
 }
 ```
 
-
-:white_check_mark: **GET** **`/feed/states/{state}`**
-
-```js
-// Request
-// - Path parameter with the state abbreviation
-
-// Response 
-{
-  "feed": [
-    {
-      "itemType": "keyVote",
-      "title": "Amends Teacher Health Benefits (S 2273) - Passage Passed - Executive",
-      "link": "http://votesmart.org/bill/28233/73218"
-    }
-  ],
-  "representatives": [
-    {
-      "displayName": "Robert Menendez",
-      "image": "https://theunitedstates.io/images/congress/225x275/M000639.jpg",
-      "bioguide": "M000639"
-    }
-  ]
-}
-```
 ### Firebase Firestore Tables
 
 
@@ -333,7 +308,7 @@ Contains a list of all the users that have chosen to save their data.
 ]
 ```
 
-:x: **locations**  
+:white_check_mark: **locations**  
 
 Contains a list of all the users that have chosen to save their data.
 
