@@ -11,12 +11,14 @@ import {
 import { DefaultRegistrationProvider } from "./voter_roll/states/DefaultRegistrationProvider";
 import { NewJerseyRegistrationProvider } from "./voter_roll/states/NewJerseyRegistrationProvider";
 import { FirebaseAdminService } from "../services/FirebaseAdminService";
+import { NewYorkRegistrationProvider } from "./voter_roll/states/NewYorkRegistrationProvider";
 
 const defaultProvider = new DefaultRegistrationProvider();
 const firebaseAdminService = new FirebaseAdminService();
 
 const statusProviders: ProviderMap = {
   NJ: new NewJerseyRegistrationProvider(),
+  NY: new NewYorkRegistrationProvider(),
 };
 
 export class VoterRollHandler {

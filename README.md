@@ -1,9 +1,7 @@
 # Politic
 
-
 - [ ] Privacy policy about data usage
 - [ ] Geocoding
-
 
 ## APIs
 
@@ -44,9 +42,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 }
 ```
 
-
 :white_check_mark: **POST** **`/voterRoll/checkRegistration`**
-
 
 ```js
 // Request
@@ -54,19 +50,19 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 {
     "voterInformation": {
         // Using the abbreviation for the state and the key/id, non-null
-        "state": "NJ", 
+        "state": "NJ",
         // nullable
         "county": "Kings",
         // nullable
-        "firstName": "First", 
+        "firstName": "First",
         // nullable
-        "lastName": "Second", 
+        "lastName": "Second",
         // nullable
-        "middleInitial": "I", 
+        "middleInitial": "I",
         // 01 or 12, nullable
-        "month": "MM", 
+        "month": "MM",
         // nullable
-        "year": 2012 
+        "year": 2012
     }
 }
 
@@ -82,7 +78,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
             }
         ],
         // multipleEnrolled
-        "value": [{ 
+        "value": [{
             "voterData": [
                 {
                     "title": "",
@@ -91,21 +87,21 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
             ]
         }],
         // notFound
-        "value": { 
-            "phone": { 
+        "value": {
+            "phone": {
                 "label": "212-555-5555",
                 "uri": "",
             "requirements": "markdown",
-            // URL for user to register at. 
+            // URL for user to register at.
             "registrationUrl": { "label": "https://", "uri": "" }
         },
-        // notEnrolled 
-        "value": { 
-            "phone": { 
+        // notEnrolled
+        "value": {
+            "phone": {
                 "label": "212-555-5555",
                 "uri": "",
             "requirements": "markdown",
-            // URL for user to register at. 
+            // URL for user to register at.
             "registrationUrl": { "label": "https://", "uri": "" }
         }
     }
@@ -118,7 +114,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 // Request
 // - Path parameter with the state abbreviation
 
-// Response 
+// Response
 {
   "feed": [
     {
@@ -137,30 +133,150 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 }
 ```
 
+:x: **GET** **`/feed/representatives`**
+
+```js
+// Request
+
+// Response
+{
+  "legislators": {
+    "senators": [
+      {
+        "displayName": "Robert Menendez",
+        "image": "https://theunitedstates.io/images/congress/225x275/M000639.jpg",
+        "description": ""
+      }
+    ],
+    "representatives": {
+      "locationRepresentative": [
+        {
+          "displayName": "Robert Menendez",
+          "image": "https://theunitedstates.io/images/congress/225x275/M000639.jpg",
+          "description": ""
+        }
+      ],
+      "others": {}
+    },
+    "local": [
+      {
+        "officeTitle": "Hudson County Clerk",
+        "officals": [
+          {
+            "displayName": "Robert Menendez",
+            "image": "https://theunitedstates.io/images/congress/225x275/M000639.jpg",
+            "description": ""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+:x: **GET** **`/feed/elections/{id}`**
+
+```json
+// Request
+
+// Response
+{
+  "elections": {
+    "electionsName": "Georgia General Primary Runoff Election",
+    "electionDay": "2020-08-11",
+    "pollingLocations": [
+      {
+        "locationName": "ANTIOCH BAPTIST CH FAMILY CNTR",
+        "address": "540 Cameron Madison Alexander Boulevard Northwest"
+      }
+    ],
+    "earlyVoteSites": [
+      {
+        "locationName": "ANTIOCH BAPTIST CH FAMILY CNTR",
+        "address": "540 Cameron Madison Alexander Boulevard Northwest"
+      }
+    ],
+    "dropOffLocations   ": [
+      {
+        "locationName": "ANTIOCH BAPTIST CH FAMILY CNTR",
+        "address": "540 Cameron Madison Alexander Boulevard Northwest"
+      }
+    ],
+    "electionAdministrationBody": {
+      "name": "STATE Board of Elections",
+      "electionInfoUrl": "http://sos.ga.gov/index.php/elections",
+      "electionRegistrationUrl": "https://registertovote.sos.ga.gov/GAOLVR/",
+      "electionRegistrationConfirmationUrl": "https://www.mvp.sos.ga.gov/MVP/",
+      "absenteeVotingInfoUrl": "http://sos.ga.gov/index.php/Elections/absentee_voting_in_georgia",
+      "votingLocationFinderUrl": "https://www.mvp.sos.ga.gov/MVP/",
+      "ballotInfoUrl": "https://www.mvp.sos.ga.gov/MVP/",
+      "electionRulesUrl": "http://sos.ga.gov/index.php/Elections/register_to_vote"
+    },
+    "contests": [
+      {
+        "type": "Primary",
+        "district": {
+          "name": "COUNTY",
+          "scope": "countywide"
+        },
+        "ballotPlacement": "11",
+        "numberElected": "2",
+        "candidates": [
+          {
+            "name": "THEODORE JACKSON",
+            "party": "Democratic"
+          },
+          {
+            "name": "PATRICK \"PAT\" LABAT",
+            "party": "Democratic"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+:x: **GET** **`/feed/elections/all`**
+
+```json
+// Request
+
+// Response
+{
+  "elections": [
+    {
+      "id": "2323",
+      "electionsName": "Georgia General Primary Runoff Election",
+      "electionDay": "2020-08-11"
+    }
+  ]
+}
+```
 
 :white_check_mark: **POST** **`/voterRoll/save`**
 **Authorization:** `Token from Firebase Auth`
 
-Saving voter registration data, 
+Saving voter registration data,
 
 ```js
 // Request
 {
     "enrollment": {
         "voterInformation": {
-            
-            "state": "NJ", 
+
+            "state": "NJ",
             "firstName": "First",
             "lastName": "Second",
             "middleInitial": "I",
             // 01 or 12
-            "month": "MM", 
+            "month": "MM",
             "year": 2012
         },
         // Token from Firebase Notifications
-        "notificationToken": "token" 
+        "notificationToken": "token"
     }
-   
+
 }
 
 // No response
@@ -169,16 +285,15 @@ Saving voter registration data,
 :x: **POST** **`/voterRoll/manual`**
 **Authorization:** `Token from Firebase Auth`
 
-
 ```js
 // Request
 {
     "manualEnrollment": {
         "enrolled": false,
         // Token from Firebase Notifications
-        "notificationToken": "token" 
+        "notificationToken": "token"
     }
-   
+
 }
 
 // No response
@@ -186,7 +301,6 @@ Saving voter registration data,
 
 :white_check_mark: **POST** **`/user/notificationToken`**
 **Authorization:** `Token from Firebase Auth`
-
 
 ```js
 // Request
@@ -198,7 +312,6 @@ Saving voter registration data,
 
 // No response
 ```
-
 
 :white_check_mark: **GET** **`/user/location`**
 **Authorization:** `Token from Firebase Auth`
@@ -221,6 +334,7 @@ Saving voter registration data,
 **Authorization:** `Token from Firebase Auth`
 
 Saves the state and district of the user on the backend into a table
+
 ```js
 // Request
 {
@@ -249,66 +363,65 @@ Saves the state and district of the user on the backend into a table
 
 ### Firebase Firestore Tables
 
-
 :white_check_mark: **notification_auth_tokens**
 
 ```js
 [
-    {
-        "user-auth-token": {
-            // token send from device
-            "token": "token" 
-        }
-    }
-]
+  {
+    "user-auth-token": {
+      // token send from device
+      token: "token",
+    },
+  },
+];
 ```
 
 :x: **voter_roll_states**
 
 ```js
 [
-    {
-        "state-name": {
-                        "phone": { 
-                "label": "212-555-5555",
-                "uri": "",
-                        },
-            "requirements": "markdown",
-            // URL for user to register at. 
-            "registrationUrl": { "label": "https://", "uri": "" }
-        }
-    }
-]
+  {
+    "state-name": {
+      phone: {
+        label: "212-555-5555",
+        uri: "",
+      },
+      requirements: "markdown",
+      // URL for user to register at.
+      registrationUrl: { label: "https://", uri: "" },
+    },
+  },
+];
 ```
 
-:white_check_mark: **electoral_register**  
+:white_check_mark: **electoral_register**
 
 Contains a list of all the users that have chosen to save their data.
 
 ```js
 [
-    {
-        "user-auth-token": {
-            "voterInformation": {
-                // Using the abbreviation for the state and the key/id
-                "state": "NJ", 
-                "firstName": "First",
-                "lastName": "Second",
-                "middleInitial": "I",
-                // 01 or 12
-                "month": "MM",
-                "year": 2012
-            },
-            "manualMarkedEnrolled": "zonedDateTime",
-            // The last time a cron job was run on the users voter status or the last time the user manually checked.
-            "lastCheck": "zonedDateTime", 
-            "lastStatus": "enrolled|unenrolled|unknown" 
-        }
-    }
-]
+  {
+    "user-auth-token": {
+      voterInformation: {
+        // Using the abbreviation for the state and the key/id
+        state: "NJ",
+        firstName: "First",
+        lastName: "Second",
+        middleInitial: "I",
+        // 01 or 12
+        month: "MM",
+        year: 2012,
+      },
+      manualMarkedEnrolled: "zonedDateTime",
+      // The last time a cron job was run on the users voter status or the last time the user manually checked.
+      lastCheck: "zonedDateTime",
+      lastStatus: "enrolled|unenrolled|unknown",
+    },
+  },
+];
 ```
 
-:white_check_mark: **locations**  
+:white_check_mark: **locations**
 
 Contains a list of all the users that have chosen to save their data.
 

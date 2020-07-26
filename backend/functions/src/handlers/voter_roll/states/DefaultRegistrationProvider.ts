@@ -20,8 +20,8 @@ export class DefaultRegistrationProvider
     NotEnrolledProvider {
   enrollmentData(): StatusResultNotEnrolledValue {
     return {
-      phone: { label: "555-555-5555", uri: "tel:555-555-5555" },
-      requirements: "Not yet implemented",
+      phone: { label: "1-800-FOR-VOTE", uri: "tel:555-555-5555" },
+      requirements: "",
       registrationUrl: {
         label: "https://vote.org",
         uri: "https://vote.org",

@@ -16,6 +16,7 @@
   "dependencies": {
     "@types/axios": "^0.14.0",
     "@types/node-geocoder": "^3.24.1",
+    "@types/puppeteer": "^3.0.1",
     "@types/request-promise": "^4.1.46",
     "@types/xml2js": "^0.4.5",
     "axios": "^0.19.2",
@@ -27,6 +28,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.27.0",
     "node-geocoder": "^3.27.0",
+    "puppeteer": "^5.2.1",
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",

@@ -1222,7 +1222,7 @@
         "affectsGlobalScope": false
       },
       "../src/handlers/voter_roll/states/defaultregistrationprovider.ts": {
-        "version": "e57829c61a17f9111076507591641b15347a8798dcee28d07fc29480a1a5a4f7",
+        "version": "243a7ce8697f8779745420b142dc3b3556cbaf444466990117d209421edaec84",
         "signature": "61a3d451557085fc46eae676c0a230f5a9bef6eb8ec13aa247e99de95681f5f2",
         "affectsGlobalScope": false
       },
@@ -1256,8 +1256,33 @@
         "signature": "de278441f379da6df13f9013ef63648e88f1eda4e21b8795d1d1108d98e3a1d4",
         "affectsGlobalScope": false
       },
+      "../node_modules/@types/puppeteer/errors.d.ts": {
+        "version": "24074eb89fe21d5d7d8a5ed86e6c56939cf32d533f68bae213b0cdac74e03d3b",
+        "signature": "24074eb89fe21d5d7d8a5ed86e6c56939cf32d533f68bae213b0cdac74e03d3b",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/puppeteer/devicedescriptors.d.ts": {
+        "version": "c9c23a4476436315c1a675f807128457b5aeadc8d3d75340e1f4b93af73551ce",
+        "signature": "c9c23a4476436315c1a675f807128457b5aeadc8d3d75340e1f4b93af73551ce",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/puppeteer/index.d.ts": {
+        "version": "690e105b28b0ac9f20e26b39f4a5ebb6fdafea7056468a4c29a3248b4ad8aea0",
+        "signature": "690e105b28b0ac9f20e26b39f4a5ebb6fdafea7056468a4c29a3248b4ad8aea0",
+        "affectsGlobalScope": false
+      },
+      "../src/services/newyorkregistrationservice.ts": {
+        "version": "fa6b5fa94099ee6dad2327bf2aa1352a7b3d1a74b7724e6e25fba5695e876d02",
+        "signature": "50b686ba605bc6a59312b036ef6dc2820b63439f48e604275d87e89b54a23900",
+        "affectsGlobalScope": false
+      },
+      "../src/handlers/voter_roll/states/newyorkregistrationprovider.ts": {
+        "version": "be43897d564fdef038a1135f7d7456a45afda45ee35b65537e9a5325bc96965a",
+        "signature": "5433774e31d705b83dff0e2e5eea389bd3c59b823f5a43683c12e5f6f4c8396b",
+        "affectsGlobalScope": false
+      },
       "../src/handlers/voterrollhandler.ts": {
-        "version": "66f82ad081798350d448aeb619415bb97914d6eaf6033c5b75e025fd1640690d",
+        "version": "ed60296b7edd6abec4ae72ce79bdd7d3200c0a6859d710a608257834f21f51df",
         "signature": "0e555c2d140cf46bd07a2eee45d5bf887b585ef0f85f8edf2ccfd238d4df0d7c",
         "affectsGlobalScope": false
       },
@@ -1394,6 +1419,11 @@
       "../node_modules/@types/request-promise/index.d.ts": {
         "version": "27c85b00f0e08a4aeec0d828ff9d33a04a22ba996d66157ac1dd285196c09b11",
         "signature": "27c85b00f0e08a4aeec0d828ff9d33a04a22ba996d66157ac1dd285196c09b11",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/yauzl/index.d.ts": {
+        "version": "3845d3b64286c12c60d39fc90ac1cc5e47cbc951530658d2567d578b2faa1f26",
+        "signature": "3845d3b64286c12c60d39fc90ac1cc5e47cbc951530658d2567d578b2faa1f26",
         "affectsGlobalScope": false
       }
     },
@@ -1794,6 +1824,20 @@
       "../node_modules/@types/node/ts3.2/index.d.ts": [
         "../node_modules/@types/node/base.d.ts"
       ],
+      "../node_modules/@types/puppeteer/devicedescriptors.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@types/puppeteer/errors.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@types/puppeteer/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/@types/puppeteer/devicedescriptors.d.ts",
+        "../node_modules/@types/puppeteer/errors.d.ts"
+      ],
       "../node_modules/@types/qs/index.d.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
@@ -1841,6 +1885,10 @@
         "../node_modules/@types/xml2js/lib/processors.d.ts"
       ],
       "../node_modules/@types/xml2js/lib/processors.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@types/yauzl/index.d.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
@@ -3123,11 +3171,19 @@
         "../src/model/voterregistration.ts",
         "../src/services/newjerseyregistrationservice.ts"
       ],
+      "../src/handlers/voter_roll/states/newyorkregistrationprovider.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../src/handlers/voterrollhandler.ts",
+        "../src/model/voterregistration.ts",
+        "../src/services/newyorkregistrationservice.ts"
+      ],
       "../src/handlers/voterrollhandler.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts",
         "../src/handlers/voter_roll/states/defaultregistrationprovider.ts",
         "../src/handlers/voter_roll/states/newjerseyregistrationprovider.ts",
+        "../src/handlers/voter_roll/states/newyorkregistrationprovider.ts",
         "../src/model/voterregistration.ts",
         "../src/services/firebaseadminservice.ts"
       ],
@@ -3204,6 +3260,12 @@
         "../node_modules/@types/node/ts3.2/index.d.ts",
         "../node_modules/axios/index.d.ts",
         "../node_modules/moment/ts3.1-typings/moment.d.ts",
+        "../src/model/voterregistration.ts"
+      ],
+      "../src/services/newyorkregistrationservice.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/@types/puppeteer/index.d.ts",
         "../src/model/voterregistration.ts"
       ],
       "../src/services/representativeservice.ts": [
@@ -3598,6 +3660,20 @@
       "../node_modules/@types/node/ts3.2/index.d.ts": [
         "../node_modules/@types/node/base.d.ts"
       ],
+      "../node_modules/@types/puppeteer/devicedescriptors.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@types/puppeteer/errors.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@types/puppeteer/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/@types/puppeteer/devicedescriptors.d.ts",
+        "../node_modules/@types/puppeteer/errors.d.ts"
+      ],
       "../node_modules/@types/qs/index.d.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
@@ -3645,6 +3721,10 @@
         "../node_modules/@types/xml2js/lib/processors.d.ts"
       ],
       "../node_modules/@types/xml2js/lib/processors.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@types/yauzl/index.d.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
@@ -4895,6 +4975,10 @@
         "../src/handlers/voterrollhandler.ts",
         "../src/model/voterregistration.ts"
       ],
+      "../src/handlers/voter_roll/states/newyorkregistrationprovider.ts": [
+        "../src/handlers/voterrollhandler.ts",
+        "../src/model/voterregistration.ts"
+      ],
       "../src/handlers/voterrollhandler.ts": [
         "../src/model/voterregistration.ts"
       ],
@@ -4924,6 +5008,9 @@
         "../src/model/feed.ts"
       ],
       "../src/services/newjerseyregistrationservice.ts": [
+        "../src/model/voterregistration.ts"
+      ],
+      "../src/services/newyorkregistrationservice.ts": [
         "../src/model/voterregistration.ts"
       ],
       "../src/services/representativeservice.ts": [
@@ -4974,6 +5061,9 @@
       "../node_modules/@types/node/base.d.ts",
       "../node_modules/@types/node/inspector.d.ts",
       "../node_modules/@types/node/ts3.2/index.d.ts",
+      "../node_modules/@types/puppeteer/devicedescriptors.d.ts",
+      "../node_modules/@types/puppeteer/errors.d.ts",
+      "../node_modules/@types/puppeteer/index.d.ts",
       "../node_modules/@types/qs/index.d.ts",
       "../node_modules/@types/range-parser/index.d.ts",
       "../node_modules/@types/request-promise/errors.d.ts",
@@ -4984,6 +5074,7 @@
       "../node_modules/@types/validator/index.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
+      "../node_modules/@types/yauzl/index.d.ts",
       "../node_modules/abort-controller/dist/abort-controller.d.ts",
       "../node_modules/axios/index.d.ts",
       "../node_modules/class-transformer/classtransformer.d.ts",
@@ -5197,6 +5288,7 @@
       "../src/handlers/userhandler.ts",
       "../src/handlers/voter_roll/states/defaultregistrationprovider.ts",
       "../src/handlers/voter_roll/states/newjerseyregistrationprovider.ts",
+      "../src/handlers/voter_roll/states/newyorkregistrationprovider.ts",
       "../src/handlers/voterrollhandler.ts",
       "../src/index.ts",
       "../src/middleware/auth.ts",
@@ -5210,6 +5302,7 @@
       "../src/services/firebaseadminservice.ts",
       "../src/services/keyvoteservice.ts",
       "../src/services/newjerseyregistrationservice.ts",
+      "../src/services/newyorkregistrationservice.ts",
       "../src/services/representativeservice.ts"
     ]
   },
