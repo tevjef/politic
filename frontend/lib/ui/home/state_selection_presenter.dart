@@ -3,13 +3,15 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:politic/data/models/voter_roll.dart';
+import 'package:politic/ui/home/home_view.dart';
+import 'package:politic/ui/home/not_found_view.dart';
 import 'package:politic/ui/home/single_enrolled_view.dart';
+import 'package:politic/ui/home/voter_registration_flow.dart';
 
 import '../../core/lib.dart';
 import '../../data/lib.dart';
 import '../util/lib.dart';
 import 'not_enrolled_view.dart';
-import 'not_found_view.dart';
 
 abstract class HomeView implements BaseView, ListOps {
   // void navigateToSomewhere();
@@ -38,7 +40,9 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
   String _county = null;
   bool isLoading = false;
 
-  HomePresenter(HomeView view) : super(view) {
+  final VoterInformationFlow flow;
+
+  HomePresenter(HomeView view, this.flow) : super(view) {
     final injector = Injector.getInjector();
     analyticsLogger = injector.get();
     repo = injector.get();
@@ -65,8 +69,8 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
     countyOptions.clear();
 
     if (selectedState.fields.isNotEmpty) {
-      var countyField =
-          selectedState.fields.firstWhere((element) => element.inputType == "selection" && element.key == "county", orElse: () => null);
+      var countyField = selectedState.fields
+          .firstWhere((element) => element.inputType == "selection" && element.key == "county", orElse: () => null);
       if (countyField != null) {
         countyOptions.addAll(countyField.options);
         selectedCountyOption = countyOptions[0];
@@ -123,8 +127,12 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
           year: _year),
     );
     var response = await repo.checkRegistration(checkRegistrationRequest).catchError(
-          (error) => {updateLoading(false), view.showErrorMessage(error, null)},
-        );
+      (error) {
+        updateLoading(false);
+        print(error);
+        view.showErrorMessage(error, null);
+      },
+    );
 
     updateLoading(false);
     pushResultScreen(context, checkRegistrationRequest.voterInformation, response);
@@ -151,7 +159,7 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
   }
 
   void pushResultScreen(BuildContext context, VoterInformation voterInformation, VoterStatus voterStatus) {
-    StatelessWidget targetScreen;
+    Widget targetScreen;
     switch (voterStatus.type) {
       case 'multipleEnrolled':
         {
@@ -160,17 +168,17 @@ class HomePresenter extends BasePresenter<HomeView> with ChangeNotifier, Diagnos
         break;
       case 'singleEnrolled':
         {
-          targetScreen = SingleEnrolledScreen(voterStatus.value as SingleEnrolled, voterInformation);
+          targetScreen = SingleEnrolledScreen(voterStatus.value as SingleEnrolled, voterInformation, flow);
         }
         break;
       case 'notEnrolled':
         {
-          targetScreen = NotEnrolledScreen(voterStatus.value as NotEnrolled, voterInformation);
+          targetScreen = NotEnrolledScreen(voterStatus.value as NotEnrolled, voterInformation, flow);
         }
         break;
       case 'notFound':
         {
-          targetScreen = NotFoundScreen(voterStatus.value as NotFound);
+          targetScreen = NotFoundPage(voterStatus.value as NotFound, flow);
         }
         break;
       default:

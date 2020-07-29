@@ -50,12 +50,30 @@ class Enrollment {
 }
 
 @JsonSerializable(nullable: false)
+class ManualEnrollmentRequest {
+  final ManualEnrollment enrollment;
+  ManualEnrollmentRequest({this.enrollment});
+  factory ManualEnrollmentRequest.fromJson(Map<String, dynamic> json) => _$ManualEnrollmentRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$ManualEnrollmentRequestToJson(this);
+}
+
+
+@JsonSerializable(nullable: false)
+class ManualEnrollment {
+  final String notificationToken;
+  ManualEnrollment({this.notificationToken});
+  factory ManualEnrollment.fromJson(Map<String, dynamic> json) => _$ManualEnrollmentFromJson(json);
+  Map<String, dynamic> toJson() => _$ManualEnrollmentToJson(this);
+}
+
+@JsonSerializable(nullable: false)
 class CheckRegistrationRequest {
   final VoterInformation voterInformation;
   CheckRegistrationRequest({this.voterInformation});
   factory CheckRegistrationRequest.fromJson(Map<String, dynamic> json) => _$CheckRegistrationRequestFromJson(json);
   Map<String, dynamic> toJson() => _$CheckRegistrationRequestToJson(this);
 }
+
 
 @JsonSerializable(nullable: false)
 class VoterInformation {

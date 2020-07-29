@@ -5,6 +5,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart';
 import 'package:politic/data/models/user.dart';
 import 'package:politic/ui/home/feed_state_view.dart';
+import 'package:politic/ui/home/home_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -167,7 +168,7 @@ class LocationServicesPresenter extends BasePresenter<LocationServicesView>
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => FeedStatePage(),
+        builder: (context) => PoliticHomePage(),
       ),
     );
   }

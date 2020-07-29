@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:politic/data/models/voter_roll.dart';
 import 'package:politic/ui/home/save_information.dart';
+import 'package:politic/ui/home/voter_registration_flow.dart';
 
 import '../../core/lib.dart';
 import '../util/lib.dart';
@@ -10,8 +11,9 @@ import '../util/lib.dart';
 class SingleEnrolledScreen extends StatelessWidget {
   final SingleEnrolled voterStatus;
   final VoterInformation voterInformation;
+  final VoterInformationFlow flow;
 
-  SingleEnrolledScreen(this.voterStatus, this.voterInformation);
+  SingleEnrolledScreen(this.voterStatus, this.voterInformation, this.flow);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class SingleEnrolledScreen extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SaveInformationPage(voterInformation: voterInformation),
+                          builder: (context) => SaveInformationPage(voterInformation, flow),
                         ),
                       )
                     })

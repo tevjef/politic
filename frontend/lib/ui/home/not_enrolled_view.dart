@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:politic/data/models/voter_roll.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:politic/ui/home/save_information.dart';
+import 'package:politic/ui/home/voter_registration_flow.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/lib.dart';
@@ -12,8 +13,9 @@ import '../util/lib.dart';
 class NotEnrolledScreen extends StatelessWidget {
   final NotEnrolled voterStatus;
   final VoterInformation voterInformation;
+  final VoterInformationFlow flow;
 
-  NotEnrolledScreen(this.voterStatus, this.voterInformation);
+  NotEnrolledScreen(this.voterStatus, this.voterInformation, this.flow);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,7 @@ class NotEnrolledScreen extends StatelessWidget {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SaveInformationPage(voterInformation: voterInformation),
+                        builder: (context) => SaveInformationPage(voterInformation, flow),
                       ),
                     )
                   },

@@ -1,8 +1,9 @@
-import { Request, Response, Router, NextFunction } from "express";
+import { Request, Response, Router } from "express";
 import validateBody from "../middleware/validation";
 import { UserHandler } from "../handlers/UserHandler";
 import { LocationUpdateRequest, NotificationTokenUpdateRequest } from "../model/User";
 import { isUserAuthenticated } from "../middleware/auth";
+import { wrapAsync } from "../middleware/error/ErrorHandler";
 
 const handler = new UserHandler();
 
@@ -47,11 +48,3 @@ router.post(
 
 // GET /user/location
 router.get("/location", [isUserAuthenticated], wrapAsync(getLocation));
-
-function wrapAsync(fn: any) {
-  return function (req: Request, res: Response, next: NextFunction) {
-    // Make sure to `.catch()` any errors and pass them along to the `next()`
-    // middleware in the chain, in this case the error handler.
-    fn(req, res, next).catch(next);
-  };
-}

@@ -76,6 +76,31 @@ Map<String, dynamic> _$EnrollmentToJson(Enrollment instance) =>
       'notificationToken': instance.notificationToken,
     };
 
+ManualEnrollmentRequest _$ManualEnrollmentRequestFromJson(
+    Map<String, dynamic> json) {
+  return ManualEnrollmentRequest(
+    enrollment:
+        ManualEnrollment.fromJson(json['enrollment'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$ManualEnrollmentRequestToJson(
+        ManualEnrollmentRequest instance) =>
+    <String, dynamic>{
+      'enrollment': instance.enrollment,
+    };
+
+ManualEnrollment _$ManualEnrollmentFromJson(Map<String, dynamic> json) {
+  return ManualEnrollment(
+    notificationToken: json['notificationToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$ManualEnrollmentToJson(ManualEnrollment instance) =>
+    <String, dynamic>{
+      'notificationToken': instance.notificationToken,
+    };
+
 CheckRegistrationRequest _$CheckRegistrationRequestFromJson(
     Map<String, dynamic> json) {
   return CheckRegistrationRequest(

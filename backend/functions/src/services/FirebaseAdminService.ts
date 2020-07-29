@@ -11,7 +11,6 @@ const COLLECTION_ELECTORAL_REGISTER = "electoral_register";
 const COLLECTION_NOTIFICATIONS_AUTH_TOKENS = "notification_auth_tokens";
 
 export class FirebaseAdminService {
-  
   async getUserId(token: string): Promise<string> {
     const value = await auth.verifyIdToken(token, true);
     console.log("TOKEN: " + token);
@@ -55,10 +54,25 @@ export class FirebaseAdminService {
       .set({ voterInformation: voterInformation })
       .then((value) => {
         console.log(
-          `${value.writeTime.toDate()}: updating voter information user: ${userId} state: ${voterInformation.state} `
+          `${value.writeTime.toDate()}: updating voter information user: ${userId} state: ${
+            voterInformation.state
+          } `
         );
 
         return voterInformation;
+      });
+  }
+
+  async manualEnrollment(userId: string, date: Date): Promise<undefined> {
+    return firestore
+      .collection(COLLECTION_ELECTORAL_REGISTER)
+      .doc(userId)
+      .set({ manualMarkedEnrolled: date.getTime() })
+      .then((value) => {
+        console.log(
+          `${value.writeTime.toDate()}: manual enrollment user: ${userId}`
+        );
+        return undefined;
       });
   }
 

@@ -2,19 +2,29 @@ import { FeedRepresentative } from "../model/Feed";
 import axios from "axios";
 import { Legislator } from "../model/github_unitedstates/Legislators";
 
+let legislators: Legislator[] = [];
+
 export class RepresentativeService {
-  async getCurrentLegislators() {
-    return axios({
+  async getCurrentLegislators(): Promise<Legislator[]> {
+    if (legislators.length > 0) {
+      return legislators;
+    }
+    const resp = await axios({
       url:
         "https://raw.githubusercontent.com/unitedstates/congress-legislators/gh-pages/legislators-current.json",
     });
+
+    legislators = resp.data;
+    return legislators;
+  }
+
+  async getLegislatorByName(name: string): Promise<Legislator | undefined> {
+    return (await this.getCurrentLegislators())
+      .find(byName(name));
   }
 
   async getFeedSenatorsByState(state: string): Promise<FeedRepresentative[]> {
-    const legislators: Legislator[] = await (await this.getCurrentLegislators())
-      .data;
-
-    return legislators
+    return (await this.getCurrentLegislators())
       .filter(byState(state))
       .filter(isSenator)
       .map(
@@ -29,8 +39,8 @@ export class RepresentativeService {
 }
 
 enum ImageSize {
-    large = "original",
-    small = "225x275"
+  large = "original",
+  small = "225x275",
 }
 
 function imageFromBioguide(bioguide: string, imageSize: ImageSize): string {
@@ -41,6 +51,12 @@ function byState(state: string) {
   return function (element: Legislator, index: any, array: Legislator[]) {
     const lastTerm = element.terms.length - 1;
     return element.terms[lastTerm].state === state;
+  };
+}
+
+function byName(name: string) {
+  return function (element: Legislator, index: any, array: Legislator[]) {
+    return element.name.official_full === name;
   };
 }
 

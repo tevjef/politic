@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:politic/data/models/voter_roll.dart';
+import 'package:politic/ui/home/voter_registration_flow.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -12,17 +13,19 @@ import 'location_services.dart';
 
 class SaveInformationPage extends StatefulWidget {
   final VoterInformation voterInformation;
+  final VoterInformationFlow flow;
 
-  const SaveInformationPage({Key key, this.voterInformation}) : super(key: key);
+  const SaveInformationPage(this.voterInformation, this.flow, {Key key}) : super(key: key);
 
   @override
-  SaveInformationState createState() => new SaveInformationState(voterInformation);
+  SaveInformationState createState() => new SaveInformationState(voterInformation, flow);
 }
 
 class SaveInformationState extends State<SaveInformationPage> with LDEViewMixin implements SaveInformationView {
   final VoterInformation voterInformation;
+  final VoterInformationFlow flow;
 
-  SaveInformationState(this.voterInformation);
+  SaveInformationState(this.voterInformation, this.flow);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class SaveInformationState extends State<SaveInformationPage> with LDEViewMixin 
       },
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => SaveInformationPresenter(this)),
+          ChangeNotifierProvider(create: (_) => SaveInformationPresenter(this, flow)),
         ],
         child: Consumer<SaveInformationPresenter>(builder: (context, presenter, child) {
           return Scaffold(
@@ -95,10 +98,11 @@ abstract class SaveInformationView implements BaseView, ListOps {
 
 class SaveInformationPresenter extends BasePresenter<SaveInformationView> with ChangeNotifier, DiagnosticableTreeMixin {
   Repo repo;
-
   bool isLoading = false;
 
-  SaveInformationPresenter(SaveInformationView view) : super(view) {
+  final VoterInformationFlow flow;
+
+  SaveInformationPresenter(SaveInformationView view, this.flow) : super(view) {
     final injector = Injector.getInjector();
     repo = injector.get();
   }
@@ -118,20 +122,17 @@ class SaveInformationPresenter extends BasePresenter<SaveInformationView> with C
     await repo.saveVoterInformation(voterInformation).catchError((error) => {view.showErrorMessage(error, null)});
     updateLoading(false);
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LocationServicesPage(),
-      ),
-    );
+    flow.onVoterInformationComplete(context);
   }
 
-  onContinue(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LocationServicesPage(),
-      ),
-    );
+  onContinue(BuildContext context) async {
+    updateLoading(true);
+    await repo.manualRegistration().then((value) {
+      flow.onVoterInformationComplete(context);
+    }).catchError((error) {
+      view.showErrorMessage(error);
+      return;
+    });
+    updateLoading(false);
   }
 }

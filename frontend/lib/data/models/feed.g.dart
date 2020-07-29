@@ -42,6 +42,7 @@ StateRepresentative _$StateRepresentativeFromJson(Map<String, dynamic> json) {
   return StateRepresentative(
     displayName: json['displayName'] as String,
     image: json['image'] as String,
+    description: json['description'] as String,
     bioguide: json['bioguide'] as String,
   );
 }
@@ -52,4 +53,5 @@ Map<String, dynamic> _$StateRepresentativeToJson(
       'displayName': instance.displayName,
       'image': instance.image,
       'bioguide': instance.bioguide,
+      'description': instance.description,
     };

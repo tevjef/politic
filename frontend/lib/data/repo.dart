@@ -16,6 +16,30 @@ class Repo {
 
   Repo(this.apiClient, this.auth, this.notificationRepo);
 
+  Future<FirebaseUser> signIn() async {
+    return auth.getUserOrSigninAnonymously();
+  }
+
+  Future<bool> isSignedIn() async {
+    return (await auth.getCurrentUser()) != null;
+  }
+
+  Future<String> userEmail() async {
+    return (await auth.getCurrentUser()).email;
+  }
+
+  Future<bool> isAnonymous() async {
+    return auth.getCurrentUser().then((value) => value.isAnonymous);
+  }
+
+  Future<Null>signinWithGoogle() async {
+    return auth.signInWithGoogle().then((value) => null);
+  }
+
+  Future<void> logout() async {
+    return auth.logout();
+  }
+
   Future<List<USState>> getData() {
     return apiClient.getStates();
   }
@@ -28,8 +52,10 @@ class Repo {
     return apiClient.checkRegistration(request);
   }
 
-  Future<FirebaseUser> signIn() async {
-    return auth.getUserOrSigninAnonymously();
+  Future<void> manualRegistration() async {
+    var notificationToken = await notificationRepo.getToken();
+    return apiClient
+        .manualEnrollment(ManualEnrollmentRequest(enrollment: ManualEnrollment(notificationToken: notificationToken)));
   }
 
   Future<Null> saveVoterInformation(VoterInformation voterInformation) async {
@@ -44,5 +70,21 @@ class Repo {
 
   Future<DistrictLocation> getLocation() async {
     return apiClient.getLocation();
+  }
+
+  Future<RepresentativesResponse> getRepresentatives() async {
+    return apiClient.getRepresentatives();
+  }
+
+  Future<ElectionResponse> getUserElection() async {
+    return apiClient.getUserElection();
+  }
+
+  Future<ElectionResponse> getElection(int electionsId) async {
+    return apiClient.getElection(electionsId);
+  }
+
+  Future<ElectionsResponse> getElections() async {
+    return apiClient.getElections();
   }
 }

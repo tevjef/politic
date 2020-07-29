@@ -1,55 +1,50 @@
 import { Request, Response, Router } from "express";
-import { parseBody } from "./util/utils";
 import { VoterRollHandler } from "../handlers/VoterRollHandler";
 import {
   CheckRegistrationRequest,
   EnrollmentRequest,
+  ManualEnrollmentRequest,
 } from "../model/VoterRegistration";
 import validateBody from "../middleware/validation";
 import { isUserAuthenticated } from "../middleware/auth";
+import { wrapAsync } from "../middleware/error/ErrorHandler";
 
 const handler = new VoterRollHandler();
 
 const checkRegistration = async (req: Request, res: Response) => {
-  const checkRegistrationRequest = parseBody<CheckRegistrationRequest>(
-    req,
-    res
-  );
+  const checkRegistrationRequest = <CheckRegistrationRequest>res.locals.body;
 
-  handler
-    .checkRegistration(checkRegistrationRequest)
-    .then((body) => {
-      res.set("Cache-Control", "public, max-age=3600, s-maxage=3600");
-      res.json(body);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+  await handler.checkRegistration(checkRegistrationRequest).then((body) => {
+    res.set("Cache-Control", "public, max-age=3600, s-maxage=3600");
+    res.json(body);
+  });
 };
 
 const states = async (req: Request, res: Response) => {
-  handler
-    .getStates()
-    .then((body) => {
-      res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
-      res.json(body);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+  await handler.getStates().then((body) => {
+    res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
+    res.json(body);
+  });
 };
-const saveVoterInformation = async (req: Request, res: Response) => {
-    const enrollmentRequest = parseBody<EnrollmentRequest>(req, res);
-    const userId = <string>res.locals.userId;
 
-    handler
-      .saveVoterInformation(userId, enrollmentRequest)
-      .then((body) => {
-        res.json(body);
-      })
-      .catch((err) => {
-        res.send(err);
-      });
+const saveVoterInformation = async (req: Request, res: Response) => {
+  const enrollmentRequest = <EnrollmentRequest> res.locals.body;
+  const userId = <string>res.locals.userId;
+
+  await handler.saveVoterInformation(userId, enrollmentRequest).then((body) => {
+    res.json(body);
+  });
+};
+
+const manualEnrollment = async (req: Request, res: Response) => {
+  const enrollmentRequest = <ManualEnrollmentRequest>res.locals.body;
+  const userId = <string>res.locals.userId;
+
+  await handler
+    .saveManualUser(userId, enrollmentRequest.enrollment.notificationToken)
+    .then((body) => {
+      res.json(body);
+    });
 };
 
 export const router = Router();
@@ -58,15 +53,22 @@ export const router = Router();
 router.post(
   "/checkRegistration",
   validateBody(CheckRegistrationRequest),
-  checkRegistration
+  wrapAsync(checkRegistration)
 );
 
 // GET /voterRoll/states
-router.get("/states", states);
+router.get("/states", wrapAsync(states));
+
+// GET /voterRoll/manual
+router.post(
+  "/manual",
+  [isUserAuthenticated, validateBody(ManualEnrollmentRequest)],
+  wrapAsync(manualEnrollment)
+);
 
 // POST /voterRoll/save
 router.post(
   "/save",
   [isUserAuthenticated, validateBody(EnrollmentRequest)],
-  saveVoterInformation
+  wrapAsync(saveVoterInformation)
 );

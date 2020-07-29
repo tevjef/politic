@@ -25,6 +25,18 @@ export class Enrollment {
   public notificationToken!: string;
 }
 
+export class ManualEnrollmentRequest {
+  @validator.ValidateNested({ always: true })
+  @validator.IsNotEmptyObject()
+  @Type(() => ManualEnrollment)
+  public enrollment!: ManualEnrollment;
+}
+
+export class ManualEnrollment {
+  @validator.IsString()
+  public notificationToken!: string;
+}
+
 export class VoterInformation {
   state!: string;
 
@@ -50,7 +62,7 @@ export interface CheckRegistrationResponse {
 }
 
 export type StatusResultType =
-  "multipleEnrolled"
+  | "multipleEnrolled"
   | "singleEnrolled"
   | "notEnrolled"
   | "notFound";
@@ -98,12 +110,18 @@ export interface VoterState {
   fields: FieldInputDescriptor[];
 }
 
-export type FieldType = "text" | "number" | "dobMY" | "dobDMY" | "selection"
+export type FieldType = "text" | "number" | "dobMY" | "dobDMY" | "selection";
 
-export type FieldKey = "firstName" | "lastName" | "middleInitial" | "zipcode" | "composite" | "county"
+export type FieldKey =
+  | "firstName"
+  | "lastName"
+  | "middleInitial"
+  | "zipcode"
+  | "composite"
+  | "county";
 
 export interface FieldInputDescriptor {
-    inputType: FieldType;
-    key: FieldKey;
-    options?: string[];
+  inputType: FieldType;
+  key: FieldKey;
+  options?: string[];
 }

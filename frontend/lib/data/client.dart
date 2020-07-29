@@ -14,9 +14,15 @@ abstract class Api {
   Future<List<USState>> getStates();
   Future<VoterStatus> checkRegistration(CheckRegistrationRequest request);
   Future<Null> saveVoterEnrollment(EnrollmentRequest request);
+  Future<Null> manualEnrollment(ManualEnrollmentRequest request);
 
   Future<DistrictLocation> saveLocation(LocationUpdateRequest request);
   Future<DistrictLocation> getLocation();
+
+  Future<RepresentativesResponse> getRepresentatives();
+  Future<ElectionResponse> getUserElection();
+  Future<ElectionResponse> getElection(int electionsId);
+  Future<ElectionsResponse> getElections();
 }
 
 class ApiClient implements Api {
@@ -38,6 +44,26 @@ class ApiClient implements Api {
   }
 
   @override
+  Future<RepresentativesResponse> getRepresentatives() async {
+    return RepresentativesResponse.fromJson(await getAuthenticatedResponse("/feeds/representatives"));
+  }
+
+  @override
+  Future<ElectionResponse> getUserElection() async {
+    return ElectionResponse.fromJson(await getAuthenticatedResponse("/feeds/elections"));
+  }
+
+  @override
+  Future<ElectionResponse> getElection(int electionsId) async {
+    return ElectionResponse.fromJson(await getAuthenticatedResponse("/feeds/elections/$electionsId"));
+  }
+
+  @override
+  Future<ElectionsResponse> getElections() async {
+    return ElectionsResponse.fromJson(await getAuthenticatedResponse("/feeds/elections/all"));
+  }
+
+  @override
   Future<VoterStatus> checkRegistration(CheckRegistrationRequest request) async {
     return CheckRegistrationResponse.fromJson(await makePostRequest("/voterRoll/checkRegistration", request.toJson()))
         .voterStatus;
@@ -45,7 +71,12 @@ class ApiClient implements Api {
 
   @override
   Future<Null> saveVoterEnrollment(EnrollmentRequest request) async {
-    return Future<Null>.value(await makePostRequest("/voterRoll/save", request.toJson()).then((value) => null));
+    return Future<Null>.value(await makeAuthenticatedPostRequest("/voterRoll/save", request.toJson()).then((value) => null));
+  }
+
+  @override
+  Future<Null> manualEnrollment(ManualEnrollmentRequest request) async {
+    return Future<Null>.value(await makeAuthenticatedPostRequest("/voterRoll/manual", request.toJson()).then((value) => null));
   }
 
   @override
@@ -55,7 +86,7 @@ class ApiClient implements Api {
 
   @override
   Future<DistrictLocation> saveLocation(LocationUpdateRequest request) async {
-    return LocationUpdateResponse.fromJson(await makePostRequest("/user/location", request.toJson())).location;
+    return LocationUpdateResponse.fromJson(await makeAuthenticatedPostRequest("/user/location", request.toJson())).location;
   }
 
   Future<Map<String, dynamic>> getResponse(String url) {
@@ -69,7 +100,7 @@ class ApiClient implements Api {
       if (response.body.isEmpty) {
         return {};
       }
-      
+
       return jsonDecode(response.body) as Map<String, dynamic>;
     }));
   }
@@ -99,6 +130,30 @@ class ApiClient implements Api {
 
   @override
   Future<Map<String, dynamic>> makePostRequest(String path, Map<String, dynamic> request) async {
+    String requestBody = jsonEncode(request);
+    log.info("REQUEST: " + requestBody);
+
+    return ErrorTransformer.transform(httpClient
+        .post("$baseUrl" + path,
+            headers: {'Content-Type': 'application/json'}, body: requestBody)
+        .then((http.Response response) {
+      logHttp(response);
+      final statusCode = response.statusCode;
+      if (statusCode < 200 || statusCode >= 300) {
+        throw new Exception("Error while getting response [StatusCode:$statusCode, Error:${response.reasonPhrase}]");
+      }
+
+      if (response.body.isEmpty) {
+        return {};
+      }
+
+      return jsonDecode(response.body);
+    }));
+  }
+
+
+  @override
+  Future<Map<String, dynamic>> makeAuthenticatedPostRequest(String path, Map<String, dynamic> request) async {
     String requestBody = jsonEncode(request);
     log.info("REQUEST: " + requestBody);
 

@@ -133,15 +133,14 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 }
 ```
 
-:x: **GET** **`/feed/representatives`**
+:white_check_mark: **GET** **`/feed/representatives`**
 
 ```js
 // Request
 
 // Response
 {
-  "legislators": {
-    "senators": [
+  "senators": [
       {
         "displayName": "Robert Menendez",
         "image": "https://theunitedstates.io/images/congress/225x275/M000639.jpg",
@@ -149,7 +148,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
       }
     ],
     "representatives": {
-      "locationRepresentative": [
+      "localRepresentative": [
         {
           "displayName": "Robert Menendez",
           "image": "https://theunitedstates.io/images/congress/225x275/M000639.jpg",
@@ -161,7 +160,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
     "local": [
       {
         "officeTitle": "Hudson County Clerk",
-        "officals": [
+        "officials": [
           {
             "displayName": "Robert Menendez",
             "image": "https://theunitedstates.io/images/congress/225x275/M000639.jpg",
@@ -170,18 +169,17 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
         ]
       }
     ]
-  }
 }
 ```
 
-:x: **GET** **`/feed/elections/{id}`**
+:white_check_mark: **GET** **`/feed/elections/{id}`**
 
 ```json
 // Request
 
 // Response
 {
-  "elections": {
+  "election": {
     "electionsName": "Georgia General Primary Runoff Election",
     "electionDay": "2020-08-11",
     "pollingLocations": [
@@ -196,7 +194,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
         "address": "540 Cameron Madison Alexander Boulevard Northwest"
       }
     ],
-    "dropOffLocations   ": [
+    "dropOffLocations": [
       {
         "locationName": "ANTIOCH BAPTIST CH FAMILY CNTR",
         "address": "540 Cameron Madison Alexander Boulevard Northwest"
@@ -204,23 +202,15 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
     ],
     "electionAdministrationBody": {
       "name": "STATE Board of Elections",
-      "electionInfoUrl": "http://sos.ga.gov/index.php/elections",
-      "electionRegistrationUrl": "https://registertovote.sos.ga.gov/GAOLVR/",
-      "electionRegistrationConfirmationUrl": "https://www.mvp.sos.ga.gov/MVP/",
-      "absenteeVotingInfoUrl": "http://sos.ga.gov/index.php/Elections/absentee_voting_in_georgia",
-      "votingLocationFinderUrl": "https://www.mvp.sos.ga.gov/MVP/",
-      "ballotInfoUrl": "https://www.mvp.sos.ga.gov/MVP/",
-      "electionRulesUrl": "http://sos.ga.gov/index.php/Elections/register_to_vote"
+      "electionInfoUrl": {
+        "label": "http://sos.ga.gov/index.php/elections",
+        "uri": "sos.ga.gov"
+      }
     },
     "contests": [
       {
-        "type": "Primary",
-        "district": {
-          "name": "COUNTY",
-          "scope": "countywide"
-        },
-        "ballotPlacement": "11",
-        "numberElected": "2",
+        "title": "Primary",
+        "subtitle": "countywide",
         "candidates": [
           {
             "name": "THEODORE JACKSON",
@@ -237,7 +227,7 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
 }
 ```
 
-:x: **GET** **`/feed/elections/all`**
+:white_check_mark: **GET** **`/feed/elections/all`**
 
 ```json
 // Request
@@ -282,7 +272,7 @@ Saving voter registration data,
 // No response
 ```
 
-:x: **POST** **`/voterRoll/manual`**
+:white_check_mark: **POST** **`/voterRoll/manual`**
 **Authorization:** `Token from Firebase Auth`
 
 ```js

@@ -20,7 +20,8 @@ class ButtonGroup extends StatelessWidget {
   String secondaryCtaText;
   Function secodaryListener;
   bool isLoading;
-  ButtonGroup(this.primaryCtaText, this.primaryListener, {this.secondaryCtaText, this.secodaryListener, this.isLoading = false});
+  ButtonGroup(this.primaryCtaText, this.primaryListener,
+      {this.secondaryCtaText, this.secodaryListener, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +99,11 @@ class Headline extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 32.0,
-        horizontal: 32.0,
+      padding: const EdgeInsets.only(
+        top: 32.0,
+        bottom: 16.0,
+        left: 32.0,
+        right: 32.0,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,6 +194,70 @@ class ListButtonCell extends StatelessWidget {
             child: Text(buttonText.toUpperCase()),
           )
         ],
+      ),
+    );
+  }
+}
+
+class ListCellSmall extends StatelessWidget {
+  final String text;
+  const ListCellSmall(
+    this.text, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(
+        children: <Widget>[
+          // Container(
+          //   width: 32.0,
+          //   height: 32.0,
+          //   child: Icon(Icons.person_pin),
+          //   decoration: new BoxDecoration(
+          //     shape: BoxShape.circle,
+          //   ),
+          // ),
+          Text(
+            text,
+            style: Styles.body2(Theme.of(context)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ListCellSubtitle2 extends StatelessWidget {
+  final String text;
+  final Function onClick;
+  const ListCellSubtitle2(
+    this.text,
+    this.onClick, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: () {
+          onClick();
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24),
+          child: Row(
+            children: <Widget>[
+              Text(
+                text,
+                style: Styles.body2(Theme.of(context)),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:logging/logging.dart';
 import 'package:politic/data/models/voter_roll.dart';
+import 'package:politic/ui/home/voter_registration_flow.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -11,16 +12,20 @@ import '../util/lib.dart';
 import 'state_selection_presenter.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+  final VoterInformationFlow flow;
+
+  HomePage(this.flow, {Key key}) : super(key: key);
 
   @override
-  HomeListState createState() => new HomeListState();
+  HomeListState createState() => new HomeListState(flow);
 }
 
 class HomeListState extends State<HomePage> with LDEViewMixin implements HomeView {
+  final VoterInformationFlow flow;
+
   AdInitializer adInitializer;
 
-  HomeListState() {
+  HomeListState(this.flow) {
     final injector = Injector.getInjector();
     adInitializer = injector.get();
     adInitializer.showBanner(false);
@@ -35,7 +40,7 @@ class HomeListState extends State<HomePage> with LDEViewMixin implements HomeVie
         },
         child: MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (_) => HomePresenter(this)),
+            ChangeNotifierProvider(create: (_) => HomePresenter(this, flow)),
           ],
           child: Consumer<HomePresenter>(builder: (context, presenter, child) {
             Widget buttonContainer = Padding(

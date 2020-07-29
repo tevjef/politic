@@ -44,16 +44,6 @@ class FeedStateState extends State<FeedStatePage> with LDEViewMixin implements F
           return Scaffold(
             key: scaffoldKey,
             backgroundColor: Theme.of(context).colorScheme.surface,
-            appBar: AppBar(
-              brightness: Brightness.light,
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              // actions: <Widget>[menuButton],
-              title: Text(
-                "New Jersey’s 8th Congressional District".toUpperCase(),
-                style: Styles.overline(Theme.of(context)).copyWith(color: Theme.of(context).colorScheme.onSurface),
-              ),
-              elevation: 0,
-            ),
             body: RefreshIndicator(
               key: refreshIndicatorKey,
               onRefresh: handleRefresh,

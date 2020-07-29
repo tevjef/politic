@@ -9,8 +9,9 @@ function errorMiddleware(
   const message = error.message || "Something went wrong";
   let description = error;
   if (error instanceof Error) {
-    description = error.stack;
+    description = error;
   }
+  console.log(error);
   response.status(500).send({
     code: -1,
     message: message,
@@ -19,3 +20,11 @@ function errorMiddleware(
 }
 
 export default errorMiddleware;
+
+export function wrapAsync(fn: any) {
+  return function (req: Request, res: Response, next: NextFunction) {
+    // Make sure to `.catch()` any errors and pass them along to the `next()`
+    // middleware in the chain, in this case the error handler.
+    fn(req, res, next).catch(next);
+  };
+}

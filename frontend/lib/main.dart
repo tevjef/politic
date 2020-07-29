@@ -5,7 +5,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logging/logging.dart';
+import 'package:politic/data/repo.dart';
+import 'package:politic/ui/home/home_view.dart';
 import 'package:politic/ui/home/state_selection_view.dart';
+import 'package:politic/ui/home/voter_registration_flow.dart';
 
 import 'core/lib.dart';
 import 'ui/util/lib.dart';
@@ -48,9 +51,9 @@ void main() async {
     // S.delegate.resolution(fallback: new Locale("en", "")),
     // supportedLocales: S.delegate.supportedLocales,
     routes: <String, WidgetBuilder>{
-      Routes.home: (BuildContext context) => HomePage(),
+      Routes.home: (BuildContext context) => RootPage(),
     },
-    home: HomePage(),
+    home: RootPage(),
   );
 
   var error = new Logger('error');
@@ -64,4 +67,22 @@ void main() async {
             error.info(s.toString()),
             Crashlytics.instance.recordError(e, s)
           });
+}
+
+class RootPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Injector injector = Injector.getInjector();
+    Repo repo = injector.get();
+    repo.isSignedIn().then((value) {
+      var homeWidget = value ? PoliticHomePage() : HomePage(CreateVoterInformationFlow());
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => homeWidget,
+        ),
+      );
+    });
+
+    return Container();
+  }
 }

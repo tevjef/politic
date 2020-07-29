@@ -22,12 +22,30 @@ const statusProviders: ProviderMap = {
 };
 
 export class VoterRollHandler {
-  async saveVoterInformation(userId: string, request: EnrollmentRequest): Promise<undefined> {
-    await firebaseAdminService.updateVoterInformation(userId, request.enrollment.voterInformation)
-    return firebaseAdminService.updateNotificationToken(
+  async saveVoterInformation(
+    userId: string,
+    request: EnrollmentRequest
+  ): Promise<undefined> {
+    await firebaseAdminService.updateVoterInformation(
       userId,
-      request.enrollment.notificationToken
-    ).then(value => undefined);
+      request.enrollment.voterInformation
+    );
+    return firebaseAdminService
+      .updateNotificationToken(userId, request.enrollment.notificationToken)
+      .then((value) => undefined);
+  }
+
+  async saveManualUser(
+    userId: string,
+    notificationToken: string
+  ): Promise<undefined> {
+    await firebaseAdminService.manualEnrollment(
+      userId,
+      new Date()
+    );
+    return firebaseAdminService
+      .updateNotificationToken(userId, notificationToken)
+      .then((value) => undefined);
   }
 
   async checkRegistration(
@@ -42,8 +60,10 @@ export class VoterRollHandler {
 
     const provider =
       statusProviders[request.voterInformation.state] ?? defaultProvider;
-      console.log((await provider.checkStatus(request.voterInformation)).voterStatus);
-      return provider.checkStatus(request.voterInformation);
+    console.log(
+      (await provider.checkStatus(request.voterInformation)).voterStatus
+    );
+    return provider.checkStatus(request.voterInformation);
   }
 
   async getStates(): Promise<StatesResponse> {
