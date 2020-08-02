@@ -46,7 +46,7 @@ class SettingsState extends State<SettingsPage> with LDEViewMixin implements Set
 
           if (true) {
             resetAppData = ListCellSubtitle2(
-              presenter.email == null ? "Reset app data" : "Logout",
+              "Logout",
               () {
                 presenter.onLogout();
               },
@@ -92,17 +92,8 @@ class SettingsState extends State<SettingsPage> with LDEViewMixin implements Set
           return Scaffold(
             key: scaffoldKey,
             backgroundColor: Theme.of(context).colorScheme.surface,
-            appBar: AppBar(
-              brightness: Brightness.light,
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              elevation: 0,
-            ),
-            body: RefreshIndicator(
-              key: refreshIndicatorKey,
-              onRefresh: handleRefresh,
-              child: ListView(
-                children: <Widget>[...widgets],
-              ),
+            body: Column(
+              children: <Widget>[...widgets],
             ),
           );
         }),
@@ -155,7 +146,6 @@ class SettingsPresenter extends BasePresenter<SettingsView> with ChangeNotifier,
   }
 
   void onSignIn() async {
-    await repo.signinWithGoogle();
   }
 
   void onChangeLocation() {

@@ -64,10 +64,6 @@ export class NewYorkRegistrationProvider
         key: "lastName",
       },
       {
-        inputType: "text",
-        key: "zipcode",
-      },
-      {
         inputType: "selection",
         key: "zipcode",
         options: [

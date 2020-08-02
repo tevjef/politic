@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/animation/animation.dart';
 import 'package:politic/ui/util/lib.dart';
 
+import 'constants.dart';
 import 'rv.dart';
 
 class TextItem extends Item {
@@ -201,30 +203,39 @@ class ListButtonCell extends StatelessWidget {
 
 class ListCellSmall extends StatelessWidget {
   final String text;
+  final Widget image;
+  final Function onClick;
   const ListCellSmall(
-    this.text, {
+    this.text,
+    this.image,
+    this.onClick, {
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Row(
-        children: <Widget>[
-          // Container(
-          //   width: 32.0,
-          //   height: 32.0,
-          //   child: Icon(Icons.person_pin),
-          //   decoration: new BoxDecoration(
-          //     shape: BoxShape.circle,
-          //   ),
-          // ),
-          Text(
-            text,
-            style: Styles.body2(Theme.of(context)),
+    Widget imageWidget = SizedBox.shrink();
+    if (image != null) {
+      imageWidget = image;
+    }
+    return Material(
+      color: Theme.of(context).colorScheme.surface,
+      child: InkWell(
+        onTap: onClick,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            textBaseline: TextBaseline.ideographic,
+            children: <Widget>[
+              imageWidget,
+              Text(
+                text,
+                style: Styles.body2(Theme.of(context)),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -289,6 +300,47 @@ class ImageHeadline extends StatelessWidget {
             style: Styles.headline5(Theme.of(context)),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CircularImage extends StatelessWidget {
+  final Color stokeColor;
+  final String imageUrl;
+  final double strokeWidth;
+  final double imageSize;
+
+  const CircularImage(this.imageUrl, this.stokeColor, this.strokeWidth, this.imageSize);
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      errorWidget: (context, url, error) {
+        return CircularImage(Constants.placeholderImageUrl, stokeColor, strokeWidth, imageSize);
+      },
+      imageBuilder: (context, imageProvider) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(100)),
+          border: Border.all(width: strokeWidth, color: stokeColor, style: BorderStyle.solid),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(100)),
+            border: Border.all(width: strokeWidth, color: Colors.white, style: BorderStyle.solid),
+          ),
+          child: Container(
+            width: imageSize,
+            height: imageSize,
+            decoration: new BoxDecoration(
+                shape: BoxShape.circle,
+                image: new DecorationImage(
+                  fit: BoxFit.cover,
+                  image: imageProvider,
+                )),
+          ),
+        ),
       ),
     );
   }

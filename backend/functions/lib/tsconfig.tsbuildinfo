@@ -142,13 +142,13 @@
         "affectsGlobalScope": false
       },
       "../node_modules/@types/qs/index.d.ts": {
-        "version": "b9cd23278040e3d4ea73660829a5c0d25cc303e493f79668e605f69edaf6d7b7",
-        "signature": "b9cd23278040e3d4ea73660829a5c0d25cc303e493f79668e605f69edaf6d7b7",
+        "version": "adec64722d7da7581f6137c69426fc6e3859609e3c2ceeffb311f0be9a5ba4ae",
+        "signature": "adec64722d7da7581f6137c69426fc6e3859609e3c2ceeffb311f0be9a5ba4ae",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/express-serve-static-core/index.d.ts": {
-        "version": "dad5b9b9b31988fc9b01e45e2f33358b8583238a1d85b828979d8f911d076899",
-        "signature": "dad5b9b9b31988fc9b01e45e2f33358b8583238a1d85b828979d8f911d076899",
+        "version": "343113a79319b75b3b735323d4c8667faed0a1fbe4ba696ecbd89eb3518ab244",
+        "signature": "343113a79319b75b3b735323d4c8667faed0a1fbe4ba696ecbd89eb3518ab244",
         "affectsGlobalScope": true
       },
       "../node_modules/@types/mime/index.d.ts": {
@@ -157,8 +157,8 @@
         "affectsGlobalScope": false
       },
       "../node_modules/@types/serve-static/index.d.ts": {
-        "version": "5b56da2c458a9522dbfec8ee94287abe037f52fc9dea766d87bd9aaf100cf14f",
-        "signature": "5b56da2c458a9522dbfec8ee94287abe037f52fc9dea766d87bd9aaf100cf14f",
+        "version": "adde1c915ab3b61a2821c72f226546c6c119a061a2ff4d6f90b3d61c005ae1f8",
+        "signature": "adde1c915ab3b61a2821c72f226546c6c119a061a2ff4d6f90b3d61c005ae1f8",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/connect/index.d.ts": {
@@ -177,8 +177,8 @@
         "affectsGlobalScope": false
       },
       "../node_modules/firebase-functions/lib/function-configuration.d.ts": {
-        "version": "0853b3b64117e2f64f7489e4484c0fd87767f26e68f0cebeb766feb2d2ae0e49",
-        "signature": "0853b3b64117e2f64f7489e4484c0fd87767f26e68f0cebeb766feb2d2ae0e49",
+        "version": "cf47ab8dd27429cbe2e202df0d63b57632d5d9fdcda8cb4aadd6c9756dde53e5",
+        "signature": "cf47ab8dd27429cbe2e202df0d63b57632d5d9fdcda8cb4aadd6c9756dde53e5",
         "affectsGlobalScope": false
       },
       "../node_modules/firebase-functions/lib/cloud-functions.d.ts": {
@@ -447,8 +447,8 @@
         "affectsGlobalScope": false
       },
       "../node_modules/firebase-functions/lib/providers/pubsub.d.ts": {
-        "version": "35663f87496f91f80e16eb8a35a7c7c8e8ee0c6d321c93b4b48648911e225228",
-        "signature": "35663f87496f91f80e16eb8a35a7c7c8e8ee0c6d321c93b4b48648911e225228",
+        "version": "0e9dcd03ba9f6dfe4ba74845cd86920b5e5de6704c4c8eac2fd292817d77773e",
+        "signature": "0e9dcd03ba9f6dfe4ba74845cd86920b5e5de6704c4c8eac2fd292817d77773e",
         "affectsGlobalScope": false
       },
       "../node_modules/firebase-functions/lib/providers/remoteconfig.d.ts": {
@@ -467,13 +467,13 @@
         "affectsGlobalScope": false
       },
       "../node_modules/firebase-functions/lib/logger.d.ts": {
-        "version": "211d987405de98ba541beeeb0bdd74233bc09b180ff0a0d8dedd4660becc191b",
-        "signature": "211d987405de98ba541beeeb0bdd74233bc09b180ff0a0d8dedd4660becc191b",
+        "version": "3ffc6f27ce956873f171f8bc30a52448d25a9f562f2c3accb943e41bd6fa7427",
+        "signature": "3ffc6f27ce956873f171f8bc30a52448d25a9f562f2c3accb943e41bd6fa7427",
         "affectsGlobalScope": false
       },
       "../node_modules/firebase-functions/lib/handler-builder.d.ts": {
-        "version": "5bc9f9cd10468d03fae42d2753b45c3a64fab6d4500e69fe9bfa67b4a134c306",
-        "signature": "5bc9f9cd10468d03fae42d2753b45c3a64fab6d4500e69fe9bfa67b4a134c306",
+        "version": "4b02cdd25c811e36d1aac25283bc864a95b9e922baf3141968853eb57d421e3c",
+        "signature": "4b02cdd25c811e36d1aac25283bc864a95b9e922baf3141968853eb57d421e3c",
         "affectsGlobalScope": false
       },
       "../node_modules/firebase-functions/lib/config.d.ts": {
@@ -482,8 +482,8 @@
         "affectsGlobalScope": false
       },
       "../node_modules/firebase-functions/lib/function-builder.d.ts": {
-        "version": "b39a0d1bc8cc6026ef9aae0c0e6c1cb0bada5493d0cbceb707e1dc2fb83b628b",
-        "signature": "b39a0d1bc8cc6026ef9aae0c0e6c1cb0bada5493d0cbceb707e1dc2fb83b628b",
+        "version": "e92c50eef74695d5c8a057c141937ef2592932292b93d0654260ab57ba3f35a2",
+        "signature": "e92c50eef74695d5c8a057c141937ef2592932292b93d0654260ab57ba3f35a2",
         "affectsGlobalScope": false
       },
       "../node_modules/firebase-functions/lib/index.d.ts": {
@@ -1177,13 +1177,13 @@
         "affectsGlobalScope": false
       },
       "../src/model/user.ts": {
-        "version": "88ed93ff23bff0112e33620ee76295047534e06fd180934720ab8067e514aef7",
-        "signature": "4e1b970d39b27b2c950391c727fc9044821aa848369543ebde0305f6458d113a",
+        "version": "989fbf7b673ec1b2d04a98567824622c90279d87c9cb81709a3a1ebbeddb1c69",
+        "signature": "c465d6542f5ce5e3ddf7cca3f8fbe1175c744d3c6a91308cba2851ecfc2ddd7b",
         "affectsGlobalScope": false
       },
       "../src/services/firebaseadminservice.ts": {
-        "version": "6d48b91e7c5cddf0db65139a9626077f11c8797d37b3d64017e4804b4647c7b6",
-        "signature": "6e3815cda1d658de72220fe45b37c0d437661e8e464567700ba501626453f415",
+        "version": "d4f1ded9b926253930f217fad74dbeeebf1e35bbde328a718381c9e5f893e608",
+        "signature": "744a51038bb121b0a440d8f91cade4c949bc1f067c62f8ce5c5490e03ab2ae8f",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/puppeteer/errors.d.ts": {
@@ -1207,7 +1207,7 @@
         "affectsGlobalScope": false
       },
       "../src/handlers/voter_roll/states/newyorkregistrationprovider.ts": {
-        "version": "be43897d564fdef038a1135f7d7456a45afda45ee35b65537e9a5325bc96965a",
+        "version": "1a135fb6359bb40f126bbcce0dea91600b0a3c5fb4af8d45493c714ddc38bda4",
         "signature": "5433774e31d705b83dff0e2e5eea389bd3c59b823f5a43683c12e5f6f4c8396b",
         "affectsGlobalScope": false
       },
@@ -1331,8 +1331,13 @@
         "signature": "41acca155e6e0f825a4ee4f4ce85017aff2c33f5f6328feebab74d704f8f96f3",
         "affectsGlobalScope": false
       },
+      "../src/services/util/legislator_utils.ts": {
+        "version": "2153e54e82eb80005eda677d1589dd45edcb93db4e42c05b8410e0c389e39937",
+        "signature": "91e2481b89774bd7c7f719aa9cb55edf2ea77b4b4a64d67e45518db3b84f2721",
+        "affectsGlobalScope": false
+      },
       "../src/services/representativeservice.ts": {
-        "version": "95fceb266df487492ae9bbf7bf8fabc88082f4143d3cc24b50146466154efa86",
+        "version": "e076272e325e7278af3b07fc130ab4e794595058adb08bbba647280f1aaf216f",
         "signature": "efe81465a1bc48fb36a96832dc0ea3e18b9e5160741a1e394465dd3edcce8e62",
         "affectsGlobalScope": false
       },
@@ -1347,8 +1352,8 @@
         "affectsGlobalScope": false
       },
       "../src/services/civicinformationservice.ts": {
-        "version": "7b570553b6e2c0295ba01f1d238d4bd056c09acf4e4d6420f0bf1ba95576ca62",
-        "signature": "c178d7a75bdb47ba53332bdffff0283c5abc2a48b8833b636a52febd6845da1b",
+        "version": "411fff99b39a14b7465e41b3512fe42a1b2a25c30784d00317ee2642e9ef7962",
+        "signature": "8fc0ed6f1e6ad5c9c7bbf30d26a88d2ce88a69f26c214144ad77de23a31dde6b",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/node-geocoder/index.d.ts": {
@@ -1357,7 +1362,7 @@
         "affectsGlobalScope": false
       },
       "../src/handlers/datefeedshandler.ts": {
-        "version": "0ad76464d5627e1765ef2941933df5bda627d5742f81e395fe8f5d9ab69fc578",
+        "version": "decfc7e44994e5059356b46e67b4a26d038fdc0d3d5de44704809b6f36185de0",
         "signature": "735762639998b318d25e945d42f12c386842c817f1df514b688cce412cf88637",
         "affectsGlobalScope": false
       },
@@ -1367,7 +1372,7 @@
         "affectsGlobalScope": false
       },
       "../src/handlers/userhandler.ts": {
-        "version": "2e7e78ed9f134cd41b847b0c5e83ccc9cf8f3bbcfdf1f130733841df619cfb99",
+        "version": "16e55a8d48c6331da4bf0f526e63aace9e93a149f1fce82f32c423e143311738",
         "signature": "90c63920bced6fc104126d21535fdf28384ac85f304fcd273de62737332d7eb2",
         "affectsGlobalScope": false
       },
@@ -3178,6 +3183,7 @@
         "../node_modules/@types/node/ts3.2/index.d.ts",
         "../node_modules/firebase-functions/lib/index.d.ts",
         "../src/model/user.ts",
+        "../src/services/civicinformationservice.ts",
         "../src/services/firebaseadminservice.ts"
       ],
       "../src/handlers/voter_roll/states/defaultregistrationprovider.ts": [
@@ -3278,6 +3284,7 @@
         "../src/model/feed.ts",
         "../src/model/google_civicapi/voterinfo.ts",
         "../src/services/representativeservice.ts",
+        "../src/services/util/legislator_utils.ts",
         "../src/services/util/state_utils.ts"
       ],
       "../src/services/firebaseadminservice.ts": [
@@ -3311,7 +3318,12 @@
         "../node_modules/@types/node/ts3.2/index.d.ts",
         "../node_modules/axios/index.d.ts",
         "../src/model/feed.ts",
-        "../src/model/github_unitedstates/legislators.ts"
+        "../src/model/github_unitedstates/legislators.ts",
+        "../src/services/util/legislator_utils.ts"
+      ],
+      "../src/services/util/legislator_utils.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
       "../src/services/util/state_utils.ts": [
         "../node_modules/@types/node/base.d.ts",
@@ -5354,6 +5366,7 @@
       "../src/services/newjerseyregistrationservice.ts",
       "../src/services/newyorkregistrationservice.ts",
       "../src/services/representativeservice.ts",
+      "../src/services/util/legislator_utils.ts",
       "../src/services/util/state_utils.ts"
     ]
   },

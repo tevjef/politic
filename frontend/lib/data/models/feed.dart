@@ -26,8 +26,9 @@ class StateRepresentative {
   final String displayName;
   final String image;
   final String bioguide;
+  final String party;
   final String description;
-  StateRepresentative({this.displayName, this.image, this.description, this.bioguide});
+  StateRepresentative({this.displayName, this.image, this.party, this.description, this.bioguide});
   factory StateRepresentative.fromJson(Map<String, dynamic> json) => _$StateRepresentativeFromJson(json);
   Map<String, dynamic> toJson() => _$StateRepresentativeToJson(this);
 }
@@ -144,6 +145,28 @@ class ElectionResponse {
     if (this.election != null) {
       data['election'] = this.election.toJson();
     }
+    return data;
+  }
+}
+
+class Elections {
+  String id;
+  String electionName;
+  String electionDay;
+
+  Elections({this.id, this.electionName, this.electionDay});
+
+  Elections.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    electionName = json['electionName'];
+    electionDay = json['electionDay'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['electionName'] = this.electionName;
+    data['electionDay'] = this.electionDay;
     return data;
   }
 }
@@ -329,15 +352,15 @@ class Candidate {
 }
 
 class ElectionsResponse {
-  List<Election> elections;
+  List<Elections> elections;
 
   ElectionsResponse({this.elections});
 
   ElectionsResponse.fromJson(Map<String, dynamic> json) {
     if (json['elections'] != null) {
-      elections = new List<Election>();
+      elections = new List<Elections>();
       json['elections'].forEach((v) {
-        elections.add(new Election.fromJson(v));
+        elections.add(new Elections.fromJson(v));
       });
     }
   }

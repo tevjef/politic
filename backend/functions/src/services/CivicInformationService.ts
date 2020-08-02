@@ -18,6 +18,7 @@ import {
   GoogleVoterInfoResponse,
   GoogleElectionsResponse,
 } from "../model/google_civicapi/VoterInfo";
+import { ImageSize, imageFromBioguide } from "./util/legislator_utils";
 
 const GOOGLE_REPRESENTATIVES_API =
   "https://www.googleapis.com/civicinfo/v2/representatives?includeOffices=true";
@@ -32,7 +33,8 @@ const apiKey = functions.config().civicapi.key;
 
 const federal_pattern: RegExp = RegExp("^ocd-division/country:us$");
 const state_pattern = /ocd-division\/country:us\/state:(\D{2}$)/;
-const cd_pattern = /ocd-division\/country:us\/state:(\D{2})\/cd:/;
+const cd_pattern = /ocd-division\/country:us\/state:(\D{2})\/cd:(\d*)/;
+const ld_pattern = /ocd-division\/country:us\/state:(\D{2})\/sldu:(\d*)/;
 // const sl_pattern = /ocd-division\/country:us\/state:(\D{2})\/(sldl:|sldu:)/;
 // const county_pattern = /ocd-division\/country:us\/state:\D{2}\/county:\D+/;
 // const local_pattern = /ocd-division\/country:us\/state:\D{2}\/place:\D+/;
@@ -68,6 +70,7 @@ export class CivicInformationService {
       .then((d) => d.data)
       .catch((err) => err);
 
+    console.log(response);
     if (response instanceof Error) {
       return {};
     }
@@ -129,6 +132,36 @@ export class CivicInformationService {
     };
   }
 
+  async getDistrict(address: string): Promise<DistrictInfo> {
+    const response: GoogleRepresentatives = (
+      await this.getRepsFromCivicApi(address)
+    ).data;
+
+    let cd = "";
+    let ld = "";
+
+    const cdResult = await response.offices
+      .find(byOfficeDivision(cd_pattern))
+      ?.divisionId.match(cd_pattern);
+
+    if (cdResult !== undefined && cdResult !== null) {
+      cd = cdResult[2];
+    }
+
+    const ldResult = await response.offices
+      .find(byOfficeDivision(ld_pattern))
+      ?.divisionId.match(ld_pattern);
+
+    if (ldResult !== undefined && ldResult !== null) {
+      ld = ldResult[2];
+    }
+
+    return {
+      cd: cd,
+      ld: ld,
+    };
+  }
+
   async findRepresentatives(address: string): Promise<LegislatorsResponse> {
     const response: GoogleRepresentatives = (
       await this.getRepsFromCivicApi(address)
@@ -142,34 +175,37 @@ export class CivicInformationService {
           const legislator = await representativeService.getLegislatorByName(
             official.name
           );
+          const photoUrl =
+            official.photoUrl ?? legislator != null
+              ? imageFromBioguide(legislator!.id.bioguide, ImageSize.small)
+              : null;
           const lastterm = legislator?.terms[legislator?.terms.length - 1];
-          const rank = lastterm?.state_rank == "junior" ? "Junior" : "Senior";
+          const rank = lastterm?.state_rank === "junior" ? "Junior" : "Senior";
           const stateName = statesMap[lastterm?.state ?? ""];
           const startDate = moment(lastterm!.start, "YYYY-MM-DD").format("LL");
           return <FeedRepresentative>{
             displayName: official.name,
-            image: official.photoUrl,
+            image: photoUrl,
+            party: official.party,
             description: `${rank} Senator for ${stateName} since ${startDate}`,
           };
         })!
     );
 
-            console.log(response.offices);
     const cdRep: FeedRepresentative = await response.offices
       .find(byOfficeDivision(cd_pattern))
       ?.officialIndices.map(async (index) => {
         const official = response.officials[index];
-
-        if (official.name == "VACANT") {
+        if (official.name === "VACANT") {
           return <FeedRepresentative>{
             displayName: official.name,
             party: official.party,
             description: `This seat is currently vacant.`,
           };
         }
-          const legislator = await representativeService.getLegislatorByName(
-            official.name
-          );
+        const legislator = await representativeService.getLegislatorByName(
+          official.name
+        );
         const lastterm = legislator?.terms[legislator?.terms.length - 1];
         const stateName = statesMap[lastterm!.state];
         const startDate = moment(lastterm!.start, "YYYY-MM-DD").format("LL");
@@ -232,7 +268,7 @@ export class CivicInformationService {
     address: string,
     electionId: string = "0"
   ) {
-    let url = encodeURI(
+    const url = encodeURI(
       GOOGLE_VOTER_INFO_API.concat("address=")
         .concat(address)
         .concat("&electionId=")
@@ -252,7 +288,7 @@ export class CivicInformationService {
   }
 
   private async getElectionsFromCivicApi(): Promise<GoogleElectionsResponse> {
-    let url = encodeURI(GOOGLE_ELECTIONS_API.concat("key=").concat(apiKey));
+    const url = encodeURI(GOOGLE_ELECTIONS_API.concat("key=").concat(apiKey));
 
     const resp = await axios({
       url: url,
@@ -296,6 +332,11 @@ function getOrdinal(d: number) {
     default:
       return "th";
   }
+}
+
+export interface DistrictInfo {
+  cd: string;
+  ld: string;
 }
 
 export interface NormalizedInput {

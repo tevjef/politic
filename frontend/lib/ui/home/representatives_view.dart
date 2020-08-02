@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:politic/data/models/feed.dart';
 import 'package:politic/data/models/voter_roll.dart';
+import 'package:politic/ui/util/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/lib.dart';
 import '../../data/lib.dart';
@@ -35,11 +37,16 @@ class RepresentativesState extends State<RepresentativesPage> with LDEViewMixin 
           return Scaffold(
             key: scaffoldKey,
             backgroundColor: Theme.of(context).colorScheme.surface,
-            body: ListView(
+            body: Stack(
               children: <Widget>[
-                SenatorsWidget(presenter),
-                RepresentativeWidget(presenter),
-                LocalRepresentativeWidget(presenter),
+                presenter.isLoading ? Center(child: CircularProgressIndicator()) : SizedBox.shrink(),
+                ListView(
+                  children: <Widget>[
+                    SenatorsWidget(presenter),
+                    RepresentativeWidget(presenter),
+                    LocalRepresentativeWidget(presenter),
+                  ],
+                ),
               ],
             ),
           );
@@ -77,28 +84,8 @@ class SenatorsWidget extends StatelessWidget {
           ),
           child: Row(
             children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  border: Border.all(width: 2, color: Theme.of(context).colorScheme.primary, style: BorderStyle.solid),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    border: Border.all(width: 2, color: Colors.white, style: BorderStyle.solid),
-                  ),
-                  child: Container(
-                    width: 64.0,
-                    height: 64.0,
-                    decoration: new BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(senator.image),
-                        )),
-                  ),
-                ),
-              ),
+              CircularImage(
+                  senator.image ?? Constants.placeholderImageUrl, Constants.colorForParty(senator.party), 2, 64),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16),
@@ -153,6 +140,19 @@ class RepresentativeWidget extends StatelessWidget {
         return Container();
       }
 
+      if (presenter.representatives.representative.localRepresentative == null) {
+        return Column(
+          children: <Widget>[
+            Headline("Representatives",
+                "The United States is divided into 435 congressional districts, each with a population of about 710,000 individuals. Each district elects a representative to the U.S. House of Representatives for a two-year term."),
+            ListButtonCell("We could not find your representative", "Please manually update your address", "Update",
+                () {
+              presenter.onUpdateAddressClick();
+            }),
+          ],
+        );
+      }
+
       var rep = presenter.representatives.representative.localRepresentative;
       var widget = Padding(
         padding: const EdgeInsets.only(
@@ -163,28 +163,7 @@ class RepresentativeWidget extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(100)),
-                border: Border.all(width: 2, color: Theme.of(context).colorScheme.primary, style: BorderStyle.solid),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  border: Border.all(width: 2, color: Colors.white, style: BorderStyle.solid),
-                ),
-                child: Container(
-                  width: 64.0,
-                  height: 64.0,
-                  decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: new DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(rep.image),
-                      )),
-                ),
-              ),
-            ),
+            CircularImage(rep.image ?? Constants.placeholderImageUrl, Constants.colorForParty(rep.party), 2, 64),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -247,21 +226,34 @@ class LocalRepresentativeWidget extends StatelessWidget {
             var value = presenter.representatives.local[index];
             return Padding(
               padding: const EdgeInsets.only(
-                top: 32.0,
-                bottom: 16.0,
-                left: 32.0,
-                right: 32.0,
+                top: 20.0,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    value.officeTitle,
-                    style: Styles.headline6(Theme.of(context)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
+                    child: Text(
+                      value.officeTitle,
+                      style: Styles.headline6(Theme.of(context)),
+                    ),
                   ),
                   ...value.officials.map(
                     (rep) {
-                      return ListCellSmall(rep.displayName);
+                      return ListCellSmall(
+                          "${rep.displayName} (${rep.party})",
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: CircularImage(
+                                rep.image ?? Constants.placeholderImageUrl, Constants.colorForParty(rep.party), 1, 24),
+                          ), () async {
+                        var url = Uri.encodeFull("https://google.com/search?q=${rep.displayName}");
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      });
                     },
                   ),
                 ],
@@ -303,26 +295,8 @@ class RepresentativesPresenter extends BasePresenter<RepresentativesView> with C
     notifyListeners();
   }
 
-  onSaveAndContinue(VoterInformation voterInformation) async {
-    updateLoading(true);
-    var userUid = await repo.signIn().catchError((error) => {view.showErrorMessage(error, null)});
-    if (userUid == null) {
-      return;
-    }
-
-    await repo.saveVoterInformation(voterInformation).catchError((error) => {view.showErrorMessage(error, null)});
-    updateLoading(false);
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LocationServicesPage(),
-      ),
-    );
-  }
-
-  onContinue(BuildContext context) {
-    Navigator.pushReplacement(
+  void onUpdateAddressClick() {
+    Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => LocationServicesPage(),

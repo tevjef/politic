@@ -38,7 +38,7 @@ dependencies:
   firebase_auth: ^0.16.1
   geocoder: ^0.2.1
   analyzer: 0.38.2 # The error is raised if you use directly or transitively v0.38.3
-  google_sign_in: ^4.0.0
+  cached_network_image: ^2.2.0+1
 
 dev_dependencies:
   flutter_test:

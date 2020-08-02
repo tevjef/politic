@@ -32,9 +32,9 @@ export interface LocationUpdateResponse {
 }
 
 export interface Location {
-  state: string;
-  zipcode: string;
-  latlng: LocationLatLng;
-  legislativeDistrict: string;
-  congressionalDistrict: string;
+  state?: string;
+  zipcode?: string;
+  latlng?: LocationLatLng;
+  legislativeDistrict?: string;
+  congressionalDistrict?: string;
 }

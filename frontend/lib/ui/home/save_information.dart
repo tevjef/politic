@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:politic/data/models/voter_roll.dart';
+import 'package:politic/data/notifications.dart';
 import 'package:politic/ui/home/voter_registration_flow.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
@@ -101,10 +102,12 @@ class SaveInformationPresenter extends BasePresenter<SaveInformationView> with C
   bool isLoading = false;
 
   final VoterInformationFlow flow;
+  NotificationRepo notificationRepo;
 
   SaveInformationPresenter(SaveInformationView view, this.flow) : super(view) {
     final injector = Injector.getInjector();
     repo = injector.get();
+    notificationRepo = injector.get();
   }
 
   void updateLoading(bool isLoading) {
@@ -120,6 +123,7 @@ class SaveInformationPresenter extends BasePresenter<SaveInformationView> with C
     }
 
     await repo.saveVoterInformation(voterInformation).catchError((error) => {view.showErrorMessage(error, null)});
+    notificationRepo.initializeLocalNotifications();
     updateLoading(false);
 
     flow.onVoterInformationComplete(context);
@@ -127,6 +131,11 @@ class SaveInformationPresenter extends BasePresenter<SaveInformationView> with C
 
   onContinue(BuildContext context) async {
     updateLoading(true);
+    var userUid = await repo.signIn().catchError((error) => {view.showErrorMessage(error, null)});
+    if (userUid == null) {
+      return;
+    }
+
     await repo.manualRegistration().then((value) {
       flow.onVoterInformationComplete(context);
     }).catchError((error) {

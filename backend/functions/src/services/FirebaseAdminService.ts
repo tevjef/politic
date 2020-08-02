@@ -70,7 +70,7 @@ export class FirebaseAdminService {
       .set({ manualMarkedEnrolled: date.getTime() })
       .then((value) => {
         console.log(
-          `${value.writeTime.toDate()}: manual enrollment user: ${userId}`
+          `${value.writeTime.toDate()}: data: ${date.getTime()} manual enrollment user: ${userId}`
         );
         return undefined;
       });
@@ -93,7 +93,7 @@ export class FirebaseAdminService {
   }
 }
 
-class FirestoreReadError extends Error {
+export class FirestoreReadError extends Error {
   constructor(
     message: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>
   ) {

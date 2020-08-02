@@ -2,10 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:politic/data/models/feed.dart';
+import 'package:politic/data/models/user.dart';
 import 'package:politic/ui/home/feed_state_view.dart';
 import 'package:politic/ui/home/representatives_view.dart';
 import 'package:politic/ui/home/settings_view.dart';
 import 'package:politic/ui/home/state_selection_view.dart';
+import 'package:politic/ui/util/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -43,7 +45,7 @@ class PoliticHomeState extends State<PoliticHomePage> with LDEViewMixin implemen
       },
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => PoliticHomePresenter(this)),
+          ChangeNotifierProvider(create: (_) => PoliticHomePresenter(this, context)),
         ],
         child: Consumer<PoliticHomePresenter>(builder: (context, presenter, child) {
           final menuButton = new PopupMenuButton<int>(
@@ -55,6 +57,14 @@ class PoliticHomeState extends State<PoliticHomePage> with LDEViewMixin implemen
             ),
           );
 
+          var title = "";
+
+          if (presenter.districtLocation != null) {
+            var cd = presenter.districtLocation.congressionalDistrict;
+            var district = cd.isNotEmpty ? getOrdinal(int.parse(cd)) : "";
+            title = "${Constants.states[presenter.districtLocation.state]}'s ${cd}${district} congressional district".toUpperCase();
+          }
+
           return Scaffold(
             key: scaffoldKey,
             backgroundColor: Theme.of(context).colorScheme.surface,
@@ -63,7 +73,7 @@ class PoliticHomeState extends State<PoliticHomePage> with LDEViewMixin implemen
               backgroundColor: Theme.of(context).colorScheme.surface,
               // actions: <Widget>[menuButton],
               title: Text(
-                "New Jersey’s 8th Congressional District".toUpperCase(),
+                title,
                 style: Styles.overline(Theme.of(context)).copyWith(color: Theme.of(context).colorScheme.onSurface),
               ),
               elevation: 0,
@@ -71,12 +81,12 @@ class PoliticHomeState extends State<PoliticHomePage> with LDEViewMixin implemen
             bottomNavigationBar: BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.account_balance),
-                  title: Text('Representatives'),
-                ),
-                BottomNavigationBarItem(
                   icon: Icon(Icons.format_align_left),
                   title: Text('Feed'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_balance),
+                  title: Text('Representatives'),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.note),
@@ -92,14 +102,20 @@ class PoliticHomeState extends State<PoliticHomePage> with LDEViewMixin implemen
               unselectedItemColor: Theme.of(context).colorScheme.onSurface.withAlpha(150),
               onTap: _onItemTapped,
             ),
-            body: IndexedStack(
-              index: _selectedIndex,
+            body: Stack(
               children: <Widget>[
-              RepresentativesPage(),
-              FeedStatePage(),
-              LocalElectionPage(),
-              SettingsPage()
-            ]),
+                IndexedStack(
+                  index: _selectedIndex,
+                  children: <Widget>[
+                    presenter.districtLocation != null ? FeedStatePage(presenter.districtLocation) : Container(),
+                    RepresentativesPage(),
+                    LocalElectionPage(),
+                    SettingsPage()
+                  ],
+                ),
+                presenter.isLoading ? Center(child: CircularProgressIndicator()) : SizedBox.shrink(),
+              ],
+            ),
           );
         }),
       ),
@@ -108,6 +124,20 @@ class PoliticHomeState extends State<PoliticHomePage> with LDEViewMixin implemen
 
   @override
   void onRefreshData() {}
+
+  String getOrdinal(int d) {
+    if (d > 3 && d < 21) return "th";
+    switch (d % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  }
 }
 
 abstract class PoliticHomeView implements BaseView, ListOps {
@@ -116,17 +146,34 @@ abstract class PoliticHomeView implements BaseView, ListOps {
 
 class PoliticHomePresenter extends BasePresenter<PoliticHomeView> with ChangeNotifier, DiagnosticableTreeMixin {
   Repo repo;
+  final BuildContext context;
+  DistrictLocation districtLocation;
+  bool isLoading = false;
 
-  StateFeedResponse stateFeedResponse;
-
-  PoliticHomePresenter(PoliticHomeView view) : super(view) {
+  PoliticHomePresenter(PoliticHomeView view, this.context) : super(view) {
     final injector = Injector.getInjector();
     repo = injector.get();
     loadData();
   }
 
+  void updateLoading(bool isLoading) {
+    this.isLoading = isLoading;
+    notifyListeners();
+  }
+
   loadData() async {
-    stateFeedResponse = await repo.getStatesFeed("NJ").catchError((error) => {view.showErrorMessage(error, null)});
+    updateLoading(true);
+    districtLocation = await repo.getLocation().catchError((error) => {view.showErrorMessage(error, null)});
+    updateLoading(false);
+
+    if (districtLocation.state == null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LocationServicesPage(),
+        ),
+      );
+    }
     notifyListeners();
   }
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:politic/data/notifications.dart';
 
 import '../../core/lib.dart';
 import '../../data/lib.dart';
@@ -62,6 +63,9 @@ abstract class LDEViewMixin<T extends StatefulWidget> extends State<T> implement
 
   @override
   void initState() {
+    Injector injector = Injector.getInjector();
+    NotificationRepo notificationRepo = injector.get();
+    notificationRepo.register(scaffoldKey);
     super.initState();
   }
 

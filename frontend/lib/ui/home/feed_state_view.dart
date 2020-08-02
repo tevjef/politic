@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:politic/data/models/feed.dart';
+import 'package:politic/data/models/user.dart';
+import 'package:politic/ui/util/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,14 +14,18 @@ import '../util/lib.dart';
 import 'location_services.dart';
 
 class FeedStatePage extends StatefulWidget {
-  const FeedStatePage({Key key}) : super(key: key);
+  final DistrictLocation districtLocation;
+
+  const FeedStatePage(this.districtLocation, {Key key}) : super(key: key);
 
   @override
-  FeedStateState createState() => new FeedStateState();
+  FeedStateState createState() => new FeedStateState(districtLocation);
 }
 
 class FeedStateState extends State<FeedStatePage> with LDEViewMixin implements FeedStateView {
-  FeedStateState() {}
+  final DistrictLocation districtLocation;
+
+  FeedStateState(this.districtLocation);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +35,7 @@ class FeedStateState extends State<FeedStatePage> with LDEViewMixin implements F
       },
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => FeedStatePresenter(this)),
+          ChangeNotifierProvider(create: (_) => FeedStatePresenter(this, districtLocation)),
         ],
         child: Consumer<FeedStatePresenter>(builder: (context, presenter, child) {
           final menuButton = new PopupMenuButton<int>(
@@ -44,59 +50,60 @@ class FeedStateState extends State<FeedStatePage> with LDEViewMixin implements F
           return Scaffold(
             key: scaffoldKey,
             backgroundColor: Theme.of(context).colorScheme.surface,
-            body: RefreshIndicator(
-              key: refreshIndicatorKey,
-              onRefresh: handleRefresh,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 23),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Upcoming election in 21 Days".toUpperCase(),
-                              style: Styles.overline(Theme.of(context)),
-                            ),
-                            Text(
-                              "You’re registered!",
-                              style: Styles.headline5(Theme.of(context)),
-                            ),
-                          ],
-                        ),
-                        FlatButton(
-                          textColor: Theme.of(context).colorScheme.primary,
-                          child: Text("Find Polls".toUpperCase()),
-                          onPressed: () {
-                            presenter.onFindPollsClick();
-                          },
-                        ),
-                      ],
+            body: Stack(
+              children: <Widget>[
+                presenter.isLoading ? Center(child: CircularProgressIndicator()) : SizedBox.shrink(),
+                ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 23),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Upcoming election in 21 Days".toUpperCase(),
+                                style: Styles.overline(Theme.of(context)),
+                              ),
+                              Text(
+                                "You’re registered!",
+                                style: Styles.headline5(Theme.of(context)),
+                              ),
+                            ],
+                          ),
+                          FlatButton(
+                            textColor: Theme.of(context).colorScheme.primary,
+                            child: Text("Find Polls".toUpperCase()),
+                            onPressed: () {
+                              presenter.onFindPollsClick();
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 106,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
-                      child: RepresentativeStories(presenter),
+                    Container(
+                      height: 106,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: RepresentativeStories(presenter),
+                      ),
                     ),
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    itemCount: presenter.stateFeedResponse?.feed?.length ?? 0,
-                    itemBuilder: (BuildContext context, int index) {
-                      return StateFeedWidget(presenter.stateFeedResponse.feed[index]);
-                    },
-                  ),
-                ],
-              ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      itemCount: presenter.stateFeedResponse?.feed?.length ?? 0,
+                      itemBuilder: (BuildContext context, int index) {
+                        return StateFeedWidget(presenter.stateFeedResponse.feed[index]);
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
           );
         }),
@@ -187,28 +194,7 @@ class RepresentativeStories extends StatelessWidget {
           var rep = presenter.stateFeedResponse.representatives[index];
           return Column(
             children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  border: Border.all(width: 2, color: Theme.of(context).colorScheme.primary, style: BorderStyle.solid),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    border: Border.all(width: 2, color: Colors.white, style: BorderStyle.solid),
-                  ),
-                  child: Container(
-                    width: 50.0,
-                    height: 50.0,
-                    decoration: new BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(rep.image),
-                        )),
-                  ),
-                ),
-              ),
+              CircularImage(rep.image ?? Constants.placeholderImageUrl, Constants.colorForParty(rep.party), 2, 50),
               Container(
                 alignment: Alignment.center,
                 child: Padding(
@@ -233,19 +219,26 @@ abstract class FeedStateView implements BaseView, ListOps {
 
 class FeedStatePresenter extends BasePresenter<FeedStateView> with ChangeNotifier, DiagnosticableTreeMixin {
   Repo repo;
-
+  bool isLoading = false;
   StateFeedResponse stateFeedResponse;
+  DistrictLocation districtLocation;
 
-  FeedStatePresenter(FeedStateView view) : super(view) {
+  FeedStatePresenter(FeedStateView view, this.districtLocation) : super(view) {
     final injector = Injector.getInjector();
     repo = injector.get();
     loadData();
   }
 
+  void updateLoading(bool isLoading) {
+    this.isLoading = isLoading;
+    notifyListeners();
+  }
+
   loadData() async {
-    var location = await repo.getLocation().catchError((error) => {view.showErrorMessage(error, null)});
+    updateLoading(true);
     stateFeedResponse =
-        await repo.getStatesFeed(location.state).catchError((error) => {view.showErrorMessage(error, null)});
+        await repo.getStatesFeed(districtLocation.state).catchError((error) => {view.showErrorMessage(error, null)});
+    updateLoading(false);
     notifyListeners();
   }
 

@@ -40,8 +40,7 @@ class NotFoundState extends State<NotFoundPage> with LDEViewMixin implements Not
           ChangeNotifierProvider(create: (_) => NotFoundPresenter(this, context, flow)),
         ],
         child: Consumer<NotFoundPresenter>(builder: (context, presenter, child) {
-          child:
-          Scaffold(
+          return Scaffold(
             backgroundColor: Theme.of(context).colorScheme.surface,
             appBar: AppBar(
               brightness: Brightness.light,
@@ -106,6 +105,11 @@ class NotFoundPresenter extends BasePresenter<NotFoundView> with ChangeNotifier,
 
   onContinue() async {
     updateLoading(true);
+    var userUid = await repo.signIn().catchError((error) => {view.showErrorMessage(error, null)});
+    if (userUid == null) {
+      return;
+    }
+
     await repo.manualRegistration().catchError((error) => {view.showErrorMessage(error)});
     updateLoading(false);
 

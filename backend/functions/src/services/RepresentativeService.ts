@@ -1,6 +1,7 @@
 import { FeedRepresentative } from "../model/Feed";
 import axios from "axios";
 import { Legislator } from "../model/github_unitedstates/Legislators";
+import { imageFromBioguide, ImageSize } from "./util/legislator_utils";
 
 let legislators: Legislator[] = [];
 
@@ -32,19 +33,11 @@ export class RepresentativeService {
           <FeedRepresentative>{
             displayName: `${item.name.first[0]}. ${item.name.last}`,
             image: imageFromBioguide(item.id.bioguide, ImageSize.small),
+            party: item.terms[item.terms.length - 1].party,
             bioguide: item.id.bioguide,
           }
       );
   }
-}
-
-enum ImageSize {
-  large = "original",
-  small = "225x275",
-}
-
-function imageFromBioguide(bioguide: string, imageSize: ImageSize): string {
-  return `https://theunitedstates.io/images/congress/${imageSize}/${bioguide}.jpg`;
 }
 
 function byState(state: string) {

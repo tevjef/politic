@@ -62,7 +62,6 @@ void main() async {
     runApp(app);
   },
       (e, s) => {
-            error.info("crash", e, s),
             error.info(e.toString()),
             error.info(s.toString()),
             Crashlytics.instance.recordError(e, s)

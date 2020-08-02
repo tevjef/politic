@@ -6,6 +6,7 @@ import 'package:location/location.dart';
 import 'package:politic/data/models/feed.dart';
 import 'package:politic/data/models/user.dart';
 import 'package:politic/ui/home/feed_state_view.dart';
+import 'package:politic/ui/home/upcoming_elections_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -98,10 +99,11 @@ class LocalElectionState extends State<LocalElectionPage> with LDEViewMixin impl
               backgroundColor: Theme.of(context).colorScheme.surface,
               elevation: 0,
             ),
-            body: RefreshIndicator(
-              key: refreshIndicatorKey,
-              onRefresh: handleRefresh,
-              child: mainWidget,
+            body: Stack(
+              children: <Widget>[
+                presenter.isLoading ? Center(child: CircularProgressIndicator()) : SizedBox.shrink(),
+                mainWidget,
+              ],
             ),
           );
         }),
@@ -140,5 +142,12 @@ class LocalElectionPresenter extends BasePresenter<LocalElectionView> with Chang
     notifyListeners();
   }
 
-  onSeeAllElectionsClick() {}
+  onSeeAllElectionsClick() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpcomingElectionsPage(),
+      ),
+    );
+  }
 }

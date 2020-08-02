@@ -30,12 +30,9 @@ export class DataFeedsHandler {
   ): Promise<ElectionResponse> {
     const location = await firebaseAdminService.getLocation(userId);
     const res = await geocoder.reverse({
-      lat: location.latlng.lat,
-      lon: location.latlng.lng,
+      lat: location.latlng!.lat,
+      lon: location.latlng!.lng,
     });
-
-    console.log("###################");
-    console.log(electionId);
 
     return civicInformationService.findVoterInfo(
       res[0].formattedAddress ?? "",
@@ -55,8 +52,8 @@ export class DataFeedsHandler {
   async getRepresentatives(userId: string): Promise<LegislatorsResponse> {
     const location = await firebaseAdminService.getLocation(userId);
     const res = await geocoder.reverse({
-      lat: location.latlng.lat,
-      lon: location.latlng.lng,
+      lat: location.latlng!.lat,
+      lon: location.latlng!.lng,
     });
 
     return civicInformationService.findRepresentatives(
@@ -67,8 +64,8 @@ export class DataFeedsHandler {
   async getUserVoterInfo(userId: string): Promise<ElectionResponse> {
     const location = await firebaseAdminService.getLocation(userId);
     const res = await geocoder.reverse({
-      lat: location.latlng.lat,
-      lon: location.latlng.lng,
+      lat: location.latlng!.lat,
+      lon: location.latlng!.lng,
     });
 
     return civicInformationService.findVoterInfo(res[0].formattedAddress ?? "");

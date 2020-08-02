@@ -32,10 +32,6 @@ class Repo {
     return auth.getCurrentUser().then((value) => value.isAnonymous);
   }
 
-  Future<Null>signinWithGoogle() async {
-    return auth.signInWithGoogle().then((value) => null);
-  }
-
   Future<void> logout() async {
     return auth.logout();
   }
