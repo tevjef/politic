@@ -53,6 +53,9 @@ flutter:
     - res/images/notifications.png
     - res/images/location_services.png
     - res/images/marker.png
+    - res/images/elections.png
+    - res/images/house.png
+    - res/images/people.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

@@ -36,11 +36,11 @@ allprojects {
 
     subprojects {
         project.configurations.all {
-        resolutionStrategy {
-            force 'com.google.firebase:firebase-auth:19.0.0'
+        resolutionStrategy {/* 
+            force 'com.google.firebase:firebase-auth:19.3.2'
             force 'com.google.firebase:firebase-core:17.2.0'    
             force 'com.google.firebase:firebase-messaging:20.0.0'
-            force 'com.google.firebase:firebase-ads:18.2.0'
+            force 'com.google.firebase:firebase-ads:18.2.0' */
         }
         }
     }

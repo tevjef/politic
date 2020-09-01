@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
+import 'package:politic/data/models/map.dart';
 import 'package:politic/data/models/user.dart';
 import 'auth.dart';
 import 'models/feed.dart';
@@ -23,6 +24,8 @@ abstract class Api {
   Future<ElectionResponse> getUserElection();
   Future<ElectionResponse> getElection(int electionsId);
   Future<ElectionsResponse> getElections();
+  Future<List<String>> autocomplete(String input);
+  Future<StateFeedResponse> getStatesFeed(String state, String cd);
 }
 
 class ApiClient implements Api {
@@ -39,8 +42,8 @@ class ApiClient implements Api {
   }
 
   @override
-  Future<StateFeedResponse> getStatesFeed(String state) async {
-    return StateFeedResponse.fromJson(await getResponse("/feeds/states/$state"));
+  Future<StateFeedResponse> getStatesFeed(String state, String cd) async {
+    return StateFeedResponse.fromJson(await getResponse("/feeds/states/$state?cd=$cd"));
   }
 
   @override
@@ -71,12 +74,14 @@ class ApiClient implements Api {
 
   @override
   Future<Null> saveVoterEnrollment(EnrollmentRequest request) async {
-    return Future<Null>.value(await makeAuthenticatedPostRequest("/voterRoll/save", request.toJson()).then((value) => null));
+    return Future<Null>.value(
+        await makeAuthenticatedPostRequest("/voterRoll/save", request.toJson()).then((value) => null));
   }
 
   @override
   Future<Null> manualEnrollment(ManualEnrollmentRequest request) async {
-    return Future<Null>.value(await makeAuthenticatedPostRequest("/voterRoll/manual", request.toJson()).then((value) => null));
+    return Future<Null>.value(
+        await makeAuthenticatedPostRequest("/voterRoll/manual", request.toJson()).then((value) => null));
   }
 
   @override
@@ -86,7 +91,13 @@ class ApiClient implements Api {
 
   @override
   Future<DistrictLocation> saveLocation(LocationUpdateRequest request) async {
-    return LocationUpdateResponse.fromJson(await makeAuthenticatedPostRequest("/user/location", request.toJson())).location;
+    return LocationUpdateResponse.fromJson(await makeAuthenticatedPostRequest("/user/location", request.toJson()))
+        .location;
+  }
+
+  @override
+  Future<List<String>> autocomplete(String input) async {
+    return AutocompleteResponse.fromJson(await getResponse("/maps/autocomplete?input=$input")).result;
   }
 
   Future<Map<String, dynamic>> getResponse(String url) {
@@ -134,8 +145,7 @@ class ApiClient implements Api {
     log.info("REQUEST: " + requestBody);
 
     return ErrorTransformer.transform(httpClient
-        .post("$baseUrl" + path,
-            headers: {'Content-Type': 'application/json'}, body: requestBody)
+        .post("$baseUrl" + path, headers: {'Content-Type': 'application/json'}, body: requestBody)
         .then((http.Response response) {
       logHttp(response);
       final statusCode = response.statusCode;
@@ -150,7 +160,6 @@ class ApiClient implements Api {
       return jsonDecode(response.body);
     }));
   }
-
 
   @override
   Future<Map<String, dynamic>> makeAuthenticatedPostRequest(String path, Map<String, dynamic> request) async {

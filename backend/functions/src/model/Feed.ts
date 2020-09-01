@@ -41,6 +41,10 @@ export interface Representatives {
 export interface PollingLocation {
   locationName: string;
   address: string;
+  imageUrl?: string;
+  pollingHours?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface ElectionInfoUrl {
@@ -50,7 +54,7 @@ export interface ElectionInfoUrl {
 
 export interface ElectionAdministrationBody {
   name: string;
-  electionInfoUrl: Deeplink;
+  electionInfoUrl?: Deeplink;
   electionRegistrationUrl?: Deeplink;
   absenteeVotingInfoUrl?: Deeplink;
   ballotInfoUrl?: Deeplink;
@@ -91,7 +95,6 @@ export interface ElectionItem {
   electionName: string;
   electionDay: string;
 }
-
 
 export interface ElectionsResponse {
   elections: ElectionItem[];

@@ -189,11 +189,24 @@ class ListButtonCell extends StatelessWidget {
               ],
             ),
           ),
-          RaisedButton(
-            elevation: 0,
-            textTheme: ButtonTextTheme.primary,
-            onPressed: callback,
-            child: Text(buttonText.toUpperCase()),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: SizedBox(
+              height: 40,
+              child: RaisedButton(
+                elevation: 0,
+                textTheme: ButtonTextTheme.primary,
+                onPressed: callback,
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Text(
+                  buttonText.toUpperCase(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .button
+                      .copyWith(fontSize: 12, color: Theme.of(context).colorScheme.onPrimary),
+                ),
+              ),
+            ),
           )
         ],
       ),
@@ -262,9 +275,11 @@ class ListCellSubtitle2 extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24),
           child: Row(
             children: <Widget>[
-              Text(
-                text,
-                style: Styles.body2(Theme.of(context)),
+              Expanded(
+                child: Text(
+                  text,
+                  style: Styles.body2(Theme.of(context)),
+                ),
               ),
             ],
           ),

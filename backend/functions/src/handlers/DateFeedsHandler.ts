@@ -7,21 +7,14 @@ import {
 } from "../model/Feed";
 import { RepresentativeService } from "../services/RepresentativeService";
 import { CivicInformationService } from "../services/CivicInformationService";
-import node_geocoder from "node-geocoder";
-import * as functions from "firebase-functions";
 import { FirebaseAdminService } from "../services/FirebaseAdminService";
+import { GeocodingService } from "../services/GeocodingService";
 
 const keyVoteService = new KeyVoteService();
 const representativeService = new RepresentativeService();
 const civicInformationService = new CivicInformationService();
 const firebaseAdminService = new FirebaseAdminService();
-
-const options = <node_geocoder.Options>{
-  provider: "google",
-  apiKey: functions.config().geocoding.key,
-};
-
-const geocoder = node_geocoder(options);
+const geocodingService = new GeocodingService();
 
 export class DataFeedsHandler {
   async getElection(
@@ -29,46 +22,49 @@ export class DataFeedsHandler {
     electionId: string
   ): Promise<ElectionResponse> {
     const location = await firebaseAdminService.getLocation(userId);
-    const res = await geocoder.reverse({
-      lat: location.latlng!.lat,
-      lon: location.latlng!.lng,
-    });
-
-    return civicInformationService.findVoterInfo(
-      res[0].formattedAddress ?? "",
-      electionId
+    const address = await geocodingService.getFormattedAddress(
+      location.latlng!.lat,
+      location.latlng!.lng
     );
+    return civicInformationService.findVoterInfo(address, electionId);
   }
 
-  async getStateFeed(state: string): Promise<StateFeedResponse> {
+  async getStateFeed(
+    state: string,
+    congressionalDistrict: string | undefined
+  ): Promise<StateFeedResponse> {
+    const repRss = await representativeService.getRssFeedSenatorsByState(
+      state,
+      congressionalDistrict
+    );
+
     return {
-      feed: await keyVoteService.getKeyVotes(state),
+      feed: await keyVoteService.getKeyVotes(state, repRss),
       representatives: await representativeService.getFeedSenatorsByState(
-        state
+        state,
+        congressionalDistrict
       ),
     };
   }
 
   async getRepresentatives(userId: string): Promise<LegislatorsResponse> {
     const location = await firebaseAdminService.getLocation(userId);
-    const res = await geocoder.reverse({
-      lat: location.latlng!.lat,
-      lon: location.latlng!.lng,
-    });
-
-    return civicInformationService.findRepresentatives(
-      res[0].formattedAddress ?? ""
+    const address = await geocodingService.getFormattedAddress(
+      location.latlng!.lat,
+      location.latlng!.lng
     );
+
+    return civicInformationService.findRepresentatives(address);
   }
 
   async getUserVoterInfo(userId: string): Promise<ElectionResponse> {
     const location = await firebaseAdminService.getLocation(userId);
-    const res = await geocoder.reverse({
-      lat: location.latlng!.lat,
-      lon: location.latlng!.lng,
-    });
+    const address = await geocodingService.getFormattedAddress(
+      location.latlng!.lat,
+      location.latlng!.lng
+    );
 
-    return civicInformationService.findVoterInfo(res[0].formattedAddress ?? "");
+    return civicInformationService.findVoterInfo(address);
   }
 
   async getAllElections(): Promise<ElectionsResponse> {

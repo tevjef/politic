@@ -1,14 +1,11 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
-import 'package:geocoder/geocoder.dart';
-import 'package:location/location.dart';
 import 'package:politic/data/models/feed.dart';
-import 'package:politic/data/models/user.dart';
-import 'package:politic/ui/home/feed_state_view.dart';
 import 'package:politic/ui/home/upcoming_elections_view.dart';
+import 'package:politic/ui/util/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/lib.dart';
@@ -40,8 +37,9 @@ class LocalElectionState extends State<LocalElectionPage> with LDEViewMixin impl
           Widget mainWidget = Container();
           if (election == null) {
             mainWidget = Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 0.0),
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(24.0),
@@ -68,43 +66,35 @@ class LocalElectionState extends State<LocalElectionPage> with LDEViewMixin impl
               ),
             );
           } else {
-            Widget electionInformation = Container();
-            if (election.electionAdministrationBody.electionInfoUrl != null) {
-              var info = election.electionAdministrationBody.electionInfoUrl;
-              electionInformation = ListButtonCell("Election Information", info.label, "Visit", () {
-                launch(info.uri);
-              });
-            }
-
-            mainWidget = Column(
+            mainWidget = ListView(
               children: <Widget>[
                 Headline(
-                    election.electionsName, "Check below for the contests on the ballot on ${election.electionDay}"),
-                electionInformation,
-                Column(children: <Widget>[
-                  electionInformation,
-                  ...election.contests.map((value) {
-                    return ListCell(value.title, value.subtitle);
-                  })
-                ])
+                    election.electionName, "Check below for the contests on the ballot on ${election.electionDay}"),
+                Contests(election.contests),
+                ElectionLocation(election.pollingLocations, "Polling Locations", null),
+                ElectionLocation(election.earlyVoteSites, "Early Voting", null),
+                ElectionLocation(election.dropOffLocations, "Drop-off Locations",
+                    "You must have received and completed a ballot prior to arriving at the location. The location may not have ballots available on the premises."),
+                ElectionAdministrationInfo(
+                    "Election Infoformation", election.electionAdministrationBody.electionInfoUrl),
+                ElectionAdministrationInfo(
+                    "Election Registration", election.electionAdministrationBody.electionRegistrationUrl),
+                ElectionAdministrationInfo(
+                    "Absentee Voting", election.electionAdministrationBody.absenteeVotingInfoUrl),
+                ElectionAdministrationInfo("Ballot Information", election.electionAdministrationBody.ballotInfoUrl),
+                ButtonGroup(
+                  "See other elections",
+                  () => {presenter.onSeeAllElectionsClick()},
+                )
               ],
             );
           }
 
-          return Scaffold(
-            key: scaffoldKey,
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            appBar: AppBar(
-              brightness: Brightness.light,
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              elevation: 0,
-            ),
-            body: Stack(
-              children: <Widget>[
-                presenter.isLoading ? Center(child: CircularProgressIndicator()) : SizedBox.shrink(),
-                mainWidget,
-              ],
-            ),
+          return Stack(
+            children: <Widget>[
+              presenter.isLoading ? Center(child: CircularProgressIndicator()) : SizedBox.shrink(),
+              mainWidget,
+            ],
           );
         }),
       ),
@@ -113,6 +103,155 @@ class LocalElectionState extends State<LocalElectionPage> with LDEViewMixin impl
 
   @override
   void onRefreshData() {}
+}
+
+class ElectionAdministrationInfo extends StatelessWidget {
+  final ElectionInfoUrl deeplink;
+  final String title;
+
+  const ElectionAdministrationInfo(
+    this.title,
+    this.deeplink, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (deeplink != null) {
+      return ListButtonCell(title, deeplink.label, "Visit", () {
+        launch(deeplink.uri);
+      });
+    }
+
+    return SizedBox.shrink();
+  }
+}
+
+class Contests extends StatelessWidget {
+  final List<Contest> contests;
+
+  const Contests(
+    this.contests, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (contests == null) {
+      return SizedBox.shrink();
+    }
+
+    return ListView(
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
+      children: <Widget>[
+        ...contests.map(
+          (value) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: ListCell(value.title, value.subtitle),
+                ),
+                ...value.candidates.map((rep) {
+                  return ListCellSmall(
+                    "${rep.name} (${rep.party})",
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: CircularImage(Constants.placeholderImageUrl, Constants.colorForParty(rep.party), 1, 24),
+                    ),
+                    () async {
+                      var url = Uri.encodeFull("https://google.com/search?q=${rep.name}&btnI");
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    },
+                  );
+                })
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class ElectionLocation extends StatelessWidget {
+  final List<PollingLocation> locations;
+  final String title;
+  final String subtitle;
+
+  const ElectionLocation(
+    this.locations,
+    this.title,
+    this.subtitle, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (locations == null || locations.isEmpty) {
+      return SizedBox.shrink();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 24.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          subtitle != null
+              ? Headline(title, subtitle)
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 0.0),
+                  child: Text(
+                    title,
+                    style: Styles.headline5(Theme.of(context)),
+                  ),
+                ),
+          ...locations.map((location) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
+                  child: CachedNetworkImage(
+                    imageUrl: location.imageUrl,
+                    errorWidget: (context, url, error) {
+                      return Container();
+                    },
+                    imageBuilder: (context, imageProvider) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        child: Image(
+                          image: imageProvider,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                ListButtonCell(
+                  location.locationName,
+                  location.address,
+                  "Directions",
+                  () {
+                    var address = Uri.encodeFull(location.address);
+                    launch("https://www.google.com/maps/search/?api=1&query=${address}");
+                  },
+                )
+              ],
+            );
+          })
+        ],
+      ),
+    );
+  }
 }
 
 abstract class LocalElectionView implements BaseView, ListOps {

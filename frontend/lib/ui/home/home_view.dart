@@ -79,17 +79,18 @@ class PoliticHomeState extends State<PoliticHomePage> with LDEViewMixin implemen
               elevation: 0,
             ),
             bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: Theme.of(context).colorScheme.surface,
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.format_align_left),
+                  icon: ImageIcon(AssetImage("res/images/house.png")),
                   title: Text('Feed'),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.account_balance),
+                  icon: ImageIcon(AssetImage("res/images/people.png")),
                   title: Text('Representatives'),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.note),
+                  icon: ImageIcon(AssetImage("res/images/elections.png")),
                   title: Text('Elections'),
                 ),
                 BottomNavigationBarItem(

@@ -1,7 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart';
+import 'package:politic/data/models/user.dart';
+import 'package:politic/ui/home/home_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -10,7 +13,6 @@ import '../../data/lib.dart';
 import '../util/lib.dart';
 
 class ManualLocationPage extends StatefulWidget {
-  
   ManualLocationPage({Key key}) : super(key: key);
 
   @override
@@ -35,45 +37,39 @@ class ManualLocationState extends State<ManualLocationPage> with LDEViewMixin im
             key: scaffoldKey,
             backgroundColor: Theme.of(context).colorScheme.surface,
             appBar: AppBar(
+              leading: BackButton(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               brightness: Brightness.light,
               backgroundColor: Theme.of(context).colorScheme.surface,
               elevation: 0,
             ),
-            body: RefreshIndicator(
-              key: refreshIndicatorKey,
-              onRefresh: handleRefresh,
-              child: Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 0.0),
-                    child: ListView(
-                      children: <Widget>[
-                        Image.asset('res/images/location_services.png'),
-                        Text(
-                          "Turn on location services to see your district and representatives.",
-                          textAlign: TextAlign.center,
-                          style: Styles.headline5(Theme.of(context)),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Text(
-                            "We can’t find your representatives and district lines unless your turn on location services.",
-                            textAlign: TextAlign.center,
-                            style: Styles.body1(Theme.of(context)),
-                          ),
-                        ),
-                      ],
+            body: ListView(
+              physics: ClampingScrollPhysics(),
+              children: <Widget>[
+                Headline("Search for an address below", "Manually located your address using the the input below."),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                  child: TextFormField(
+                    onChanged: presenter.onInputChanged,
+                    decoration: InputDecoration(
+                      labelText: "Search Addresss",
+                      border: new OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          borderSide: new BorderSide(color: Theme.of(context).primaryColor)),
                     ),
                   ),
-                  ButtonGroup(
-                    "Turn on location services",
-                    () => {presenter.onRequestionManualLocationClick()},
-                    secondaryCtaText: "Enter address manually",
-                    secodaryListener: () => {presenter.onManualEntryClick()},
-                    isLoading: presenter.isLoading,
-                  ),
-                ],
-              ),
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: presenter.suggestions.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var address = presenter.suggestions[index];
+                      return ListCellSubtitle2(address, () {
+                        presenter.onAddressSelected(address);
+                      });
+                    }),
+              ],
             ),
           );
         }),
@@ -89,51 +85,58 @@ abstract class ManualLocationView implements BaseView, ListOps {
   // void navigateToSomewhere();
 }
 
-class ManualLocationPresenter extends BasePresenter<ManualLocationView>
-    with ChangeNotifier, DiagnosticableTreeMixin {
-  Location location = new Location();
-
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
-  LocationData _locationData;
-
+class ManualLocationPresenter extends BasePresenter<ManualLocationView> with ChangeNotifier, DiagnosticableTreeMixin {
   Repo repo;
-
   bool isLoading = false;
+
+  List<String> suggestions = [];
 
   ManualLocationPresenter(ManualLocationView view) : super(view) {
     final injector = Injector.getInjector();
     repo = injector.get();
   }
 
-  onRequestionManualLocationClick() async {
-    isLoading = true;
-
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        isLoading = false;
-        return;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        isLoading = false;
-        return;
-      }
-    } else if (_permissionGranted == PermissionStatus.deniedForever) {
-      onManualEntryClick();
-    }
-
-    _locationData = await location.getLocation();
-
-    isLoading = false;
-    view.showMessage("Location result ${_locationData.latitude} ${_locationData.longitude}");
+  void updateLoading(bool isLoading) {
+    this.isLoading = isLoading;
+    notifyListeners();
   }
 
-  onManualEntryClick() {}
+  onInputChanged(String input) async {
+    updateLoading(true);
+    if (input.isEmpty) {
+      suggestions.clear();
+    } else {
+      var result = await repo.autocomplete(input).catchError((error) => {view.showErrorMessage(error, null)});
+      suggestions.clear();
+      suggestions.addAll(result);
+    }
+
+    notifyListeners();
+    updateLoading(false);
+  }
+
+  onAddressSelected(String address) async {
+    updateLoading(true);
+
+    var coordinates = (await Geocoder.local.findAddressesFromQuery(address))[0].coordinates;
+
+    await repo.saveLocation(LocationLatLng(lat: coordinates.latitude, lng: coordinates.longitude)).catchError((error) =>
+        {view.showMessage(error, SnackBarAction(label: "Use location services", onPressed: onAddressNotFound))});
+
+    onAddressFound();
+    updateLoading(false);
+  }
+
+  onAddressFound() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PoliticHomePage(),
+      ),
+    );
+  }
+
+  onAddressNotFound() {
+    Navigator.pop(context);
+  }
 }

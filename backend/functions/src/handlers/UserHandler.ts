@@ -47,9 +47,6 @@ export class UserHandler {
       locationResp.formattedAddress ?? ""
     );
 
-    console.log("############")
-    console.log(district)
-
     const location: Location = {
       state: locationResp.administrativeLevels!.level1short!,
       latlng: {

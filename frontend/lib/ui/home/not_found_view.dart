@@ -68,6 +68,7 @@ class NotFoundState extends State<NotFoundPage> with LDEViewMixin implements Not
                   () {
                     presenter.onContinue();
                   },
+                  isLoading: presenter.isLoading,
                 ),
               ],
             ),

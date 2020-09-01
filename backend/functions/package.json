@@ -14,10 +14,14 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.1.5",
+    "@google-cloud/storage": "^5.1.2",
     "@types/axios": "^0.14.0",
     "@types/node-geocoder": "^3.24.1",
     "@types/puppeteer": "^3.0.1",
     "@types/request-promise": "^4.1.46",
+    "@types/tmp": "^0.2.0",
+    "@types/uuid": "^8.0.0",
     "@types/xml2js": "^0.4.5",
     "axios": "^0.19.2",
     "class-transformer": "^0.2.3",
@@ -32,7 +36,9 @@
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
-    "rss-parser": "^3.8.0"
+    "rss-parser": "^3.8.0",
+    "tmp": "^0.2.1",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "tslint": "^5.12.0",

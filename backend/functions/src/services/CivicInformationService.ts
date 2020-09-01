@@ -17,8 +17,13 @@ import moment from "moment";
 import {
   GoogleVoterInfoResponse,
   GoogleElectionsResponse,
+  PollingLocation as GooglePollingLocation,
+  Election,
 } from "../model/google_civicapi/VoterInfo";
 import { ImageSize, imageFromBioguide } from "./util/legislator_utils";
+import { GeocodingService } from "./GeocodingService";
+import { FirebaseAdminService } from "./FirebaseAdminService";
+import { Deeplink } from "../model/VoterRegistration";
 
 const GOOGLE_REPRESENTATIVES_API =
   "https://www.googleapis.com/civicinfo/v2/representatives?includeOffices=true";
@@ -41,22 +46,53 @@ const ld_pattern = /ocd-division\/country:us\/state:(\D{2})\/sldu:(\d*)/;
 // const district_pattern = /ocd-division\/country:us\/district:\D+/;
 
 const representativeService = new RepresentativeService();
+const geocodingService = new GeocodingService();
+const firebaseAdminService = new FirebaseAdminService();
 
 export class CivicInformationService {
+  async getPollingLocations(pollingLocations: GooglePollingLocation[]) {
+    return await Promise.all(
+      pollingLocations.map(async (data) => {
+        const formattedAddress = `${data.address.line1}, ${data.address.city}, ${data.address.state} ${data.address.zip}`;
+        const key = await firebaseAdminService.getImageKey(formattedAddress);
+        const imageUrl = await geocodingService.getOrCacheAddress(
+          formattedAddress,
+          key
+        );
+        return <PollingLocation>{
+          locationName: titleCase(data.address.locationName ?? data.name),
+          address: formattedAddress,
+          imageUrl: imageUrl,
+          pollingHours: data.pollingHours,
+          startDate: data.startDate,
+          endDate: data.endDate,
+        };
+      })
+    );
+  }
+
   async findAllElections(): Promise<ElectionsResponse> {
     const response = await this.getElectionsFromCivicApi();
 
-    console.log(response);
     return {
-      elections: response.elections.map((data) => {
-        const day = moment(data.electionDay, "YYYY-MM-DD").format("LL");
+      elections: response.elections
+        .filter((value: Election, index: number, array: Election[]) => {
+          return !value.name.toLowerCase().includes("test");
+        })
+        .sort((a: Election, b: Election) => {
+          const aDay = moment(a.electionDay, "YYYY-MM-DD");
+          const bDay = moment(b.electionDay, "YYYY-MM-DD");
+          return aDay.unix() - bDay.unix();
+        })
+        .map((data) => {
+          const day = moment(data.electionDay, "YYYY-MM-DD").format("LL");
 
-        return <ElectionItem>{
-          id: data.id,
-          electionDay: day,
-          electionName: data.name,
-        };
-      }),
+          return <ElectionItem>{
+            id: data.id,
+            electionDay: day,
+            electionName: data.name,
+          };
+        }),
     };
   }
 
@@ -70,33 +106,36 @@ export class CivicInformationService {
       .then((d) => d.data)
       .catch((err) => err);
 
-    console.log(response);
+    console.log(address);
+    console.log(electionId);
     if (response instanceof Error) {
       return {};
     }
 
-    const gresp = response as GoogleVoterInfoResponse;
+    const voterInfoResponse = response as GoogleVoterInfoResponse;
 
-    const pollingLocations = gresp.pollingLocations?.map((data) => {
-      return <PollingLocation>{
-        locationName: titleCase(data.address.locationName),
-        address: `${data.address.line1}, ${data.address.city}, ${data.address.state} ${data.address.zip}`,
-      };
-    });
-    const earlyVoteSites = gresp.earlyVoteSites?.map((data) => {
-      return <PollingLocation>{
-        locationName: titleCase(data.address.locationName),
-        address: `${data.address.line1}, ${data.address.city}, ${data.address.state} ${data.address.zip}`,
-      };
-    });
-    const dropOffLocations = gresp.dropOffLocations?.map((data) => {
-      return <PollingLocation>{
-        locationName: titleCase(data.address.locationName),
-        address: `${data.address.line1}, ${data.address.city}, ${data.address.state} ${data.address.zip}`,
-      };
-    });
+    let pollingLocations: PollingLocation[] | undefined = undefined;
+    if (voterInfoResponse.pollingLocations !== undefined) {
+      pollingLocations = await this.getPollingLocations(
+        voterInfoResponse.pollingLocations
+      );
+    }
 
-    const contests = gresp.contests?.map((data) => {
+    let earlyVoteSites: PollingLocation[] | undefined = undefined;
+    if (voterInfoResponse.earlyVoteSites !== undefined) {
+      earlyVoteSites = await this.getPollingLocations(
+        voterInfoResponse.earlyVoteSites
+      );
+    }
+
+    let dropOffLocations: PollingLocation[] | undefined = undefined;
+    if (voterInfoResponse.dropOffLocations !== undefined) {
+      dropOffLocations = await this.getPollingLocations(
+        voterInfoResponse.dropOffLocations
+      );
+    }
+
+    const contests = voterInfoResponse.contests?.map((data) => {
       return <Contest>{
         title: titleCase(data.office),
         subtitle: `${titleCase(data.type)}`,
@@ -109,24 +148,61 @@ export class CivicInformationService {
       };
     });
 
+    const stateElectionInfo =
+      voterInfoResponse.state[0].electionAdministrationBody;
+    const electionInfoDeeplink:
+      | Deeplink
+      | undefined = stateElectionInfo.electionInfoUrl
+      ? {
+          label: new URL(stateElectionInfo.electionInfoUrl).host,
+          uri: stateElectionInfo.electionInfoUrl,
+        }
+      : undefined;
+
+    const absenteeVotingInfoDeeplink:
+      | Deeplink
+      | undefined = stateElectionInfo.absenteeVotingInfoUrl
+      ? {
+          label: new URL(stateElectionInfo.absenteeVotingInfoUrl).host,
+          uri: stateElectionInfo.absenteeVotingInfoUrl,
+        }
+      : undefined;
+
+    const ballotInfoDeeplink:
+      | Deeplink
+      | undefined = stateElectionInfo.ballotInfoUrl
+      ? {
+          label: new URL(stateElectionInfo.ballotInfoUrl).host,
+          uri: stateElectionInfo.ballotInfoUrl,
+        }
+      : undefined;
+
+    const electionRegistrationDeeplink:
+      | Deeplink
+      | undefined = stateElectionInfo.electionRegistrationUrl
+      ? {
+          label: new URL(stateElectionInfo.electionRegistrationUrl).host,
+          uri: stateElectionInfo.electionRegistrationUrl,
+        }
+      : undefined;
+
     return {
       election: {
-        electionName: gresp.election.name,
-        electionDay: moment(gresp.election.electionDay, "YYYY-MM-DD").format(
-          "LL"
-        ),
+        electionName: voterInfoResponse.election.name,
+        electionDay: moment(
+          voterInfoResponse.election.electionDay,
+          "YYYY-MM-DD"
+        ).format("LL"),
         contests: contests,
         pollingLocations: pollingLocations,
         earlyVoteSites: earlyVoteSites,
         dropOffLocations: dropOffLocations,
         electionAdministrationBody: {
-          name: gresp.state[0].electionAdministrationBody.name,
-          electionInfoUrl: {
-            label: new URL(
-              gresp.state[0].electionAdministrationBody.electionInfoUrl
-            ).host,
-            uri: gresp.state[0].electionAdministrationBody.electionInfoUrl,
-          },
+          name: stateElectionInfo.name,
+          electionInfoUrl: electionInfoDeeplink,
+          electionRegistrationUrl: electionRegistrationDeeplink,
+          absenteeVotingInfoUrl: absenteeVotingInfoDeeplink,
+          ballotInfoUrl: ballotInfoDeeplink,
         },
       },
     };
@@ -176,7 +252,7 @@ export class CivicInformationService {
             official.name
           );
           const photoUrl =
-            official.photoUrl ?? legislator != null
+            official.photoUrl ?? legislator !== null
               ? imageFromBioguide(legislator!.id.bioguide, ImageSize.small)
               : null;
           const lastterm = legislator?.terms[legislator?.terms.length - 1];
@@ -206,6 +282,16 @@ export class CivicInformationService {
         const legislator = await representativeService.getLegislatorByName(
           official.name
         );
+
+        if (legislator === undefined) {
+          return <FeedRepresentative>{
+            displayName: official.name,
+            image: official.photoUrl,
+            party: official.party,
+            description: ``,
+          };
+        }
+
         const lastterm = legislator?.terms[legislator?.terms.length - 1];
         const stateName = statesMap[lastterm!.state];
         const startDate = moment(lastterm!.start, "YYYY-MM-DD").format("LL");
@@ -247,7 +333,7 @@ export class CivicInformationService {
   }
 
   private async getRepsFromCivicApi(address: string) {
-    let url = encodeURI(
+    const url = encodeURI(
       GOOGLE_REPRESENTATIVES_API.concat("&address=")
         .concat(address)
         .concat("&key=")

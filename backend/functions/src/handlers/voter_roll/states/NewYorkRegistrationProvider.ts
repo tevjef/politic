@@ -63,7 +63,7 @@ export class NewYorkRegistrationProvider
         inputType: "text",
         key: "lastName",
       },
-      {
+/*       {
         inputType: "selection",
         key: "zipcode",
         options: [
@@ -130,9 +130,9 @@ export class NewYorkRegistrationProvider
           "Wyoming",
           "Yates",
         ],
-      },
+      }, */
       {
-        inputType: "dobDMY",
+        inputType: "dobMY",
         key: "composite",
       },
     ];

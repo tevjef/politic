@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import '../../core/lib.dart';
 import '../../data/lib.dart';
 import '../util/lib.dart';
+import 'manual_location.dart';
 
 class LocationServicesPage extends StatefulWidget {
   const LocationServicesPage({Key key}) : super(key: key);
@@ -161,14 +162,23 @@ class LocationServicesPresenter extends BasePresenter<LocationServicesView>
 
     updateLoading(false);
 
-    onManualEntryClick();
+    onAddressFound();
   }
 
-  onManualEntryClick() {
+  onAddressFound() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => PoliticHomePage(),
+      ),
+    );
+  }
+
+  onManualEntryClick() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ManualLocationPage(),
       ),
     );
   }

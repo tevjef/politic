@@ -40,8 +40,8 @@ class Repo {
     return apiClient.getStates();
   }
 
-  Future<StateFeedResponse> getStatesFeed(String state) {
-    return apiClient.getStatesFeed(state);
+  Future<StateFeedResponse> getStatesFeed(String state, String cd) {
+    return apiClient.getStatesFeed(state, cd);
   }
 
   Future<VoterStatus> checkRegistration(CheckRegistrationRequest request) {
@@ -82,5 +82,9 @@ class Repo {
 
   Future<ElectionsResponse> getElections() async {
     return apiClient.getElections();
+  }
+
+  Future<List<String>> autocomplete(String input) async {
+    return apiClient.autocomplete(input);
   }
 }

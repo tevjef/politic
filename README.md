@@ -185,19 +185,28 @@ Static data stored in Firestore and cached for 1 day. Data will be modified when
     "pollingLocations": [
       {
         "locationName": "ANTIOCH BAPTIST CH FAMILY CNTR",
-        "address": "540 Cameron Madison Alexander Boulevard Northwest"
+        "address": "540 Cameron Madison Alexander Boulevard Northwest",
+        "pollingHours": "Fri, Aug 7: 8:30 am - 6:00 pm",
+        "startDate": "2020-07-20",
+        "endDate": "2020-08-07"
       }
     ],
     "earlyVoteSites": [
       {
         "locationName": "ANTIOCH BAPTIST CH FAMILY CNTR",
-        "address": "540 Cameron Madison Alexander Boulevard Northwest"
+        "address": "540 Cameron Madison Alexander Boulevard Northwest",
+        "pollingHours": "Fri, Aug 7: 8:30 am - 6:00 pm",
+        "startDate": "2020-07-20",
+        "endDate": "2020-08-07"
       }
     ],
     "dropOffLocations": [
       {
         "locationName": "ANTIOCH BAPTIST CH FAMILY CNTR",
-        "address": "540 Cameron Madison Alexander Boulevard Northwest"
+        "address": "540 Cameron Madison Alexander Boulevard Northwest",
+        "pollingHours": "Fri, Aug 7: 8:30 am - 6:00 pm",
+        "startDate": "2020-07-20",
+        "endDate": "2020-08-07"
       }
     ],
     "electionAdministrationBody": {
@@ -348,6 +357,26 @@ Saves the state and district of the user on the backend into a table
         "legislativeDistrict": "6",
         "congressionalDistrict": "40"
     }
+}
+```
+:white_check_mark: **POST** **`/maps/autocomplete`**
+**Authorization:** `Token from Firebase Auth`
+
+Saves the state and district of the user on the backend into a table
+
+```js
+// Request
+
+
+// Response
+{
+    "result": [
+        "340 3rd Street, Jersey City, NJ, USA",
+        "340 Third Avenue, New York, NY, USA",
+        "340 South 3rd Street, Brooklyn, NY, USA",
+        "340 3rd Street, Palisades Park, NJ, USA",
+        "340 3rd Avenue, Brooklyn, NY, USA"
+    ]
 }
 ```
 

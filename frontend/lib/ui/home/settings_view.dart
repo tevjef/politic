@@ -1,15 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
-import 'package:geocoder/geocoder.dart';
-import 'package:location/location.dart';
-import 'package:politic/data/models/feed.dart';
+import 'package:package_info/package_info.dart';
 import 'package:politic/data/models/user.dart';
-import 'package:politic/ui/home/feed_state_view.dart';
+import 'package:politic/ui/home/home_view.dart';
 import 'package:politic/ui/home/state_selection_view.dart';
 import 'package:politic/ui/home/voter_registration_flow.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/lib.dart';
@@ -42,6 +39,7 @@ class SettingsState extends State<SettingsPage> with LDEViewMixin implements Set
           Widget signIn;
           Widget email;
           Widget location;
+          List<Widget> settingsWidgets = [];
           Widget registration;
 
           if (true) {
@@ -51,6 +49,24 @@ class SettingsState extends State<SettingsPage> with LDEViewMixin implements Set
                 presenter.onLogout();
               },
             );
+          }
+
+          if (true) {
+            settingsWidgets.add(ListCellSubtitle2(
+              "About",
+              () {
+                presenter.onAboutClick();
+              },
+            ));
+          }
+
+          if (true) {
+            settingsWidgets.add(ListCellSubtitle2(
+              "Contact Us",
+              () {
+                presenter.onContactUsClick();
+              },
+            ));
           }
 
           if (presenter.isAnonymous) {
@@ -78,6 +94,42 @@ class SettingsState extends State<SettingsPage> with LDEViewMixin implements Set
             );
           }
 
+          if (kDebugMode) {
+            settingsWidgets.add(ListCellSubtitle2(
+              "Georgia",
+              () {
+                presenter.onChangeLocationGeorgia();
+              },
+            ));
+          }
+
+          if (kDebugMode) {
+            settingsWidgets.add(ListCellSubtitle2(
+              "Oaklahoma",
+              () {
+                presenter.onChangeLocationOaklahoma();
+              },
+            ));
+          }
+
+          if (kDebugMode) {
+            settingsWidgets.add(ListCellSubtitle2(
+              "Wyoming",
+              () {
+                presenter.onChangeLocationWyoming();
+              },
+            ));
+          }
+
+          if (kDebugMode) {
+            settingsWidgets.add(ListCellSubtitle2(
+              "New York",
+              () {
+                presenter.onChangeLocationNewYork();
+              },
+            ));
+          }
+
           if (true) {
             registration = ListCellSubtitle2(
               "Update voter registration",
@@ -87,12 +139,13 @@ class SettingsState extends State<SettingsPage> with LDEViewMixin implements Set
             );
           }
 
-          var widgets = [email, signIn, location, registration, resetAppData].where((element) => element != null);
+          var widgets = [email, signIn, location, registration, ...settingsWidgets, resetAppData]
+              .where((element) => element != null);
 
           return Scaffold(
             key: scaffoldKey,
             backgroundColor: Theme.of(context).colorScheme.surface,
-            body: Column(
+            body: ListView(
               children: <Widget>[...widgets],
             ),
           );
@@ -145,14 +198,57 @@ class SettingsPresenter extends BasePresenter<SettingsView> with ChangeNotifier,
     );
   }
 
-  void onSignIn() async {
-  }
+  void onSignIn() async {}
 
   void onChangeLocation() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => LocationServicesPage(),
+      ),
+    );
+  }
+
+  void onChangeLocationGeorgia() async {
+    await repo.saveLocation(LocationLatLng(lat: 33.759894, lng: -84.406412));
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PoliticHomePage(),
+      ),
+    );
+  }
+
+  void onChangeLocationWyoming() async {
+    await repo.saveLocation(LocationLatLng(lat: 42.847274, lng: -106.316668));
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PoliticHomePage(),
+      ),
+    );
+  }
+
+  void onChangeLocationOaklahoma() async {
+    await repo.saveLocation(LocationLatLng(lat: 35.418916, lng: -97.526745));
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PoliticHomePage(),
+      ),
+    );
+  }
+
+  void onChangeLocationNewYork() async {
+    await repo.saveLocation(LocationLatLng(lat: 40.717732, lng: -73.954549));
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PoliticHomePage(),
       ),
     );
   }
@@ -164,5 +260,39 @@ class SettingsPresenter extends BasePresenter<SettingsView> with ChangeNotifier,
         builder: (context) => HomePage(UpdateVoterInformationFlow()),
       ),
     );
+  }
+
+  void onAboutClick() async {
+    var versionName = (await PackageInfo.fromPlatform()).version;
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text("Politic", style: Styles.headline5(Theme.of(context))),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      child: Text("Made with <3 by Tevin Jeffrey", style: Styles.body2(Theme.of(context))),
+                    ),
+                    Text(versionName, style: Styles.body2(Theme.of(context)))
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  void onContactUsClick() {
+    var uri = Uri(
+        scheme: 'mailto',
+        path: 'tev.jeffrey@gmail.com',
+        queryParameters: {'subject': 'Politic Feedback'});
+    launch(uri.toString());
   }
 }

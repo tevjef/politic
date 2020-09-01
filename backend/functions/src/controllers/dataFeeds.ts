@@ -6,10 +6,13 @@ import { wrapAsync } from "../middleware/error/ErrorHandler";
 const handler = new DataFeedsHandler();
 
 export const stateFeed = async (req: Request, res: Response) => {
-  await handler.getStateFeed(req.params["state"]).then((body) => {
-    res.set("Cache-Control", "public, max-age=600, s-maxage=600");
-    res.json(body);
-  });
+  const congressionalDistrict = <string>req.query.cd ?? "";
+  await handler
+    .getStateFeed(req.params["state"], congressionalDistrict)
+    .then((body) => {
+      res.set("Cache-Control", "public, max-age=600, s-maxage=600");
+      res.json(body);
+    });
 };
 
 export const getRepresentatives = async (req: Request, res: Response) => {

@@ -27,6 +27,10 @@ export interface Source {
 
 export interface PollingLocation {
   address: Address;
+  pollingHours: string;
+  name: string;
+  startDate: string;
+  endDate: string;
   sources: Source[];
 }
 

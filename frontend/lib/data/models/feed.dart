@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:politic/data/models/voter_roll.dart';
 
 part 'feed.g.dart';
 
@@ -172,7 +173,7 @@ class Elections {
 }
 
 class Election {
-  String electionsName;
+  String electionName;
   String electionDay;
   List<PollingLocation> pollingLocations;
   List<PollingLocation> earlyVoteSites;
@@ -181,7 +182,7 @@ class Election {
   List<Contest> contests;
 
   Election(
-      {this.electionsName,
+      {this.electionName,
       this.electionDay,
       this.pollingLocations,
       this.earlyVoteSites,
@@ -190,7 +191,7 @@ class Election {
       this.contests});
 
   Election.fromJson(Map<String, dynamic> json) {
-    electionsName = json['electionsName'];
+    electionName = json['electionName'];
     electionDay = json['electionDay'];
     if (json['pollingLocations'] != null) {
       pollingLocations = new List<PollingLocation>();
@@ -223,7 +224,7 @@ class Election {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['electionsName'] = this.electionsName;
+    data['electionName'] = this.electionName;
     data['electionDay'] = this.electionDay;
     if (this.pollingLocations != null) {
       data['pollingLocations'] = this.pollingLocations.map((v) => v.toJson()).toList();
@@ -247,12 +248,14 @@ class Election {
 class PollingLocation {
   String locationName;
   String address;
+  String imageUrl;
 
-  PollingLocation({this.locationName, this.address});
+  PollingLocation({this.locationName, this.address, this.imageUrl});
 
   PollingLocation.fromJson(Map<String, dynamic> json) {
     locationName = json['locationName'];
     address = json['address'];
+    imageUrl = json['imageUrl'];
   }
 
   Map<String, dynamic> toJson() {
@@ -266,12 +269,20 @@ class PollingLocation {
 class ElectionAdministrationBody {
   String name;
   ElectionInfoUrl electionInfoUrl;
+  ElectionInfoUrl electionRegistrationUrl;
+  ElectionInfoUrl absenteeVotingInfoUrl;
+  ElectionInfoUrl ballotInfoUrl;
 
   ElectionAdministrationBody({this.name, this.electionInfoUrl});
 
   ElectionAdministrationBody.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     electionInfoUrl = json['electionInfoUrl'] != null ? new ElectionInfoUrl.fromJson(json['electionInfoUrl']) : null;
+    electionRegistrationUrl =
+        json['electionRegistrationUrl'] != null ? new ElectionInfoUrl.fromJson(json['electionRegistrationUrl']) : null;
+    absenteeVotingInfoUrl =
+        json['absenteeVotingInfoUrl'] != null ? new ElectionInfoUrl.fromJson(json['absenteeVotingInfoUrl']) : null;
+    ballotInfoUrl = json['ballotInfoUrl'] != null ? new ElectionInfoUrl.fromJson(json['ballotInfoUrl']) : null;
   }
 
   Map<String, dynamic> toJson() {

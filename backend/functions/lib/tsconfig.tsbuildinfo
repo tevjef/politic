@@ -1181,9 +1181,19 @@
         "signature": "c465d6542f5ce5e3ddf7cca3f8fbe1175c744d3c6a91308cba2851ecfc2ddd7b",
         "affectsGlobalScope": false
       },
+      "../node_modules/@types/uuid/interfaces.d.ts": {
+        "version": "5cc5d6f26a50072d51c4ea3a85ee65574b7fa2ae48261ae27b07014695638c50",
+        "signature": "5cc5d6f26a50072d51c4ea3a85ee65574b7fa2ae48261ae27b07014695638c50",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/uuid/index.d.ts": {
+        "version": "10705e247f107bf61e6f9f420efc4b5034e2ff2767c5255ae8b3a128f6e402e0",
+        "signature": "10705e247f107bf61e6f9f420efc4b5034e2ff2767c5255ae8b3a128f6e402e0",
+        "affectsGlobalScope": false
+      },
       "../src/services/firebaseadminservice.ts": {
-        "version": "d4f1ded9b926253930f217fad74dbeeebf1e35bbde328a718381c9e5f893e608",
-        "signature": "744a51038bb121b0a440d8f91cade4c949bc1f067c62f8ce5c5490e03ab2ae8f",
+        "version": "4fc9c500069d490ac3392c85cae60d63697774b749b2f4a11cd214ea708b6030",
+        "signature": "d15d93060d6cbe3de7d728952c104aba1f4378e1e7acd580e17bff18305cb1af",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/puppeteer/errors.d.ts": {
@@ -1207,12 +1217,17 @@
         "affectsGlobalScope": false
       },
       "../src/handlers/voter_roll/states/newyorkregistrationprovider.ts": {
-        "version": "1a135fb6359bb40f126bbcce0dea91600b0a3c5fb4af8d45493c714ddc38bda4",
+        "version": "84e379f47edbbd9d122fd58a34ca892d1383f708596b1a8739f9abf3ad6b4066",
         "signature": "5433774e31d705b83dff0e2e5eea389bd3c59b823f5a43683c12e5f6f4c8396b",
         "affectsGlobalScope": false
       },
+      "../src/services/util/state_utils.ts": {
+        "version": "f682e0ad44239efc0796c5f308d999d1228dceb96173b7df20e6fe7725fe7ef6",
+        "signature": "402406933ce7dbc85e15dc780e59b6d86306c46c401904d114968119ccfbda3a",
+        "affectsGlobalScope": false
+      },
       "../src/handlers/voterrollhandler.ts": {
-        "version": "d30a1d14a9a86c780b2087af812bc4cd2a56fd7182ef3cf53396d5bf7161668b",
+        "version": "aaa250c5ed7be93c8812b7da0da79c7b6b17fe9a85873046038d6f65f333474d",
         "signature": "58309725afa23575f6f25de3b3b89fe429dba9c2232a56112db1186df7376898",
         "affectsGlobalScope": false
       },
@@ -1317,13 +1332,13 @@
         "affectsGlobalScope": false
       },
       "../src/model/feed.ts": {
-        "version": "8f51f6f35dfa35820fd7c0fb5c004811729295e2c8a0b31366a195f0ffdae76c",
-        "signature": "e836d646e19e16a234e03ad26cfaee28baf94f2e9a583725a998100b1e6dab34",
+        "version": "5c03aa3439f9f29465e694826bf9b7e20576599bf52c8f653d42fe03aa01785c",
+        "signature": "0b7e705b1b88196932b318650f7790fd77625a388403692c7d9a225ad8682a60",
         "affectsGlobalScope": false
       },
       "../src/services/keyvoteservice.ts": {
-        "version": "884c9749b4b59dbec510c4a7b8d2f0aabf3d3589ed5a34aa910843a167139ae6",
-        "signature": "7b8798aed0c54ff1f2692619c2a69ebd2c716bf2297eb0fe5b1e68f6c18f37e5",
+        "version": "77df2c8bafcd2c118f284ef7fe2574d004a8a47be86b65964581343defa7ae3e",
+        "signature": "9f4edc5d243229b87bd6ca9b3d54784a654d54f236e24ea1c35404c58a0003d1",
         "affectsGlobalScope": false
       },
       "../src/model/github_unitedstates/legislators.ts": {
@@ -1337,23 +1352,143 @@
         "affectsGlobalScope": false
       },
       "../src/services/representativeservice.ts": {
-        "version": "e076272e325e7278af3b07fc130ab4e794595058adb08bbba647280f1aaf216f",
-        "signature": "efe81465a1bc48fb36a96832dc0ea3e18b9e5160741a1e394465dd3edcce8e62",
-        "affectsGlobalScope": false
-      },
-      "../src/services/util/state_utils.ts": {
-        "version": "f682e0ad44239efc0796c5f308d999d1228dceb96173b7df20e6fe7725fe7ef6",
-        "signature": "402406933ce7dbc85e15dc780e59b6d86306c46c401904d114968119ccfbda3a",
+        "version": "901556c4b889982e3debd6278e831450f37492139e311ac6a96763d0cec419d0",
+        "signature": "9edccca52c6dc763d5ff5b7054cc55f2596fe8a52d8f7568e668053a5c85eb52",
         "affectsGlobalScope": false
       },
       "../src/model/google_civicapi/voterinfo.ts": {
-        "version": "a5ecadc5dd16583f4be97683e8c9369b762256aa446963a6c64ca8b5ce4f5bff",
-        "signature": "7e5a55536aea00da66e4e3caabfba9feb20623b88180f841550a35d0ee67dad4",
+        "version": "54596cc85f39ab88b67bed60843a530ad78fe29be453db8ad5c048f797c8af75",
+        "signature": "a6cf5acecdc17d8e61d0dae9c58089deab4abc08f2e2a1980071151662332b65",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts": {
+        "version": "b4d493ce9bc35e814e129a3d773bb78e72aed49f2da7a300bb1c35d6842ad7a0",
+        "signature": "b4d493ce9bc35e814e129a3d773bb78e72aed49f2da7a300bb1c35d6842ad7a0",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/directions.d.ts": {
+        "version": "c757c2bba0acb5401a85b7ca2ff9c36b906d377cce2b77aa0b854e3d5cb47e78",
+        "signature": "c757c2bba0acb5401a85b7ca2ff9c36b906d377cce2b77aa0b854e3d5cb47e78",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/distance.d.ts": {
+        "version": "756454c0e55071109c390d7056eb21e1fc406ea87fa45178163d2607b04b8687",
+        "signature": "756454c0e55071109c390d7056eb21e1fc406ea87fa45178163d2607b04b8687",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/elevation.d.ts": {
+        "version": "516a18f9f0f765586b3752c712f0409315e9ab52d8b4335cf5429e65a776c2b7",
+        "signature": "516a18f9f0f765586b3752c712f0409315e9ab52d8b4335cf5429e65a776c2b7",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/findplacefromtext.d.ts": {
+        "version": "73cc57ce7c55d6b9a02650d9bc22fc1b7679e653497c2e555acf77533123cbc9",
+        "signature": "73cc57ce7c55d6b9a02650d9bc22fc1b7679e653497c2e555acf77533123cbc9",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/geocode.d.ts": {
+        "version": "991d6a9ff51fc34178f4ded7a3d05e320392314b305d9020f4cf3d4c08169753",
+        "signature": "991d6a9ff51fc34178f4ded7a3d05e320392314b305d9020f4cf3d4c08169753",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geolocate.d.ts": {
+        "version": "60e87b413f42fbb017079acde5067de270990f06b9c8974b274b55efc163ec02",
+        "signature": "60e87b413f42fbb017079acde5067de270990f06b9c8974b274b55efc163ec02",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/roads/nearestroads.d.ts": {
+        "version": "a95717ea0b3d4332bb9d3a859ec0e7aa286b727e821a8115bea69604796bba94",
+        "signature": "a95717ea0b3d4332bb9d3a859ec0e7aa286b727e821a8115bea69604796bba94",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/autocomplete.d.ts": {
+        "version": "2d0557fbe9c2c23f6784c273aee4e6be9961558c7a73a1a21bff5225a62d8221",
+        "signature": "2d0557fbe9c2c23f6784c273aee4e6be9961558c7a73a1a21bff5225a62d8221",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/details.d.ts": {
+        "version": "6cdb3b34e01d5365d64c84688b1c9bbe0b475b34889cc3777bae2ea5655f5323",
+        "signature": "6cdb3b34e01d5365d64c84688b1c9bbe0b475b34889cc3777bae2ea5655f5323",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/photo.d.ts": {
+        "version": "1d51dca8a608165f9627b0e221784ebf2b624ee4ab3bf30ef2e80eeb1fa9c88f",
+        "signature": "1d51dca8a608165f9627b0e221784ebf2b624ee4ab3bf30ef2e80eeb1fa9c88f",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/queryautocomplete.d.ts": {
+        "version": "81cca1dd6e1346eedeac13fc24e224989076d8a6cd7d9aaedba177603282e64d",
+        "signature": "81cca1dd6e1346eedeac13fc24e224989076d8a6cd7d9aaedba177603282e64d",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/placesnearby.d.ts": {
+        "version": "b8c6ba586f9be1c0133d303d867ea8dd0dd0ea5287dfda7663e5a42218ab2530",
+        "signature": "b8c6ba586f9be1c0133d303d867ea8dd0dd0ea5287dfda7663e5a42218ab2530",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/reversegeocode.d.ts": {
+        "version": "ee8d0420f861c49eddf05a0879eeea977fcce1b6d80d98ae9a727a9163dc468f",
+        "signature": "ee8d0420f861c49eddf05a0879eeea977fcce1b6d80d98ae9a727a9163dc468f",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/roads/snaptoroads.d.ts": {
+        "version": "9b2294e818411209772337139b850a3c0ece12cace7404ed70b10e180aa1cec4",
+        "signature": "9b2294e818411209772337139b850a3c0ece12cace7404ed70b10e180aa1cec4",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/textsearch.d.ts": {
+        "version": "4051d452039f3e40d40c43e516bdd9ba27f124a5b2cdf03ecbb8c85cfead5503",
+        "signature": "4051d452039f3e40d40c43e516bdd9ba27f124a5b2cdf03ecbb8c85cfead5503",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/timezone.d.ts": {
+        "version": "5b519019872b734547aeee8deaf11f947e829e9a3549c4de7f1aa13c8f6b73a8",
+        "signature": "5b519019872b734547aeee8deaf11f947e829e9a3549c4de7f1aa13c8f6b73a8",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/retry-axios/dist/src/index.d.ts": {
+        "version": "39dd1c94f34adefbc1fd1ec13bd4bebb2191f9eed03a72572f86d8564d7c7c8f",
+        "signature": "39dd1c94f34adefbc1fd1ec13bd4bebb2191f9eed03a72572f86d8564d7c7c8f",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/agentkeepalive/index.d.ts": {
+        "version": "3a65938940cec933e51c868a4c25b55780ce13eeaf26e2f73807106c7f3c898d",
+        "signature": "3a65938940cec933e51c868a4c25b55780ce13eeaf26e2f73807106c7f3c898d",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/client.d.ts": {
+        "version": "9622808d3b5970a6ea1dfaca49ef8be2311c3a173df3e50a0834c554b48d462c",
+        "signature": "9622808d3b5970a6ea1dfaca49ef8be2311c3a173df3e50a0834c554b48d462c",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@googlemaps/google-maps-services-js/dist/index.d.ts": {
+        "version": "9f636953ba863a8d223a6bccf816b4ef17548496c9511b23b1343e9aa8344961",
+        "signature": "9f636953ba863a8d223a6bccf816b4ef17548496c9511b23b1343e9aa8344961",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/tmp/index.d.ts": {
+        "version": "98cb15e5c29e948704f8db5ff3777ce5a2c1bb0bc5cf4cabe9250760e9fedec1",
+        "signature": "98cb15e5c29e948704f8db5ff3777ce5a2c1bb0bc5cf4cabe9250760e9fedec1",
+        "affectsGlobalScope": false
+      },
+      "../src/services/geocodingservice.ts": {
+        "version": "004744681b9135716aaaf8fca5c03ef89d21c066e9010682b0beb67eedc6c5be",
+        "signature": "c799607c54a00a38e00319d25f98a3b722ad9bfc3274adb966a13f9485fe2ca8",
         "affectsGlobalScope": false
       },
       "../src/services/civicinformationservice.ts": {
-        "version": "411fff99b39a14b7465e41b3512fe42a1b2a25c30784d00317ee2642e9ef7962",
-        "signature": "8fc0ed6f1e6ad5c9c7bbf30d26a88d2ce88a69f26c214144ad77de23a31dde6b",
+        "version": "8d17ee9d5685ce32ce3ac129dc562cd3dd355286cd0ac84a9d1faf61904b252f",
+        "signature": "929f8e5df183c191a67aa7d9383557cd429fabb8b19ec7bde5860e08e2b8ea54",
+        "affectsGlobalScope": false
+      },
+      "../src/handlers/datefeedshandler.ts": {
+        "version": "d23c97c9b0a5082a62fd0703fef03393af57f602c3ae5086034bf44672d44fa2",
+        "signature": "37ad6650cf8b248ef2c58a8ae514d5c4daf89b3d9e5b8f7c08a52d7acda53f94",
+        "affectsGlobalScope": false
+      },
+      "../src/controllers/datafeeds.ts": {
+        "version": "6f1004317d536e8b6d46efccb25618633892405c5c1a9cf878da35792f90c25c",
+        "signature": "2e23ea78ba3a8ae651a1de921a99b17a27bed6aa15e62f48ad8f4c4f7cac00de",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/node-geocoder/index.d.ts": {
@@ -1361,18 +1496,8 @@
         "signature": "5a9ac535816e11bf432d33f975fbac5bc20b9541ce65874abd798a535b5099c8",
         "affectsGlobalScope": false
       },
-      "../src/handlers/datefeedshandler.ts": {
-        "version": "decfc7e44994e5059356b46e67b4a26d038fdc0d3d5de44704809b6f36185de0",
-        "signature": "735762639998b318d25e945d42f12c386842c817f1df514b688cce412cf88637",
-        "affectsGlobalScope": false
-      },
-      "../src/controllers/datafeeds.ts": {
-        "version": "e5ae9824977f125662490fa571ac442d0b3e0ab2b5250f902634b172546d7fbd",
-        "signature": "2e23ea78ba3a8ae651a1de921a99b17a27bed6aa15e62f48ad8f4c4f7cac00de",
-        "affectsGlobalScope": false
-      },
       "../src/handlers/userhandler.ts": {
-        "version": "16e55a8d48c6331da4bf0f526e63aace9e93a149f1fce82f32c423e143311738",
+        "version": "87a987c6f8272b72cac1631bb37f54a5fdc991818cd561682e0d12e06a9d29cb",
         "signature": "90c63920bced6fc104126d21535fdf28384ac85f304fcd273de62737332d7eb2",
         "affectsGlobalScope": false
       },
@@ -1381,8 +1506,23 @@
         "signature": "fd552701243350493f8143d5b89267b6730bab3737eab87c78e1d34372df0e45",
         "affectsGlobalScope": false
       },
+      "../src/model/maps.ts": {
+        "version": "2aab921f3f04f4d810aa01b6a724d2327e636f385c0000623136c7362fdaf32b",
+        "signature": "1eb20f518cb098d9f716cfbf18436ec2ca81b640f54fecde00a1d4a2541b2c12",
+        "affectsGlobalScope": false
+      },
+      "../src/handlers/mapshandler.ts": {
+        "version": "f16647575de2aecb2914cbf31bf09492d2bbe40f8743adc47afd3723506c59bd",
+        "signature": "c5c8fa1a218675d8fa0c8d50dfd3eef3eea616a20f0eb3c1ea75557f322ad4e9",
+        "affectsGlobalScope": false
+      },
+      "../src/controllers/maps.ts": {
+        "version": "a7c78a4d28b8870153209f35c581a37f9f824199e20f61ef58e50527c79f4e2b",
+        "signature": "fd552701243350493f8143d5b89267b6730bab3737eab87c78e1d34372df0e45",
+        "affectsGlobalScope": false
+      },
       "../src/index.ts": {
-        "version": "7b0427c40e554788fefe92f55a2422acd5ead4c9c0fc17b84af870f1b3e2b250",
+        "version": "e968dd963626cb32f6fb7e12cbba6a40edf60dc939b6329dd2032bb90c2e5f1f",
         "signature": "2b4ed1b6fcb20e2a1a62b8617381ef7105b57020ab037a24d16b0213b8942e8d",
         "affectsGlobalScope": false
       },
@@ -1578,6 +1718,151 @@
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/client.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/directions.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/distance.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/elevation.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/geocode.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/reversegeocode.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geolocate.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/autocomplete.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/details.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/findplacefromtext.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/photo.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/placesnearby.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/queryautocomplete.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/textsearch.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/roads/nearestroads.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/roads/snaptoroads.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/timezone.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/agentkeepalive/index.d.ts",
+        "../node_modules/axios/index.d.ts",
+        "../node_modules/retry-axios/dist/src/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/directions.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/distance.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/elevation.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/geocode.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/reversegeocode.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geolocate.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/index.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/client.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/directions.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/distance.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/elevation.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/geocode.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/reversegeocode.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geolocate.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/autocomplete.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/details.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/findplacefromtext.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/photo.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/placesnearby.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/queryautocomplete.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/textsearch.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/roads/nearestroads.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/roads/snaptoroads.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/timezone.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/autocomplete.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/details.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/findplacefromtext.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/photo.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/placesnearby.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/queryautocomplete.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/textsearch.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/roads/nearestroads.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/roads/snaptoroads.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/timezone.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
       "../node_modules/@types/bluebird/index.d.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
@@ -1891,7 +2176,20 @@
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
+      "../node_modules/@types/tmp/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
       "../node_modules/@types/tough-cookie/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@types/uuid/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/@types/uuid/interfaces.d.ts"
+      ],
+      "../node_modules/@types/uuid/interfaces.d.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
@@ -1916,6 +2214,10 @@
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts",
         "../node_modules/event-target-shim/index.d.ts"
+      ],
+      "../node_modules/agentkeepalive/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
       "../node_modules/axios/index.d.ts": [
         "../node_modules/@types/node/base.d.ts",
@@ -3027,6 +3329,11 @@
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
+      "../node_modules/retry-axios/dist/src/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
       "../node_modules/rss-parser/index.d.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts",
@@ -3140,6 +3447,13 @@
         "../src/middleware/auth.ts",
         "../src/middleware/error/errorhandler.ts"
       ],
+      "../src/controllers/maps.ts": [
+        "../node_modules/@types/express/index.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../src/handlers/mapshandler.ts",
+        "../src/middleware/error/errorhandler.ts"
+      ],
       "../src/controllers/user.ts": [
         "../node_modules/@types/express/index.d.ts",
         "../node_modules/@types/node/base.d.ts",
@@ -3167,15 +3481,20 @@
         "../src/model/voterregistration.ts"
       ],
       "../src/handlers/datefeedshandler.ts": [
-        "../node_modules/@types/node-geocoder/index.d.ts",
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts",
-        "../node_modules/firebase-functions/lib/index.d.ts",
         "../src/model/feed.ts",
         "../src/services/civicinformationservice.ts",
         "../src/services/firebaseadminservice.ts",
+        "../src/services/geocodingservice.ts",
         "../src/services/keyvoteservice.ts",
         "../src/services/representativeservice.ts"
+      ],
+      "../src/handlers/mapshandler.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../src/model/maps.ts",
+        "../src/services/geocodingservice.ts"
       ],
       "../src/handlers/userhandler.ts": [
         "../node_modules/@types/node-geocoder/index.d.ts",
@@ -3213,7 +3532,8 @@
         "../src/handlers/voter_roll/states/newjerseyregistrationprovider.ts",
         "../src/handlers/voter_roll/states/newyorkregistrationprovider.ts",
         "../src/model/voterregistration.ts",
-        "../src/services/firebaseadminservice.ts"
+        "../src/services/firebaseadminservice.ts",
+        "../src/services/util/state_utils.ts"
       ],
       "../src/index.ts": [
         "../node_modules/@types/express/index.d.ts",
@@ -3221,6 +3541,7 @@
         "../node_modules/@types/node/ts3.2/index.d.ts",
         "../node_modules/firebase-functions/lib/index.d.ts",
         "../src/controllers/datafeeds.ts",
+        "../src/controllers/maps.ts",
         "../src/controllers/user.ts",
         "../src/controllers/voterroll.ts",
         "../src/middleware/error/errorhandler.ts"
@@ -3261,6 +3582,10 @@
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
+      "../src/model/maps.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
       "../src/model/user.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts",
@@ -3283,16 +3608,30 @@
         "../node_modules/moment/ts3.1-typings/moment.d.ts",
         "../src/model/feed.ts",
         "../src/model/google_civicapi/voterinfo.ts",
+        "../src/model/voterregistration.ts",
+        "../src/services/firebaseadminservice.ts",
+        "../src/services/geocodingservice.ts",
         "../src/services/representativeservice.ts",
         "../src/services/util/legislator_utils.ts",
         "../src/services/util/state_utils.ts"
       ],
       "../src/services/firebaseadminservice.ts": [
+        "../node_modules/@google-cloud/storage/build/src/index.d.ts",
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/@types/uuid/index.d.ts",
         "../node_modules/firebase-admin/lib/index.d.ts",
         "../src/model/user.ts",
         "../src/model/voterregistration.ts"
+      ],
+      "../src/services/geocodingservice.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/index.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/@types/tmp/index.d.ts",
+        "../node_modules/axios/index.d.ts",
+        "../node_modules/firebase-functions/lib/index.d.ts",
+        "../src/services/firebaseadminservice.ts"
       ],
       "../src/services/keyvoteservice.ts": [
         "../node_modules/@types/node/base.d.ts",
@@ -3448,6 +3787,151 @@
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/client.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/directions.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/distance.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/elevation.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/geocode.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/reversegeocode.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geolocate.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/autocomplete.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/details.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/findplacefromtext.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/photo.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/placesnearby.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/queryautocomplete.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/textsearch.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/roads/nearestroads.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/roads/snaptoroads.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/timezone.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/agentkeepalive/index.d.ts",
+        "../node_modules/axios/index.d.ts",
+        "../node_modules/retry-axios/dist/src/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/directions.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/distance.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/elevation.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/geocode.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/reversegeocode.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geolocate.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/index.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/client.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/directions.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/distance.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/elevation.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/geocode.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/reversegeocode.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/geolocate.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/autocomplete.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/details.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/findplacefromtext.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/photo.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/placesnearby.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/queryautocomplete.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/places/textsearch.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/roads/nearestroads.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/roads/snaptoroads.d.ts",
+        "../node_modules/@googlemaps/google-maps-services-js/dist/timezone.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/autocomplete.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/details.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/findplacefromtext.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/photo.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/placesnearby.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/queryautocomplete.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/textsearch.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/roads/nearestroads.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/roads/snaptoroads.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
+      "../node_modules/@googlemaps/google-maps-services-js/dist/timezone.d.ts": [
+        "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
       "../node_modules/@types/bluebird/index.d.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
@@ -3761,7 +4245,20 @@
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
+      "../node_modules/@types/tmp/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
       "../node_modules/@types/tough-cookie/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
+      ],
+      "../node_modules/@types/uuid/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/@types/uuid/interfaces.d.ts"
+      ],
+      "../node_modules/@types/uuid/interfaces.d.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
@@ -3786,6 +4283,10 @@
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts",
         "../node_modules/event-target-shim/index.d.ts"
+      ],
+      "../node_modules/agentkeepalive/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
       "../node_modules/axios/index.d.ts": [
         "../node_modules/@types/node/base.d.ts",
@@ -4897,6 +5398,11 @@
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts"
       ],
+      "../node_modules/retry-axios/dist/src/index.d.ts": [
+        "../node_modules/@types/node/base.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/axios/index.d.ts"
+      ],
       "../node_modules/rss-parser/index.d.ts": [
         "../node_modules/@types/node/base.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts",
@@ -5006,6 +5512,9 @@
         "../node_modules/@types/express-serve-static-core/index.d.ts",
         "../node_modules/@types/express/index.d.ts"
       ],
+      "../src/controllers/maps.ts": [
+        "../node_modules/@types/express-serve-static-core/index.d.ts"
+      ],
       "../src/controllers/user.ts": [
         "../node_modules/@types/express-serve-static-core/index.d.ts"
       ],
@@ -5017,6 +5526,9 @@
       ],
       "../src/handlers/datefeedshandler.ts": [
         "../src/model/feed.ts"
+      ],
+      "../src/handlers/mapshandler.ts": [
+        "../src/model/maps.ts"
       ],
       "../src/handlers/userhandler.ts": [
         "../src/model/user.ts"
@@ -5058,7 +5570,8 @@
         "../node_modules/reflect-metadata/index.d.ts"
       ],
       "../src/services/civicinformationservice.ts": [
-        "../src/model/feed.ts"
+        "../src/model/feed.ts",
+        "../src/model/google_civicapi/voterinfo.ts"
       ],
       "../src/services/firebaseadminservice.ts": [
         "../src/model/user.ts",
@@ -5095,6 +5608,25 @@
       "../node_modules/@google-cloud/storage/build/src/notification.d.ts",
       "../node_modules/@google-cloud/storage/build/src/signer.d.ts",
       "../node_modules/@google-cloud/storage/build/src/storage.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/client.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/common.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/directions.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/distance.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/elevation.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/geocode.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geocode/reversegeocode.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/geolocate.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/index.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/autocomplete.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/details.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/findplacefromtext.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/photo.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/placesnearby.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/queryautocomplete.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/places/textsearch.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/roads/nearestroads.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/roads/snaptoroads.d.ts",
+      "../node_modules/@googlemaps/google-maps-services-js/dist/timezone.d.ts",
       "../node_modules/@types/bluebird/index.d.ts",
       "../node_modules/@types/body-parser/index.d.ts",
       "../node_modules/@types/caseless/index.d.ts",
@@ -5130,12 +5662,16 @@
       "../node_modules/@types/request-promise/index.d.ts",
       "../node_modules/@types/request/index.d.ts",
       "../node_modules/@types/serve-static/index.d.ts",
+      "../node_modules/@types/tmp/index.d.ts",
       "../node_modules/@types/tough-cookie/index.d.ts",
+      "../node_modules/@types/uuid/index.d.ts",
+      "../node_modules/@types/uuid/interfaces.d.ts",
       "../node_modules/@types/validator/index.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/yauzl/index.d.ts",
       "../node_modules/abort-controller/dist/abort-controller.d.ts",
+      "../node_modules/agentkeepalive/index.d.ts",
       "../node_modules/axios/index.d.ts",
       "../node_modules/class-transformer/classtransformer.d.ts",
       "../node_modules/class-transformer/classtransformoptions.d.ts",
@@ -5314,6 +5850,7 @@
       "../node_modules/gtoken/build/src/index.d.ts",
       "../node_modules/moment/ts3.1-typings/moment.d.ts",
       "../node_modules/reflect-metadata/index.d.ts",
+      "../node_modules/retry-axios/dist/src/index.d.ts",
       "../node_modules/rss-parser/index.d.ts",
       "../node_modules/teeny-request/build/src/index.d.ts",
       "../node_modules/typescript/lib/lib.dom.d.ts",
@@ -5341,10 +5878,12 @@
       "../node_modules/typescript/lib/lib.scripthost.d.ts",
       "../node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
       "../src/controllers/datafeeds.ts",
+      "../src/controllers/maps.ts",
       "../src/controllers/user.ts",
       "../src/controllers/util/utils.ts",
       "../src/controllers/voterroll.ts",
       "../src/handlers/datefeedshandler.ts",
+      "../src/handlers/mapshandler.ts",
       "../src/handlers/userhandler.ts",
       "../src/handlers/voter_roll/states/defaultregistrationprovider.ts",
       "../src/handlers/voter_roll/states/newjerseyregistrationprovider.ts",
@@ -5358,10 +5897,12 @@
       "../src/model/feed.ts",
       "../src/model/github_unitedstates/legislators.ts",
       "../src/model/google_civicapi/voterinfo.ts",
+      "../src/model/maps.ts",
       "../src/model/user.ts",
       "../src/model/voterregistration.ts",
       "../src/services/civicinformationservice.ts",
       "../src/services/firebaseadminservice.ts",
+      "../src/services/geocodingservice.ts",
       "../src/services/keyvoteservice.ts",
       "../src/services/newjerseyregistrationservice.ts",
       "../src/services/newyorkregistrationservice.ts",

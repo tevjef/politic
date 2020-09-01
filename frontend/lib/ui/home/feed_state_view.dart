@@ -56,36 +56,36 @@ class FeedStateState extends State<FeedStatePage> with LDEViewMixin implements F
                 ListView(
                   shrinkWrap: true,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 23),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Upcoming election in 21 Days".toUpperCase(),
-                                style: Styles.overline(Theme.of(context)),
-                              ),
-                              Text(
-                                "You’re registered!",
-                                style: Styles.headline5(Theme.of(context)),
-                              ),
-                            ],
-                          ),
-                          FlatButton(
-                            textColor: Theme.of(context).colorScheme.primary,
-                            child: Text("Find Polls".toUpperCase()),
-                            onPressed: () {
-                              presenter.onFindPollsClick();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 23),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     mainAxisSize: MainAxisSize.max,
+                    //     children: <Widget>[
+                    //       Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                    //         mainAxisAlignment: MainAxisAlignment.start,
+                    //         children: <Widget>[
+                    //           Text(
+                    //             "Upcoming election in 21 Days".toUpperCase(),
+                    //             style: Styles.overline(Theme.of(context)),
+                    //           ),
+                    //           Text(
+                    //             "You’re registered!",
+                    //             style: Styles.headline5(Theme.of(context)),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //       FlatButton(
+                    //         textColor: Theme.of(context).colorScheme.primary,
+                    //         child: Text("Find Polls".toUpperCase()),
+                    //         onPressed: () {
+                    //           presenter.onFindPollsClick();
+                    //         },
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Container(
                       height: 106,
                       child: Padding(
@@ -237,7 +237,7 @@ class FeedStatePresenter extends BasePresenter<FeedStateView> with ChangeNotifie
   loadData() async {
     updateLoading(true);
     stateFeedResponse =
-        await repo.getStatesFeed(districtLocation.state).catchError((error) => {view.showErrorMessage(error, null)});
+        await repo.getStatesFeed(districtLocation.state, districtLocation.congressionalDistrict).catchError((error) => {view.showErrorMessage(error, null)});
     updateLoading(false);
     notifyListeners();
   }
